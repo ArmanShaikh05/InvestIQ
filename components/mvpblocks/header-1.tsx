@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import AnimatedBtn1 from "./animated-btn1";
+import { ThemeToggle } from "../theme-toggler";
+import { Button } from "../ui/button";
 
 interface NavItem {
   name: string;
@@ -77,18 +79,6 @@ export default function Header1() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={
-        {
-          // backdropFilter: isScrolled ? "blur(20px)" : "none",
-          // backgroundColor: isScrolled
-          //   ? theme === "dark"
-          //     ? "rgba(0, 0, 0, 0.4)"
-          //     : "rgba(0, 0, 0, 0.4)"
-          //   : // : "rgba(255, 255, 255, 0.8)"
-          //     "transparent",
-          // boxShadow: isScrolled ? "0 8px 32px rgba(0, 0, 0, 0.1)" : "none",
-        }
-      }
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:h-20">
@@ -124,7 +114,7 @@ export default function Header1() {
                 <Link
                   prefetch={false}
                   href={item.href}
-                  className="text-foreground flex items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500"
+                  className="text-foreground flex items-center space-x-1 font-medium transition-colors duration-200 hover:text-primary"
                 >
                   <span>{item.name}</span>
                   {item.hasDropdown && (
@@ -169,6 +159,7 @@ export default function Header1() {
           </nav>
 
           <div className="hidden items-center space-x-4 lg:flex">
+            <ThemeToggle />
             <Link
               prefetch={false}
               href="/login"
@@ -190,17 +181,20 @@ export default function Header1() {
             </motion.div>
           </div>
 
-          <motion.button
-            className="hover:bg-muted rounded-lg p-2 transition-colors duration-200 lg:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </motion.button>
+          <div className="flex items-center gap-4 lg:hidden">
+            <motion.button
+              className="hover:bg-muted rounded-lg p-2 transition-colors duration-200 "
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </motion.button>
+            <ThemeToggle className="hover:bg-muted " />
+          </div>
         </div>
 
         <AnimatePresence>
@@ -226,18 +220,19 @@ export default function Header1() {
                   </Link>
                 ))}
                 <div className="space-y-2 px-4 py-2">
-                  <Link
-                    prefetch={false}
-                    href="/login"
-                    className="text-foreground hover:bg-muted block w-full rounded-lg py-2.5 text-center font-medium transition-colors duration-200"
+                  <Button
                     onClick={() => setIsMobileMenuOpen(false)}
+                    variant={"outline"}
+                    className="text-foreground hover:bg-muted block w-full rounded-lg text-center font-medium transition-colors duration-200"
                   >
-                    Sign In
-                  </Link>
+                    <Link prefetch={false} href="/login" className="py-2.5 ">
+                      Sign In
+                    </Link>
+                  </Button>
                   <Link
                     prefetch={false}
                     href="/signup"
-                    className="block w-full rounded-lg bg-gradient-to-r from-rose-500 to-rose-700 py-2.5 text-center font-medium text-white transition-all duration-200 hover:shadow-lg"
+                    className="block w-full rounded-lg bg-gradient-to-r from-primary/80 to-primary/50 py-2.5 text-center font-medium text-white transition-all duration-200 hover:shadow-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Get Started

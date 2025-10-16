@@ -14,7 +14,7 @@ export default function GradientHero() {
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:16px_16px] opacity-15"></div>
 
-      <div className="relative z-10 container mx-auto px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+      <div className="relative z-10 container mx-auto px-2 py-24 sm:px-6 lg:px-8 lg:py-32">
         <div className="mx-auto max-w-5xl">
           {/* Badge */}
           <motion.div
@@ -27,7 +27,7 @@ export default function GradientHero() {
               <span className="bg-primary mr-2 rounded-full px-2 py-0.5 text-xs font-semibold text-white animate-pulse">
                 New
               </span>
-              <span className="text-muted-foreground">
+              <span className="text-muted-foreground text-xs sm:text-sm">
                 AI-POWERED INVESTING
               </span>
               <ChevronRight className="text-muted-foreground ml-1 h-4 w-4" />
@@ -39,7 +39,7 @@ export default function GradientHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="from-primary/10 via-foreground/85 to-foreground/50 bg-gradient-to-tl bg-clip-text text-center text-4xl tracking-tighter text-balance text-transparent sm:text-5xl md:text-8xl lg:text-8xl"
+            className="from-primary/10 via-foreground/85 to-foreground/50 bg-gradient-to-tl bg-clip-text text-center  tracking-tighter text-balance text-transparent text-5xl md:text-8xl lg:text-8xl pb-7"
           >
             Investing, made intelligently simple
           </motion.h1>
@@ -49,7 +49,7 @@ export default function GradientHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-muted-foreground mx-auto mt-6 max-w-2xl text-center text-lg"
+            className="text-muted-foreground mx-auto mt-6 max-w-2xl text-center text-sm sm:text-lg"
           >
             Unified portfolio tracking, transparent stock health scoring, and
             conversational AI insights that help you make confident investment
