@@ -20,6 +20,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: "Home", href: "/" },
   { name: "Features", href: "/features" },
+  { name: "Dashboard", href: "/dashboard" },
   {
     name: "Products",
     href: "/products",
@@ -163,7 +164,7 @@ export default function Header1() {
             <Link
               prefetch={false}
               href="/login"
-              className="text-foreground font-medium transition-colors duration-200 hover:text-rose-500"
+              className="text-foreground font-medium transition-colors duration-200 hover:text-primary"
             >
               Sign In
             </Link>
