@@ -162,7 +162,7 @@
   --destructive-foreground: oklch(0.985 0 0);
   --muted: oklch(0.28119 0.01489 93.07294);
   --muted-foreground: oklch(0.985 0 0);
-  --border: rgba(244, 208, 63, 0.2);
+  --border: #f4d03f33;
   --input: oklch(0.28815 0.01188 93.00397);
   --ring: oklch(0.74989 0.14385 90.22053);
   --sidebar: rgba(47, 40, 32);
@@ -204,3 +204,13 @@
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+
+.hidden-scrollbar {
+  scrollbar-width: none;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+

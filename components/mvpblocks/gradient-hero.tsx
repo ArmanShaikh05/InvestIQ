@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, Video } from "lucide-react";
+import { HeroHighlight, Highlight } from "../ui/hero-highlight";
 
 export default function GradientHero() {
   return (
@@ -39,9 +40,9 @@ export default function GradientHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="from-primary/10 via-foreground/85 to-foreground/50 bg-gradient-to-tl bg-clip-text text-center  tracking-tighter text-balance text-transparent text-5xl md:text-8xl lg:text-8xl pb-7"
+            className="from-primary/10 via-foreground/85 to-foreground/50 bg-gradient-to-tl bg-clip-text text-center  tracking-tighter text-balance text-transparent text-5xl md:text-8xl lg:text-8xl pb-7 capitalize leading-15 md:leading-30"
           >
-            Investing, made intelligently simple
+            Investing made <Highlight>intelligently simple</Highlight>
           </motion.h1>
 
           {/* Description */}
