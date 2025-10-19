@@ -60,7 +60,7 @@ const AnimatedCollapsible = ({ items }: { items: MenuItem }) => {
                   <SidebarMenuSubItem key={item.title}>
                     <SidebarMenuSubButton
                       asChild
-                      isActive={item.title === "Home"}
+                      // isActive={item.title === "Home"}
                     >
                       <a href={item.url}>
                         <item.icon />

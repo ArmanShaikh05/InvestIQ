@@ -1,5 +1,8 @@
+import AiInsights from "@/components/dashboard/ai-insights";
 import GreetingSections from "@/components/dashboard/greeting-sections";
+import RecentAlerts from "@/components/dashboard/recent-alerts";
 import TopHoldings from "@/components/dashboard/top-holdings";
+import TrendingToday from "@/components/dashboard/trending-today";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +35,7 @@ const page = () => {
   return (
     <div className=" h-[calc(100vh-4.6rem)] py-4 flex flex-col gap-8 overflow-y-auto hidden-scrollbar">
       {/* Greetings Box */}
-      <div className="w-full border rounded-4xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] py-10 px-6   shadow-lg shadow-ring/10">
+      <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] py-10 px-6   shadow-lg shadow-ring/10">
         <div className="flex flex-col items-center max-w-4xl mx-auto">
           <h1 className="text-2xl md:text-4xl font-bold mb-2 text-center">
             Welcome back, Investor!
@@ -59,7 +62,7 @@ const page = () => {
       </div>
 
       {/* Profile Overview */}
-      <div className="w-full border rounded-4xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6 md:px-10  flex flex-col items-center shadow-lg shadow-ring/10">
+      <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6 md:px-10  flex flex-col items-center shadow-lg shadow-ring/10">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-lg md:text-2xl">Profile Overview</h1>
           <Button>View Details</Button>
@@ -94,12 +97,12 @@ const page = () => {
         </div>
       </div>
 
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 ">
         {/* Top Holdings */}
         <TopHoldings />
-        <TopHoldings />
-        <TopHoldings />
-        <TopHoldings />
+        <RecentAlerts />
+        <TrendingToday />
+        <AiInsights />
       </div>
     </div>
   );

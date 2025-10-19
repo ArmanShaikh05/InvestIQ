@@ -55,9 +55,9 @@ const HoldingsData = [
 
 const TopHoldings = () => {
   return (
-    <div className="w-full border rounded-4xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6 md:px-10  flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 hover:-translate-y-4 transition-all duration-200 ease-in-out">
+    <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6 md:px-10  flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 hover:-translate-y-2 transition-all duration-200 ease-in-out">
       <div className="w-full flex items-center justify-between">
-        <h1 className="text-sm md:text-lg">Profile Overview</h1>
+        <h1 className="text-xl md:text-2xl">Top Holdings</h1>
         <ChartAreaIcon className="bg-primary/20 size-8 p-1.5 rounded-lg" />
       </div>
 
