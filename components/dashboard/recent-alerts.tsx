@@ -41,7 +41,7 @@ const RecentAlertsData = [
 
 const RecentAlerts = () => {
   return (
-    <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6  flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 hover:-translate-y-2 transition-all duration-200 ease-in-out">
+    <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-10 px-6  flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20  transition-all duration-200 ease-in-out">
       <div className="w-full flex items-center justify-between">
         <h1 className="text-xl md:text-2xl">Recent Alerts</h1>
         <Bell className="bg-primary/20 size-8 p-1.5 rounded-lg" />

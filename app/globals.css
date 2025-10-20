@@ -186,7 +186,7 @@
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color:var(--sidebar-accent) transparent;
+  scrollbar-color: var(--sidebar-accent) transparent;
   /* scrollbar-color: var(--primary); */
 }
 
@@ -205,7 +205,6 @@
   background-clip: content-box;
 }
 
-
 .hidden-scrollbar {
   scrollbar-width: none;
 }
@@ -213,4 +212,3 @@
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
-

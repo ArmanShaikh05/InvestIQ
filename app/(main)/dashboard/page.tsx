@@ -30,10 +30,10 @@ const profileOverviewData = [
     badge: { text: "Well Diversified", variant: "default" },
   },
 ];
-
+// h-[calc(100vh-6.8rem)]
 const page = () => {
   return (
-    <div className=" h-[calc(100vh-4.6rem)] py-4 flex flex-col gap-8 overflow-y-auto hidden-scrollbar">
+    <div className="  flex flex-col pb-4 gap-8 overflow-y-auto hidden-scrollbar">
       {/* Greetings Box */}
       <div className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] py-10 px-6   shadow-lg shadow-ring/10">
         <div className="flex flex-col items-center max-w-4xl mx-auto">

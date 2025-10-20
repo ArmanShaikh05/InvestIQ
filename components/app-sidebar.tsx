@@ -4,8 +4,9 @@ import {
   Calendar,
   Home,
   Inbox,
+  PanelLeftIcon,
   Search,
-  Settings
+  Settings,
 } from "lucide-react";
 
 import {
@@ -19,11 +20,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-  useSidebar
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import AnimatedCollapsible from "./sidebar/animated-collapsibe";
 import { ThemeToggle } from "./theme-toggler";
 import { useTheme } from "next-themes";
+import { Button } from "./ui/button";
 
 // Menu items.
 const items = [
@@ -55,20 +58,40 @@ const items = [
 ];
 
 export function AppSidebar() {
-
-  const {state} = useSidebar()
-  const {theme} = useTheme()
+  const { state, toggleSidebar } = useSidebar();
+  const { theme } = useTheme();
 
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className="pointer-events-none">
-            <SidebarMenuButton asChild>
-              <a href="#">
-                <Home />
-                <span className="text-primary text-xl font-bold">InvestIQ</span>
-              </a>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className={state !== "collapsed" ? "hover:!bg-transparent " : ""}
+            >
+              {state === "collapsed" ? (
+                <div className="flex items-center justify-center cursor-pointer ">
+                  <PanelLeftIcon onClick={() => toggleSidebar()} />
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <div className="flex items-center grow pointer-events-none gap-2">
+                    <Home size={16} />
+                    <span className="text-primary text-xl font-bold">
+                      InvestIQ
+                    </span>
+                  </div>
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    onClick={() => toggleSidebar()}
+                    className="hover:!bg-sidebar-accent cursor-pointer"
+                  >
+                    <PanelLeftIcon />
+                  </Button>
+                </div>
+              )}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -92,7 +115,6 @@ export function AppSidebar() {
               ))}
 
               <AnimatedCollapsible items={items} />
-
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -122,7 +144,9 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <div className="w-full flex items-center gap-2">
-                <ThemeToggle className={state === "collapsed" ? "w-full h-full" : ""}/>
+                <ThemeToggle
+                  className={state === "collapsed" ? "w-full h-full" : ""}
+                />
                 <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
               </div>
             </SidebarMenuButton>

@@ -9,12 +9,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <SidebarProvider>
         <AppSidebar />
-        <main className="p-2 w-full min-h-screen">
+        <main className="p-2 w-full h-screen hidden-scrollbar overflow-y-auto">
           <Navbar />
           {children}
         </main>
         <ShootingStars className="-z-10" />
-        <StarsBackground className="-z-10"/>
+        <StarsBackground className="-z-10" />
       </SidebarProvider>
     </>
   );
