@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <html lang="en">
-        <body className={`${fraunces.className} antialiased`}>{children}</body>
+        <body className={`${fraunces.className} antialiased overflow-x-hidden`}>{children}</body>
       </html>
     </ThemeProvider>
   );

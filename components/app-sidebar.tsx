@@ -4,9 +4,11 @@ import {
   Calendar,
   Home,
   Inbox,
+  LayoutDashboard,
   PanelLeftIcon,
   Search,
   Settings,
+  SquareActivity,
 } from "lucide-react";
 
 import {
@@ -20,25 +22,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
+  useSidebar
 } from "@/components/ui/sidebar";
+import { useTheme } from "next-themes";
 import AnimatedCollapsible from "./sidebar/animated-collapsibe";
 import { ThemeToggle } from "./theme-toggler";
-import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Health Score",
+    url: "/health-score",
+    icon: SquareActivity,
   },
   {
     title: "Calendar",
