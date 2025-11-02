@@ -185,7 +185,7 @@ const AiInsights = () => {
       </div>
 
       {/* Insights Grid */}
-      <div className="w-full grid gap-4 max-h-96 overflow-y-auto hidden-scrollbar lg:grid-cols-2">
+      <div className="w-full grid gap-4 max-h-96 overflow-y-auto custom-scrollbar pr-1 lg:grid-cols-2">
         {filteredInsights.map((insight) => {
           const category = insightCategories[insight.category as keyof typeof insightCategories];
           const IconComponent = category.icon;

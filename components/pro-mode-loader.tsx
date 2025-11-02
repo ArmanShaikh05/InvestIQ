@@ -31,7 +31,7 @@ const loadingStates = [
 
 export function MultiStepLoader({
   loading,
-  setLoading,
+  
 }: {
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -46,14 +46,7 @@ export function MultiStepLoader({
         loop={false}
       />
 
-      {loading && (
-        <button
-          className="fixed top-4 right-4 text-black dark:text-white z-[120]"
-          onClick={() => setLoading(false)}
-        >
-          <IconSquareRoundedX className="h-10 w-10" />
-        </button>
-      )}
+     
     </div>
   );
 }
