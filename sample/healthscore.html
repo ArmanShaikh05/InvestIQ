@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Scores - InvestIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFF9F0 0%, #FEFDFB 50%, #FFF9F0 100%);
+            color: #1A1A1A;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1A1512 0%, #2A2318 50%, #1A1512 100%);
+            color: #F5F0E8;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(218, 165, 32, 0.15);
+            padding: 2rem 0 6rem;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .sidebar {
+            background: rgba(47, 40, 32, 0.7);
+            border-right-color: rgba(244, 208, 63, 0.2);
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            right: -15px;
+            top: 2rem;
+            width: 30px;
+            height: 30px;
+            background: #FFFFFF;
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 101;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .sidebar-toggle {
+            background: #2F2820;
+            border-color: rgba(244, 208, 63, 0.3);
+            color: #F5F0E8;
+        }
+
+        .logo {
+            padding: 0 2rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .logo {
+            border-bottom-color: rgba(244, 208, 63, 0.2);
+        }
+
+        .sidebar.collapsed .logo {
+            justify-content: center;
+            padding: 0 1rem 2rem;
+        }
+
+        .logo-icon {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #DAA520, #F4D03F);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 1rem;
+            color: #6A6A6A;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .nav-link {
+            color: #B8AFA0;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.15), rgba(244, 208, 63, 0.1));
+            color: #1A1A1A;
+            font-weight: 600;
+        }
+
+        body.dark-mode .nav-link.active {
+            background: linear-gradient(135deg, rgba(244, 208, 63, 0.2), rgba(255, 224, 102, 0.15));
+            color: #F5F0E8;
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed .nav-link span:not(.nav-icon) {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 2rem;
+            left: 1rem;
+            width: 248px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.collapsed .dark-mode-toggle {
+            width: 48px;
+        }
+
+        .dark-mode-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: rgba(218, 165, 32, 0.08);
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            color: #6A6A6A;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .dark-mode-btn {
+            background: rgba(244, 208, 63, 0.1);
+            border-color: rgba(244, 208, 63, 0.3);
+            color: #F5F0E8;
+        }
+
+        .sidebar.collapsed .dark-mode-btn span:not(.nav-icon) {
+            display: none;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 1.5rem 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+
+        .page-header {
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            color: #6A6A6A;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .page-subtitle {
+            color: #B8AFA0;
+        }
+
+        .filters-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(218, 165, 32, 0.15);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .filters-section {
+            background: rgba(47, 40, 32, 0.7);
+            border-color: rgba(244, 208, 63, 0.2);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #8B7355;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-mode .filter-label {
+            color: #B8AFA0;
+        }
+
+        .search-input, .filter-select {
+            padding: 0.65rem 0.85rem;
+            border: 1px solid rgba(218, 165, 32, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            color: #1A1A1A;
+        }
+
+        body.dark-mode .search-input,
+        body.dark-mode .filter-select {
+            background: rgba(47, 40, 32, 0.9);
+            border-color: rgba(244, 208, 63, 0.3);
+            color: #F5F0E8;
+        }
+
+        .search-input:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: #DAA520;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(218, 165, 32, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        body.dark-mode .table-container {
+            background: rgba(47, 40, 32, 0.7);
+            border-color: rgba(244, 208, 63, 0.2);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .health-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .health-table thead {
+            background: rgba(218, 165, 32, 0.08);
+            position: sticky;
+            top: 0;
+        }
+
+        body.dark-mode .health-table thead {
+            background: rgba(244, 208, 63, 0.1);
+        }
+
+        .health-table th {
+            padding: 0.65rem 0.75rem;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #8B7355;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.1);
+        }
+
+        body.dark-mode .health-table th {
+            color: #B8AFA0;
+            border-bottom-color: rgba(244, 208, 63, 0.15);
+        }
+
+        .category-header {
+            background: rgba(218, 165, 32, 0.12);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.5rem;
+        }
+
+        body.dark-mode .category-header {
+            background: rgba(244, 208, 63, 0.15);
+        }
+
+        .health-table td {
+            padding: 0.5rem 0.65rem;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.06);
+        }
+
+        body.dark-mode .health-table td {
+            border-bottom-color: rgba(244, 208, 63, 0.08);
+        }
+
+        .health-table tbody tr {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .health-table tbody tr:hover {
+            background: rgba(218, 165, 32, 0.05);
+        }
+
+        body.dark-mode .health-table tbody tr:hover {
+            background: rgba(244, 208, 63, 0.08);
+        }
+
+        .ticker-cell {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .company-name {
+            font-size: 0.7rem;
+            color: #8B7355;
+            margin-top: 0.15rem;
+        }
+
+        body.dark-mode .company-name {
+            color: #B8AFA0;
+        }
+
+        .score-cell {
+            font-weight: 700;
+            font-size: 1.25rem;
+            font-family: 'Fraunces', serif;
+        }
+
+        .score-badge {
+            font-size: 0.65rem;
+            margin-left: 0.35rem;
+        }
+
+        .metric-cell {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.35rem 0.5rem;
+            border-radius: 6px;
+            display: inline-block;
+            min-width: 40px;
+        }
+
+        .metric-strong {
+            background: #2D8A39;
+            color: white;
+        }
+
+        .metric-moderate {
+            background: #DAA520;
+            color: white;
+        }
+
+        .metric-weak {
+            background: #D84B4B;
+            color: white;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: #2D8A39;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s ease-in-out infinite;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebarToggle">◀</button>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <span class="logo-text">InvestIQ</span>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-icon">🎯</span>
+                        <span>Health Scores</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span>Portfolio</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">💬</span>
+                        <span>AI Chat</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🔔</span>
+                        <span>Alerts</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dark-mode-toggle">
+        <button class="dark-mode-btn" id="darkModeToggle">
+            <span class="nav-icon">🌙</span>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+
+    <main class="main-content" id="mainContent">
+        <div class="page-header">
+            <h1 class="page-title">Stock Health Scores</h1>
+            <p class="page-subtitle">Comprehensive analysis across Fundamentals, Technical & Institutional metrics</p>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Search Stock</label>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search by ticker or name...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Sector</label>
+                    <select class="filter-select" id="sectorFilter">
+                        <option value="all">All Sectors</option>
+                        <option value="Banking">Banking</option>
+                        <option value="IT">IT Services</option>
+                        <option value="Auto">Automobile</option>
+                        <option value="Pharma">Pharmaceutical</option>
+                        <option value="FMCG">FMCG</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Health Score</label>
+                    <select class="filter-select" id="scoreFilter">
+                        <option value="all">All Scores</option>
+                        <option value="strong">Strong (80-100)</option>
+                        <option value="moderate">Moderate (60-79)</option>
+                        <option value="weak">Weak (0-59)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Sort By</label>
+                    <select class="filter-select" id="sortFilter">
+                        <option value="score-desc">Score: High to Low</option>
+                        <option value="score-asc">Score: Low to High</option>
+                        <option value="name-asc">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="health-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Ticker<span class="pulse-dot"></span></th>
+                            <th rowspan="2">Overall<br>Score</th>
+                            <th colspan="5" class="category-header">📊 FUNDAMENTALS</th>
+                            <th colspan="2" class="category-header">📈 TECHNICAL</th>
+                            <th colspan="2" class="category-header">💼 INSTITUTIONAL</th>
+                        </tr>
+                        <tr>
+                            <th>Profit</th>
+                            <th>Growth</th>
+                            <th>Stability</th>
+                            <th>Efficiency</th>
+                            <th>Valuation</th>
+                            <th>Momentum</th>
+                            <th>Trend</th>
+                            <th>Activity</th>
+                            <th>Sentiment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const stocks = [
+            { ticker: 'HDFC', name: 'HDFC Bank', score: 85, profitability: 88, growth: 82, stability: 90, efficiency: 85, valuation: 70, momentum: 75, trend: 80, activity: 85, sentiment: 78, sector: 'Banking' },
+            { ticker: 'RELIANCE', name: 'Reliance Industries', score: 83, profitability: 85, growth: 80, stability: 85, efficiency: 82, valuation: 75, momentum: 78, trend: 82, activity: 80, sentiment: 75, sector: 'Energy' },
+            { ticker: 'TCS', name: 'Tata Consultancy', score: 88, profitability: 90, growth: 85, stability: 92, efficiency: 88, valuation: 73, momentum: 82, trend: 85, activity: 88, sentiment: 82, sector: 'IT' },
+            { ticker: 'INFY', name: 'Infosys', score: 86, profitability: 88, growth: 83, stability: 90, efficiency: 86, valuation: 72, momentum: 80, trend: 83, activity: 86, sentiment: 80, sector: 'IT' },
+            { ticker: 'ITC', name: 'ITC Limited', score: 82, profitability: 85, growth: 75, stability: 88, efficiency: 80, valuation: 78, momentum: 72, trend: 75, activity: 80, sentiment: 76, sector: 'FMCG' },
+            { ticker: 'WIPRO', name: 'Wipro', score: 79, profitability: 78, growth: 75, stability: 85, efficiency: 80, valuation: 77, momentum: 74, trend: 76, activity: 78, sentiment: 72, sector: 'IT' },
+            { ticker: 'SBIN', name: 'State Bank of India', score: 78, profitability: 72, growth: 80, stability: 75, efficiency: 78, valuation: 85, momentum: 76, trend: 78, activity: 82, sentiment: 74, sector: 'Banking' },
+            { ticker: 'MARUTI', name: 'Maruti Suzuki', score: 83, profitability: 80, growth: 85, stability: 82, efficiency: 84, valuation: 74, momentum: 82, trend: 84, activity: 80, sentiment: 78, sector: 'Auto' },
+            { ticker: 'TATAMOTORS', name: 'Tata Motors', score: 75, profitability: 70, growth: 78, stability: 72, efficiency: 76, valuation: 80, momentum: 76, trend: 78, activity: 74, sentiment: 70, sector: 'Auto' },
+            { ticker: 'SUNPHARMA', name: 'Sun Pharmaceutical', score: 77, profitability: 75, growth: 72, stability: 80, efficiency: 78, valuation: 80, momentum: 74, trend: 76, activity: 76, sentiment: 72, sector: 'Pharma' },
+            { ticker: 'HCLTECH', name: 'HCL Technologies', score: 84, profitability: 85, growth: 80, stability: 88, efficiency: 84, valuation: 75, momentum: 78, trend: 80, activity: 84, sentiment: 78, sector: 'IT' },
+            { ticker: 'BAJFINANCE', name: 'Bajaj Finance', score: 87, profitability: 90, growth: 88, stability: 82, efficiency: 87, valuation: 68, momentum: 85, trend: 88, activity: 90, sentiment: 84, sector: 'NBFC' },
+        ];
+
+        let filteredStocks = [...stocks];
+
+        function getScoreClass(score) {
+            if (score >= 80) return 'strong';
+            if (score >= 60) return 'moderate';
+            return 'weak';
+        }
+
+        function getMetricClass(value) {
+            if (value >= 80) return 'metric-strong';
+            if (value >= 60) return 'metric-moderate';
+            return 'metric-weak';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            filteredStocks.forEach(stock => {
+                const scoreClass = getScoreClass(stock.score);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="ticker-cell">${stock.ticker}</div>
+                        <div class="company-name">${stock.name}</div>
+                    </td>
+                    <td class="score-cell">
+                        ${stock.score}
+                        <span class="score-badge">
+                            ${scoreClass === 'strong' ? '🟢' : scoreClass === 'moderate' ? '🟡' : '🔴'}
+                        </span>
+                    </td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.profitability)}">${stock.profitability}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.growth)}">${stock.growth}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.stability)}">${stock.stability}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.efficiency)}">${stock.efficiency}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.valuation)}">${stock.valuation}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.momentum)}">${stock.momentum}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.trend)}">${stock.trend}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.activity)}">${stock.activity}</span></td>
+                    <td class="metric-cell"><span class="metric-value ${getMetricClass(stock.sentiment)}">${stock.sentiment}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sectorFilter = document.getElementById('sectorFilter').value;
+            const scoreFilter = document.getElementById('scoreFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            filteredStocks = stocks.filter(stock => {
+                const matchesSearch = stock.ticker.toLowerCase().includes(searchTerm) || stock.name.toLowerCase().includes(searchTerm);
+                const matchesSector = sectorFilter === 'all' || stock.sector === sectorFilter;
+                
+                let matchesScore = true;
+                if (scoreFilter === 'strong') matchesScore = stock.score >= 80;
+                else if (scoreFilter === 'moderate') matchesScore = stock.score >= 60 && stock.score < 80;
+                else if (scoreFilter === 'weak') matchesScore = stock.score < 60;
+
+                return matchesSearch && matchesSector && matchesScore;
+            });
+
+            filteredStocks.sort((a, b) => {
+                if (sortFilter === 'score-desc') return b.score - a.score;
+                if (sortFilter === 'score-asc') return a.score - b.score;
+                if (sortFilter === 'name-asc') return a.name.localeCompare(b.name);
+                return 0;
+            });
+
+            renderTable();
+        }
+
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            document.getElementById('sidebarToggle').innerHTML = sidebar.classList.contains('collapsed') ? '▶' : '◀';
+        });
+
+        // Dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.querySelector('.nav-icon').textContent = '☀️';
+            darkModeToggle.querySelector('span:not(.nav-icon)').textContent = 'Light Mode';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            darkModeToggle.querySelector('.nav-icon').textContent = isDark ? '☀️' : '🌙';
+            darkModeToggle.querySelector('span:not(.nav-icon)').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        });
+
+        // Filters
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('sectorFilter').addEventListener('change', applyFilters);
+        document.getElementById('scoreFilter').addEventListener('change', applyFilters);
+        document.getElementById('sortFilter').addEventListener('change', applyFilters);
+
+        // Initialize
+        renderTable();
+    </script>
+</body>
+</html>
