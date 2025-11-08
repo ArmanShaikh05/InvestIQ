@@ -1,96 +1,84 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
-import { 
-  Search, 
-  TrendingUp, 
-  TrendingDown, 
-  Activity, 
-  DollarSign,
-  Users,
-  Heart,
-  ChevronDown
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuCheckboxItem,
+  DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  assetTypes,
+  biases,
+  categories,
+  sectors,
+  stocksData
+} from "@/lib/mock-data";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  DollarSign,
+  Heart,
+  Search,
+  TrendingUp,
+  Users
+} from "lucide-react";
+import { useMemo, useState } from "react";
 
-interface StockData {
-  ticker: string;
-  name: string;
-  score: number;
-  profitability: number;
-  growth: number;
-  stability: number;
-  efficiency: number;
-  valuation: number;
-  momentum: number;
-  trend: number;
-  activity: number;
-  sentiment: number;
-  sector: string;
-}
-
-const stocksData: StockData[] = [
-  { ticker: 'HDFC', name: 'HDFC Bank', score: 85, profitability: 88, growth: 82, stability: 90, efficiency: 85, valuation: 70, momentum: 75, trend: 80, activity: 85, sentiment: 78, sector: 'Banking' },
-  { ticker: 'RELIANCE', name: 'Reliance Industries', score: 83, profitability: 85, growth: 80, stability: 85, efficiency: 82, valuation: 75, momentum: 78, trend: 82, activity: 80, sentiment: 75, sector: 'Energy' },
-  { ticker: 'TCS', name: 'Tata Consultancy', score: 88, profitability: 90, growth: 85, stability: 92, efficiency: 88, valuation: 73, momentum: 82, trend: 85, activity: 88, sentiment: 82, sector: 'IT' },
-  { ticker: 'INFY', name: 'Infosys', score: 86, profitability: 88, growth: 83, stability: 90, efficiency: 86, valuation: 72, momentum: 80, trend: 83, activity: 86, sentiment: 80, sector: 'IT' },
-  { ticker: 'ITC', name: 'ITC Limited', score: 82, profitability: 85, growth: 75, stability: 88, efficiency: 80, valuation: 78, momentum: 72, trend: 75, activity: 80, sentiment: 76, sector: 'FMCG' },
-  { ticker: 'WIPRO', name: 'Wipro', score: 79, profitability: 78, growth: 75, stability: 85, efficiency: 80, valuation: 77, momentum: 74, trend: 76, activity: 78, sentiment: 72, sector: 'IT' },
-  { ticker: 'SBIN', name: 'State Bank of India', score: 78, profitability: 72, growth: 80, stability: 75, efficiency: 78, valuation: 85, momentum: 76, trend: 78, activity: 82, sentiment: 74, sector: 'Banking' },
-  { ticker: 'MARUTI', name: 'Maruti Suzuki', score: 83, profitability: 80, growth: 85, stability: 82, efficiency: 84, valuation: 74, momentum: 82, trend: 84, activity: 80, sentiment: 78, sector: 'Auto' },
-  { ticker: 'TATAMOTORS', name: 'Tata Motors', score: 75, profitability: 70, growth: 78, stability: 72, efficiency: 76, valuation: 80, momentum: 76, trend: 78, activity: 74, sentiment: 70, sector: 'Auto' },
-  { ticker: 'SUNPHARMA', name: 'Sun Pharmaceutical', score: 77, profitability: 75, growth: 72, stability: 80, efficiency: 78, valuation: 80, momentum: 74, trend: 76, activity: 76, sentiment: 72, sector: 'Pharma' },
-  { ticker: 'HCLTECH', name: 'HCL Technologies', score: 84, profitability: 85, growth: 80, stability: 88, efficiency: 84, valuation: 75, momentum: 78, trend: 80, activity: 84, sentiment: 78, sector: 'IT' },
-  { ticker: 'BAJFINANCE', name: 'Bajaj Finance', score: 87, profitability: 90, growth: 88, stability: 82, efficiency: 87, valuation: 68, momentum: 85, trend: 88, activity: 90, sentiment: 84, sector: 'NBFC' },
-];
-
-const sectors = ['Banking', 'IT', 'Auto', 'Pharma', 'FMCG', 'Energy', 'NBFC'];
-const assetTypes = ['Large Cap', 'Mid Cap', 'Small Cap', 'Blue Chip', 'Growth', 'Value'];
-const biases = ['Momentum', 'Quality', 'Low Volatility', 'High Dividend', 'ESG', 'Innovation'];
-const categories = ['Technology', 'Financial Services', 'Healthcare', 'Consumer Goods', 'Energy', 'Infrastructure'];
-
-const getScoreColor = (score: number) => {
-  if (score >= 80) return 'text-green-400';
-  if (score >= 60) return 'text-yellow-400';
-  return 'text-red-400';
-};
-
-const getScoreIcon = (score: number) => {
-  if (score >= 80) return '🟢';
-  if (score >= 60) return '🟡';
-  return '🔴';
+const getScoreBgColor = (score: number) => {
+  if (score >= 80)
+    return "bg-gradient-to-br from-green-400/20 to-green-600/30 border border-green-500/30 text-green-400";
+  if (score >= 60)
+    return "bg-gradient-to-br from-yellow-400/20 to-yellow-600/30 border border-yellow-500/30 text-yellow-400";
+  return "bg-gradient-to-br from-red-400/20 to-red-600/30 border border-red-500/30 text-red-400";
 };
 
 const getMetricClass = (value: number) => {
-  if (value >= 80) return 'bg-green-500/80 text-white';
-  if (value >= 60) return 'bg-yellow-500/80 text-white';
-  return 'bg-red-500/80 text-white';
+  if (value >= 80) return "bg-green-900/50 text-green-500 ";
+  if (value >= 60) return "bg-yellow-500/20 text-yellow-500 ";
+  return "bg-red-700/40 text-red-500 ";
 };
 
 const HealthScorePage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [selectedBiases, setSelectedBiases] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedRow, setSelectedRow] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 11; // Fixed at 10 rows per page
+
+  const handleRowClick = (ticker: string) => {
+    setSelectedRow(selectedRow === ticker ? null : ticker);
+  };
+
+  const handleOutsideClick = () => {
+    setSelectedRow(null);
+  };
 
   const filteredAndSortedStocks = useMemo(() => {
-    let filtered = stocksData.filter(stock => {
-      const matchesSearch = 
+    let filtered = stocksData.filter((stock) => {
+      const matchesSearch =
         stock.ticker.toLowerCase().includes(searchTerm.toLowerCase()) ||
         stock.name.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesSector = selectedSectors.length === 0 || selectedSectors.includes(stock.sector);
-      
+
+      const matchesSector =
+        selectedSectors.length === 0 || selectedSectors.includes(stock.sector);
+
       return matchesSearch && matchesSector;
     });
 
@@ -98,14 +86,39 @@ const HealthScorePage = () => {
     filtered.sort((a, b) => b.score - a.score);
 
     return filtered;
+  }, [
+    searchTerm,
+    selectedSectors,
+    selectedAssets,
+    selectedBiases,
+    selectedCategories,
+  ]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredAndSortedStocks.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedStocks = filteredAndSortedStocks.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
   }, [searchTerm, selectedSectors, selectedAssets, selectedBiases, selectedCategories]);
 
   return (
-    <div className="space-y-4 p-6 pt-2">
+    <div className="space-y-4 py-6 sm:px-6 px-0 pt-2 relative">
+      {/* Click overlay for outside detection */}
+      {selectedRow && (
+        <div 
+          className="fixed inset-0 z-10" 
+          onClick={handleOutsideClick}
+        />
+      )}
+      
       {/* Thin Header with Search and Filters */}
-      <div className="flex items-center gap-4 justify-between">
+      <div className="flex items-center flex-col sm:flex-row gap-4 justify-between relative z-20">
         {/* Search Bar */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 w-full  sm:max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
           <input
             type="text"
@@ -117,12 +130,17 @@ const HealthScorePage = () => {
         </div>
 
         {/* Filter Dropdowns */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-center">
           {/* Assets Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 text-xs bg-background/50">
-                Assets {selectedAssets.length > 0 && `(${selectedAssets.length})`}
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs bg-background/50"
+              >
+                Assets{" "}
+                {selectedAssets.length > 0 && `(${selectedAssets.length})`}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -137,7 +155,9 @@ const HealthScorePage = () => {
                     if (checked) {
                       setSelectedAssets([...selectedAssets, asset]);
                     } else {
-                      setSelectedAssets(selectedAssets.filter(a => a !== asset));
+                      setSelectedAssets(
+                        selectedAssets.filter((a) => a !== asset)
+                      );
                     }
                   }}
                 >
@@ -150,8 +170,13 @@ const HealthScorePage = () => {
           {/* Sectors Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 text-xs bg-background/50">
-                Sectors {selectedSectors.length > 0 && `(${selectedSectors.length})`}
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs bg-background/50"
+              >
+                Sectors{" "}
+                {selectedSectors.length > 0 && `(${selectedSectors.length})`}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -166,7 +191,9 @@ const HealthScorePage = () => {
                     if (checked) {
                       setSelectedSectors([...selectedSectors, sector]);
                     } else {
-                      setSelectedSectors(selectedSectors.filter(s => s !== sector));
+                      setSelectedSectors(
+                        selectedSectors.filter((s) => s !== sector)
+                      );
                     }
                   }}
                 >
@@ -179,8 +206,13 @@ const HealthScorePage = () => {
           {/* Biases Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 text-xs bg-background/50">
-                Biases {selectedBiases.length > 0 && `(${selectedBiases.length})`}
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs bg-background/50"
+              >
+                Biases{" "}
+                {selectedBiases.length > 0 && `(${selectedBiases.length})`}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -195,7 +227,9 @@ const HealthScorePage = () => {
                     if (checked) {
                       setSelectedBiases([...selectedBiases, bias]);
                     } else {
-                      setSelectedBiases(selectedBiases.filter(b => b !== bias));
+                      setSelectedBiases(
+                        selectedBiases.filter((b) => b !== bias)
+                      );
                     }
                   }}
                 >
@@ -208,8 +242,14 @@ const HealthScorePage = () => {
           {/* Categories Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 text-xs bg-background/50">
-                Categories {selectedCategories.length > 0 && `(${selectedCategories.length})`}
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs bg-background/50"
+              >
+                Categories{" "}
+                {selectedCategories.length > 0 &&
+                  `(${selectedCategories.length})`}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -224,7 +264,9 @@ const HealthScorePage = () => {
                     if (checked) {
                       setSelectedCategories([...selectedCategories, category]);
                     } else {
-                      setSelectedCategories(selectedCategories.filter(c => c !== category));
+                      setSelectedCategories(
+                        selectedCategories.filter((c) => c !== category)
+                      );
                     }
                   }}
                 >
@@ -237,130 +279,239 @@ const HealthScorePage = () => {
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-xl overflow-hidden bg-background/50 backdrop-blur-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b bg-muted/30">
-                <th className="text-left p-4 font-semibold text-sm">
-                  <div className="flex items-center gap-2">
-                    Stock
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  </div>
-                </th>
-                <th className="text-center p-4 font-semibold text-sm">
-                  <div className="flex items-center justify-center gap-1">
-                    <Heart className="w-4 h-4" />
-                    Overall Score
-                  </div>
-                </th>
-                {/* Fundamentals Header */}
-                <th colSpan={5} className="text-center p-4 font-semibold text-sm bg-blue-500/10 border-l border-r border-blue-500/20">
-                  <div className="flex items-center justify-center gap-2">
-                    <DollarSign className="w-4 h-4" />
-                    FUNDAMENTALS
-                  </div>
-                </th>
-                {/* Technical Header */}
-                <th colSpan={2} className="text-center p-4 font-semibold text-sm bg-green-500/10 border-r border-green-500/20">
-                  <div className="flex items-center justify-center gap-2">
-                    <TrendingUp className="w-4 h-4" />
-                    TECHNICAL
-                  </div>
-                </th>
-                {/* Institutional Header */}
-                <th colSpan={2} className="text-center p-4 font-semibold text-sm bg-purple-500/10 border-r border-purple-500/20">
-                  <div className="flex items-center justify-center gap-2">
-                    <Users className="w-4 h-4" />
-                    INSTITUTIONAL
-                  </div>
-                </th>
-              </tr>
-              <tr className="border-b bg-muted/20">
-                <th></th>
-                <th></th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Profit</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Growth</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Stability</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Efficiency</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Valuation</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Momentum</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Trend</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Activity</th>
-                <th className="text-center p-2 text-xs font-medium text-muted-foreground">Sentiment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAndSortedStocks.map((stock, index) => (
-                <tr 
-                  key={stock.ticker} 
-                  className="border-b hover:bg-muted/30 transition-colors cursor-pointer group"
+      <div 
+        className="border border-border/30 rounded-sm bg-background/50 backdrop-blur-sm transition-all duration-300 relative z-20 h-[510px] flex flex-col"
+        style={{
+          overflow: selectedRow ? 'visible' : 'hidden',
+          position: 'relative'
+        }}
+      >
+        <div className="flex-1 overflow-auto">
+          <Table 
+            style={{
+              overflow: selectedRow ? 'visible' : 'auto',
+              position: 'relative'
+            }}
+          >
+          <TableHeader>
+            {/* Main Category Headers */}
+            <TableRow className="border-b border-border/30 bg-muted/30 hover:bg-muted/30">
+              <TableHead
+                rowSpan={2}
+                className="text-left p-3 font-semibold text-sm border-r border-border/20"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  Stock
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                </div>
+              </TableHead>
+              <TableHead
+                rowSpan={2}
+                className="text-center p-3 font-semibold text-sm border-r border-border/20"
+              >
+                <div className="flex items-center justify-center gap-1">
+                  <Heart className="w-4 h-4" />
+                  Score
+                </div>
+              </TableHead>
+              {/* Fundamentals Header */}
+              <TableHead
+                colSpan={5}
+                className="text-center p-3 font-semibold text-sm bg-blue-500/10 border-l border-r border-blue-500/20"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <DollarSign className="w-4 h-4" />
+                  FUNDAMENTALS
+                </div>
+              </TableHead>
+              {/* Technical Header */}
+              <TableHead
+                colSpan={2}
+                className="text-center p-3 font-semibold text-sm bg-green-500/10 border-r border-green-500/20"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  TECHNICAL
+                </div>
+              </TableHead>
+              {/* Institutional Header */}
+              <TableHead
+                colSpan={2}
+                className="text-center p-3 font-semibold text-sm bg-purple-500/10 border-r border-purple-500/20"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Users className="w-4 h-4" />
+                  INSTITUTIONAL
+                </div>
+              </TableHead>
+            </TableRow>
+            <TableRow className="border-b border-border/30 bg-muted/20 hover:bg-muted/20">
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Profit
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Growth
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Stability
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Efficiency
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Valuation
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Momentum
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Trend
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground border-r border-border/20">
+                Activity
+              </TableHead>
+              <TableHead className="text-center p-2 text-xs font-medium text-muted-foreground">
+                Sentiment
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="relative">
+            {paginatedStocks.map((stock, index) => {
+              const isSelected = selectedRow === stock.ticker;
+              const isOtherSelected = selectedRow && selectedRow !== stock.ticker;
+              
+              return (
+                <TableRow
+                  key={stock.ticker}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRowClick(stock.ticker);
+                  }}
+                  className={`
+                    border-b border-border/30 hover:bg-muted/20 transition-all duration-500 ease-in-out cursor-pointer group
+                    ${isSelected ? ' z-30 relative shadow-2xl bg-muted/40 ring-2 ring-primary/20' : ''}
+                    ${isOtherSelected ? 'blur-[2px] opacity-40 scale-[0.98]' : ''}
+                  `}
+                  style={{
+                    transformOrigin: 'center',
+                  }}
                 >
-                  <td className="p-4">
-                    <div>
-                      <div className="font-bold text-sm">{stock.ticker}</div>
-                      <div className="text-xs text-muted-foreground">{stock.name}</div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className={`text-2xl font-bold ${getScoreColor(stock.score)}`}>
-                        {stock.score}
-                      </span>
-                      <span className="text-lg">{getScoreIcon(stock.score)}</span>
-                    </div>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.profitability)} min-w-[40px] justify-center`}>
-                      {stock.profitability}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.growth)} min-w-[40px] justify-center`}>
-                      {stock.growth}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.stability)} min-w-[40px] justify-center`}>
-                      {stock.stability}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.efficiency)} min-w-[40px] justify-center`}>
-                      {stock.efficiency}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.valuation)} min-w-[40px] justify-center`}>
-                      {stock.valuation}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.momentum)} min-w-[40px] justify-center`}>
-                      {stock.momentum}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.trend)} min-w-[40px] justify-center`}>
-                      {stock.trend}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.activity)} min-w-[40px] justify-center`}>
-                      {stock.activity}
-                    </Badge>
-                  </td>
-                  <td className="p-2 text-center">
-                    <Badge className={`${getMetricClass(stock.sentiment)} min-w-[40px] justify-center`}>
-                      {stock.sentiment}
-                    </Badge>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                <TableCell className="px-2 h-full border-r border-border/20">
+                  <div className="font-bold text-xs sm:text-sm">{stock.ticker}</div>
+                </TableCell>
+                <TableCell className="p-0 h-full text-center border-r border-border/20 ">
+                  <div
+                    className={`${getScoreBgColor(
+                      stock.score
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.score}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.profitability
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.profitability}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20 h-full">
+                  <div
+                    className={`${getMetricClass(
+                      stock.growth
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.growth}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.stability
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.stability}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.efficiency
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.efficiency}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.valuation
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.valuation}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.momentum
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.momentum}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.trend
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.trend}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center border-r border-border/20">
+                  <div
+                    className={`${getMetricClass(
+                      stock.activity
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.activity}
+                  </div>
+                </TableCell>
+                <TableCell className="p-0 text-center">
+                  <div
+                    className={`${getMetricClass(
+                      stock.sentiment
+                    )} h-full w-full flex items-center justify-center py-2 text-sm font-medium`}
+                  >
+                    {stock.sentiment}
+                  </div>
+                </TableCell>
+              </TableRow>
+              );
+            })}
+          </TableBody>
+          </Table>
         </div>
-        
+
+        {paginatedStocks.length === 0 && filteredAndSortedStocks.length > 0 && (
+          <div className="text-right py-12">
+            <div className="flex flex-col items-center gap-4">
+              <div className="p-4 bg-muted/20 rounded-full">
+                <Search className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">No results on this page</h3>
+                <p className="text-muted-foreground">
+                  Try going to the first page or adjusting your filters
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {filteredAndSortedStocks.length === 0 && (
           <div className="text-center py-12">
             <div className="flex flex-col items-center gap-4">
@@ -377,6 +528,69 @@ const HealthScorePage = () => {
           </div>
         )}
       </div>
+
+      {/* Compact Pagination */}
+      {filteredAndSortedStocks.length > 0 && (
+        <div className="flex items-center justify-end bg-background/50 backdrop-blur-sm  rounded-sm px-4 py-2">
+          {/* Pagination Controls */}
+          <div className="flex items-center gap-1">
+            {/* First Page */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 w-7 p-0"
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronsLeft className="h-3 w-3" />
+            </Button>
+
+            {/* Previous Page */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 w-7 p-0"
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-3 w-3" />
+            </Button>
+
+            {/* Page Display */}
+            <div className="flex items-center gap-1 mx-4">
+              <span className="text-sm font-medium text-foreground">
+                {currentPage}
+              </span>
+              <span className="text-sm text-muted-foreground">/</span>
+              <span className="text-sm font-medium text-foreground">
+                {totalPages}
+              </span>
+            </div>
+
+            {/* Next Page */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 w-7 p-0"
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="h-3 w-3" />
+            </Button>
+
+            {/* Last Page */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 w-7 p-0"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronsRight className="h-3 w-3" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
