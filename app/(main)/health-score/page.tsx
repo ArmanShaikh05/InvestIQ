@@ -298,7 +298,7 @@ const HealthScorePage = () => {
             <TableRow className="border-b border-border/30 bg-muted/30 hover:bg-muted/30">
               <TableHead
                 rowSpan={2}
-                className="text-left p-3 font-semibold text-sm border-r border-border/20"
+                className="text-left p-3 font-semibold text-xs sm:text-sm border-r border-border/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   Stock
@@ -307,7 +307,7 @@ const HealthScorePage = () => {
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="text-center p-3 font-semibold text-sm border-r border-border/20"
+                className="text-center p-3 font-semibold text-xs sm:text-sm border-r border-border/20"
               >
                 <div className="flex items-center justify-center gap-1">
                   <Heart className="w-4 h-4" />
@@ -317,7 +317,7 @@ const HealthScorePage = () => {
               {/* Fundamentals Header */}
               <TableHead
                 colSpan={5}
-                className="text-center p-3 font-semibold text-sm bg-blue-500/10 border-l border-r border-blue-500/20"
+                className="text-center p-3 font-semibold text-xs sm:text-sm bg-blue-500/10 border-l border-r border-blue-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <DollarSign className="w-4 h-4" />
@@ -327,7 +327,7 @@ const HealthScorePage = () => {
               {/* Technical Header */}
               <TableHead
                 colSpan={2}
-                className="text-center p-3 font-semibold text-sm bg-green-500/10 border-r border-green-500/20"
+                className="text-center p-3 font-semibold text-xs sm:text-sm bg-green-500/10 border-r border-green-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <TrendingUp className="w-4 h-4" />
@@ -337,7 +337,7 @@ const HealthScorePage = () => {
               {/* Institutional Header */}
               <TableHead
                 colSpan={2}
-                className="text-center p-3 font-semibold text-sm bg-purple-500/10 border-r border-purple-500/20"
+                className="text-center p-3 font-semibold text-xs sm:text-sm bg-purple-500/10 border-r border-purple-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Users className="w-4 h-4" />
