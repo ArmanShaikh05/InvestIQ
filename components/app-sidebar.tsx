@@ -42,8 +42,8 @@ const items = [
     icon: SquareActivity,
   },
   {
-    title: "Calendar",
-    url: "#",
+    title: "Portfolio",
+    url: "/portfolio",
     icon: Calendar,
   },
   {

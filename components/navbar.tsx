@@ -89,7 +89,7 @@ const Navbar = () => {
       <div className=" w-full flex items-center justify-between ">
         <div className="hidden sm:flex items-center gap-2">
           <IconComponent />
-          <h1 className="text-3xl">{pageConfig.title}</h1>
+          <h1 className="text-xl">{pageConfig.title}</h1>
         </div>
         <SidebarTrigger className="sm:hidden"  />
 
@@ -104,7 +104,7 @@ const Navbar = () => {
           </Avatar>
         </div>
       </div>
-      <Breadcrumb className="hidden sm:flex">
+      {/* <Breadcrumb className="hidden sm:flex">
         <BreadcrumbList className="text-xs text-muted-foreground/50 ">
           {pageConfig.breadcrumb.map((item, index) => (
             <BreadcrumbItem key={index}>
@@ -117,7 +117,7 @@ const Navbar = () => {
             </BreadcrumbItem>
           ))}
         </BreadcrumbList>
-      </Breadcrumb>
+      </Breadcrumb> */}
     </div>
   );
 };

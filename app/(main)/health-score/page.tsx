@@ -60,7 +60,7 @@ const HealthScorePage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 11; // Fixed at 10 rows per page
+  const itemsPerPage = 30; // Fixed at 10 rows per page
 
   const handleRowClick = (ticker: string) => {
     setSelectedRow(selectedRow === ticker ? null : ticker);
@@ -280,7 +280,7 @@ const HealthScorePage = () => {
 
       {/* Table Section */}
       <div 
-        className="border border-border/30 rounded-sm bg-background/50 backdrop-blur-sm transition-all duration-300 relative z-20 h-[510px] flex flex-col"
+        className="border border-border/30 rounded-sm bg-background/50 backdrop-blur-sm transition-all duration-300 relative z-20 flex flex-col"
         style={{
           overflow: selectedRow ? 'visible' : 'hidden',
           position: 'relative'
@@ -317,7 +317,7 @@ const HealthScorePage = () => {
               {/* Fundamentals Header */}
               <TableHead
                 colSpan={5}
-                className="text-center p-3 font-semibold text-xs sm:text-sm bg-blue-500/10 border-l border-r border-blue-500/20"
+                className="text-center px-3 h-8 py-1 font-semibold text-xs  bg-blue-500/10 border-l border-r border-blue-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <DollarSign className="w-4 h-4" />
@@ -327,7 +327,7 @@ const HealthScorePage = () => {
               {/* Technical Header */}
               <TableHead
                 colSpan={2}
-                className="text-center p-3 font-semibold text-xs sm:text-sm bg-green-500/10 border-r border-green-500/20"
+                className="text-center px-3 h-8 py-1 font-semibold text-xs  bg-green-500/10 border-r border-green-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <TrendingUp className="w-4 h-4" />
@@ -337,7 +337,7 @@ const HealthScorePage = () => {
               {/* Institutional Header */}
               <TableHead
                 colSpan={2}
-                className="text-center p-3 font-semibold text-xs sm:text-sm bg-purple-500/10 border-r border-purple-500/20"
+                className="text-center px-3  py-1 font-semibold text-xs  bg-purple-500/10 border-r border-purple-500/20"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Users className="w-4 h-4" />
