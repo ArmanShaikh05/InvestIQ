@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BarChart3,
   Calendar,
   Home,
   Inbox,
@@ -9,6 +10,7 @@ import {
   Search,
   Settings,
   SquareActivity,
+  TrendingUp,
 } from "lucide-react";
 
 import {
@@ -28,6 +30,7 @@ import { useTheme } from "next-themes";
 import AnimatedCollapsible from "./sidebar/animated-collapsibe";
 import { ThemeToggle } from "./theme-toggler";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -55,6 +58,20 @@ const items = [
     title: "Settings",
     url: "#",
     icon: Settings,
+  },
+];
+
+// Research submenu items
+const researchItems = [
+  {
+    title: "Stock Screener",
+    url: "/research/stock-screener",
+    icon: Search,
+  },
+  {
+    title: "Sector Analysis",
+    url: "/research/sector-analysis",
+    icon: BarChart3,
   },
 ];
 
@@ -107,34 +124,19 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={item.title === "Home"}>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
 
-              <AnimatedCollapsible items={items} />
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarSeparator className="!w-[calc(100%-8px)] mx-auto" />
-
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <AnimatedCollapsible 
+                items={researchItems}
+                title="Research"
+                icon={TrendingUp}
+              />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -71,7 +71,7 @@ const RecentAlerts = () => {
   const hasAlerts = currentData.length > 0;
 
   return (
-    <div className="w-full h-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] pt-6 pb-6 px-6 flex flex-col shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 transition-all duration-200 ease-in-out">
+    <div className="w-full h-full border rounded-xl border-border/50 bg-background/50 backdrop-blur-sm pt-6 pb-6 px-6 flex flex-col shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 transition-all duration-200 ease-in-out">
       {/* Header */}
       <div className="w-full flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">

@@ -454,7 +454,7 @@ const TopHoldings = () => {
   return (
     <div
       ref={containerRef}
-      className="w-full border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] bg-[linear-gradient(135deg,rgba(255,255,255,0.9)_0%,rgba(248,250,252,0.8)_100%)] pt-6 pb-10 px-6 md:px-10 flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 transition-all duration-200 ease-in-out backdrop-blur-sm relative overflow-hidden"
+      className="w-full border border-border/50 bg-background/50 rounded-xl  pt-6 pb-10 px-6 md:px-10 flex flex-col items-center shadow-lg shadow-ring/10 hover:shadow-lg hover:shadow-ring/20 transition-all duration-200 ease-in-out backdrop-blur-sm relative overflow-hidden"
     >
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl -z-10" />

@@ -43,12 +43,12 @@ const profileOverviewData = [
 
 const ProfileOverview = () => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
         {profileOverviewData.map((item, index) => (
           <div
-            className="group relative border rounded-xl dark:bg-[linear-gradient(135deg,rgba(47,40,32,0.7)_0%,rgba(244,208,63,0.08)_100%)] p-4 lg:p-5 shadow-lg shadow-ring/10 hover:shadow-xl transition-all duration-300  overflow-hidden"
+            className="group relative border rounded-xl border-border/50 bg-background/50 backdrop-blur-sm p-4 lg:p-5 shadow-lg shadow-ring/10 hover:shadow-xl transition-all duration-300  overflow-hidden"
             key={index}
           >
             {/* Background Effect */}

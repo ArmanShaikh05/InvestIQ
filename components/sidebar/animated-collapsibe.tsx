@@ -9,6 +9,7 @@ import {
 } from "../ui/sidebar";
 import { Calendar, ChevronRight, LucideIcon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 type MenuItem = {
   title: string;
@@ -16,7 +17,17 @@ type MenuItem = {
   icon: LucideIcon;
 }[];
 
-const AnimatedCollapsible = ({ items }: { items: MenuItem }) => {
+type AnimatedCollapsibleProps = {
+  items: MenuItem;
+  title?: string;
+  icon?: LucideIcon;
+};
+
+const AnimatedCollapsible = ({
+  items,
+  title = "Analytics",
+  icon: Icon = Calendar,
+}: AnimatedCollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Collapsible
@@ -28,10 +39,10 @@ const AnimatedCollapsible = ({ items }: { items: MenuItem }) => {
         <CollapsibleTrigger asChild>
           <SidebarMenuButton asChild>
             <div className="w-full flex items-center justify-between">
-              <a href={"#"} className="flex items-center gap-2">
-                <Calendar size={17} />
-                <span>Analytics</span>
-              </a>
+              <Link href={"#"} className="flex items-center gap-2">
+                <Icon size={17} />
+                <span>{title}</span>
+              </Link>
               <ChevronRight
                 className={`ml-auto size-4 transition-transform duration-300 ${
                   isOpen ? "rotate-90" : ""
@@ -62,10 +73,10 @@ const AnimatedCollapsible = ({ items }: { items: MenuItem }) => {
                       asChild
                       // isActive={item.title === "Home"}
                     >
-                      <a href={item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 ))}
