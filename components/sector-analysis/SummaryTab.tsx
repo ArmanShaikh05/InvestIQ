@@ -83,7 +83,12 @@ export function SummaryTab({
   return (
     <div className="space-y-8">
       {/* Key Financial Metrics */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <DollarSign className="w-5 h-5 text-amber-500" />
@@ -127,10 +132,15 @@ export function SummaryTab({
             </div>
           </CardContent>
         </Card>
-      </section>
+      </motion.section>
 
       {/* Sector Overview Card */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <Building2 className="w-5 h-5 text-amber-500" />
@@ -191,10 +201,15 @@ export function SummaryTab({
             </div>
           </CardContent>
         </Card>
-      </section>
+      </motion.section>
 
       {/* SMART HIGHLIGHTS */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-amber-500" />
@@ -249,10 +264,15 @@ export function SummaryTab({
           Bottom line: Strong credit growth and improving margins, but watch
           valuations carefully
         </p>
-      </section>
+      </motion.section>
 
       {/* Sector Performance Chart */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <LineChartIcon className="w-5 h-5 text-amber-500" />
@@ -428,10 +448,15 @@ export function SummaryTab({
             </div>
           </CardContent>
         </Card>
-      </section>
+      </motion.section>
 
       {/* Health Pillars */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-amber-500" />
@@ -466,10 +491,15 @@ export function SummaryTab({
             </div>
           </CardContent>
         </Card>
-      </section>
+      </motion.section>
 
       {/* Market Concentration & Risk Analysis */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <motion.div
+        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Market Concentration */}
         <section className="mb-12">
           <div className="mb-3">
@@ -600,10 +630,15 @@ export function SummaryTab({
             </CardContent>
           </Card>
         </section>
-      </div>
+      </motion.div>
 
       {/* Top Performers */}
-      <section className="mb-12">
+      <motion.section
+        className="mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-amber-500" />
@@ -665,10 +700,14 @@ export function SummaryTab({
             </Table>
           </CardContent>
         </Card>
-      </section>
+      </motion.section>
 
       {/* WHAT'S NEXT */}
-      <section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <p className="text-sm text-muted-foreground italic mb-4">
           Ready to dig deeper? Here's where to go next:
         </p>
@@ -729,7 +768,7 @@ export function SummaryTab({
             </CardContent>
           </Card>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

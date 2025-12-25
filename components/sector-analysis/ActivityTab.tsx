@@ -9,39 +9,33 @@ import {
 } from "@/components/ui/chart";
 import { motion } from "framer-motion";
 import {
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  Users,
   Activity,
+  AlertCircle,
+  ArrowDownRight,
+  ArrowUpRight,
+  Award,
+  BarChart3,
   Building2,
   Calendar,
-  ArrowUpRight,
-  ArrowDownRight,
-  Minus,
   ChevronRight,
+  DollarSign,
+  Minus,
   Target,
-  BarChart3,
-  PieChart,
-  Award,
-  AlertCircle,
-  Clock,
+  TrendingDown,
+  TrendingUp,
+  Users
 } from "lucide-react";
 import {
+  Area,
+  CartesianGrid,
+  Cell,
+  ComposedChart,
   Line,
   LineChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Cell,
   Pie,
   PieChart as RechartsPieChart,
-  ComposedChart,
-  Area,
-  AreaChart,
-  ResponsiveContainer,
+  XAxis,
+  YAxis
 } from "recharts";
 
 interface ActivityTabProps {
@@ -114,9 +108,24 @@ const activityData = {
   ],
 
   flowStats: {
-    lastMonth: { fii: 2450, dii: 850, combined: 3300, status: "🟢 Strong Inflow" },
-    lastQuarter: { fii: 6200, dii: 2100, combined: 8300, trend: "Consistent buying" },
-    lastYear: { fii: 18500, dii: 7800, combined: 26300, pattern: "Net accumulation" },
+    lastMonth: {
+      fii: 2450,
+      dii: 850,
+      combined: 3300,
+      status: "🟢 Strong Inflow",
+    },
+    lastQuarter: {
+      fii: 6200,
+      dii: 2100,
+      combined: 8300,
+      trend: "Consistent buying",
+    },
+    lastYear: {
+      fii: 18500,
+      dii: 7800,
+      combined: 26300,
+      pattern: "Net accumulation",
+    },
   },
 
   flowInsights: [
@@ -322,18 +331,6 @@ const activityData = {
   },
 };
 
-const getTrendIcon = (trend: string) => {
-  if (trend.includes("↗")) return <ArrowUpRight className="h-4 w-4 text-emerald-500" />;
-  if (trend.includes("↘")) return <ArrowDownRight className="h-4 w-4 text-red-500" />;
-  return <Minus className="h-4 w-4 text-muted-foreground" />;
-};
-
-const getFlowColor = (value: number) => {
-  if (value > 0) return "#10b981";
-  if (value < 0) return "#ef4444";
-  return "#6b7280";
-};
-
 const getDeliveryColor = (delivery: number) => {
   if (delivery >= 70) return "text-emerald-500";
   if (delivery >= 60) return "text-blue-500";
@@ -343,7 +340,8 @@ const getDeliveryColor = (delivery: number) => {
 
 const getImpactBadge = (impact: string) => {
   if (impact === "High") return "bg-red-500/10 text-red-500 border-red-500/20";
-  if (impact === "Medium") return "bg-amber-500/10 text-amber-500 border-amber-500/20";
+  if (impact === "Medium")
+    return "bg-amber-500/10 text-amber-500 border-amber-500/20";
   return "bg-blue-500/10 text-blue-500 border-blue-500/20";
 };
 
@@ -383,8 +381,12 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20">
                   {activityData.snapshot.fii.type}
                 </Badge>
-                <p className="text-xs font-medium">{activityData.snapshot.fii.status}</p>
-                <p className="text-xs text-muted-foreground">{activityData.snapshot.fii.trend}</p>
+                <p className="text-xs font-medium">
+                  {activityData.snapshot.fii.status}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {activityData.snapshot.fii.trend}
+                </p>
                 <p className="text-xs italic text-muted-foreground">
                   {activityData.snapshot.fii.context}
                 </p>
@@ -406,8 +408,12 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20">
                   {activityData.snapshot.dii.type}
                 </Badge>
-                <p className="text-xs font-medium">{activityData.snapshot.dii.status}</p>
-                <p className="text-xs text-muted-foreground">{activityData.snapshot.dii.trend}</p>
+                <p className="text-xs font-medium">
+                  {activityData.snapshot.dii.status}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {activityData.snapshot.dii.trend}
+                </p>
                 <p className="text-xs italic text-muted-foreground">
                   {activityData.snapshot.dii.context}
                 </p>
@@ -429,7 +435,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20">
                   High Quality
                 </Badge>
-                <p className="text-xs font-medium">{activityData.snapshot.delivery.status}</p>
+                <p className="text-xs font-medium">
+                  {activityData.snapshot.delivery.status}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   vs Market: {activityData.snapshot.delivery.vsMarket}
                 </p>
@@ -454,7 +462,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
                   Sector Avg
                 </Badge>
-                <p className="text-xs font-medium">{activityData.snapshot.promoter.change}</p>
+                <p className="text-xs font-medium">
+                  {activityData.snapshot.promoter.change}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   Pledged: {activityData.snapshot.promoter.pledged}
                 </p>
@@ -570,9 +580,20 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 className="h-80 w-full"
               >
                 <ComposedChart data={activityData.fiiDiiFlows}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} tickLine={false} />
-                  <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    className="stroke-muted"
+                  />
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fontSize: 12 }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickLine={false}
+                    axisLine={false}
+                  />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <defs>
                     <linearGradient id="colorFii" x1="0" y1="0" x2="0" y2="1">
@@ -605,50 +626,89 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20">
-                <p className="text-xs uppercase text-muted-foreground mb-2">Last Month</p>
+                <p className="text-xs uppercase text-muted-foreground mb-2">
+                  Last Month
+                </p>
                 <div className="space-y-1">
                   <p className="text-sm">
-                    FII: <span className="font-mono font-bold text-blue-500">₹{activityData.flowStats.lastMonth.fii} Cr</span>
+                    FII:{" "}
+                    <span className="font-mono font-bold text-blue-500">
+                      ₹{activityData.flowStats.lastMonth.fii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    DII: <span className="font-mono font-bold text-emerald-500">₹{activityData.flowStats.lastMonth.dii} Cr</span>
+                    DII:{" "}
+                    <span className="font-mono font-bold text-emerald-500">
+                      ₹{activityData.flowStats.lastMonth.dii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    Combined: <span className="font-mono font-bold">₹{activityData.flowStats.lastMonth.combined} Cr</span>
+                    Combined:{" "}
+                    <span className="font-mono font-bold">
+                      ₹{activityData.flowStats.lastMonth.combined} Cr
+                    </span>
                   </p>
-                  <p className="text-xs font-medium mt-2">{activityData.flowStats.lastMonth.status}</p>
+                  <p className="text-xs font-medium mt-2">
+                    {activityData.flowStats.lastMonth.status}
+                  </p>
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                <p className="text-xs uppercase text-muted-foreground mb-2">Last Quarter</p>
+                <p className="text-xs uppercase text-muted-foreground mb-2">
+                  Last Quarter
+                </p>
                 <div className="space-y-1">
                   <p className="text-sm">
-                    FII: <span className="font-mono font-bold text-blue-500">₹{activityData.flowStats.lastQuarter.fii} Cr</span>
+                    FII:{" "}
+                    <span className="font-mono font-bold text-blue-500">
+                      ₹{activityData.flowStats.lastQuarter.fii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    DII: <span className="font-mono font-bold text-emerald-500">₹{activityData.flowStats.lastQuarter.dii} Cr</span>
+                    DII:{" "}
+                    <span className="font-mono font-bold text-emerald-500">
+                      ₹{activityData.flowStats.lastQuarter.dii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    Combined: <span className="font-mono font-bold">₹{activityData.flowStats.lastQuarter.combined} Cr</span>
+                    Combined:{" "}
+                    <span className="font-mono font-bold">
+                      ₹{activityData.flowStats.lastQuarter.combined} Cr
+                    </span>
                   </p>
-                  <p className="text-xs font-medium mt-2">{activityData.flowStats.lastQuarter.trend}</p>
+                  <p className="text-xs font-medium mt-2">
+                    {activityData.flowStats.lastQuarter.trend}
+                  </p>
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-purple-500/5 border border-purple-500/20">
-                <p className="text-xs uppercase text-muted-foreground mb-2">Last Year</p>
+                <p className="text-xs uppercase text-muted-foreground mb-2">
+                  Last Year
+                </p>
                 <div className="space-y-1">
                   <p className="text-sm">
-                    FII: <span className="font-mono font-bold text-blue-500">₹{activityData.flowStats.lastYear.fii} Cr</span>
+                    FII:{" "}
+                    <span className="font-mono font-bold text-blue-500">
+                      ₹{activityData.flowStats.lastYear.fii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    DII: <span className="font-mono font-bold text-emerald-500">₹{activityData.flowStats.lastYear.dii} Cr</span>
+                    DII:{" "}
+                    <span className="font-mono font-bold text-emerald-500">
+                      ₹{activityData.flowStats.lastYear.dii} Cr
+                    </span>
                   </p>
                   <p className="text-sm">
-                    Combined: <span className="font-mono font-bold">₹{activityData.flowStats.lastYear.combined} Cr</span>
+                    Combined:{" "}
+                    <span className="font-mono font-bold">
+                      ₹{activityData.flowStats.lastYear.combined} Cr
+                    </span>
                   </p>
-                  <p className="text-xs font-medium mt-2">{activityData.flowStats.lastYear.pattern}</p>
+                  <p className="text-xs font-medium mt-2">
+                    {activityData.flowStats.lastYear.pattern}
+                  </p>
                 </div>
               </div>
             </div>
@@ -690,16 +750,26 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           {/* LEFT: Bulk Deals */}
           <Card>
             <CardContent className="pt-6">
-              <h3 className="font-semibold mb-4">Recent Bulk Deals (Last 30 days)</h3>
-              
+              <h3 className="font-semibold mb-4">
+                Recent Bulk Deals (Last 30 days)
+              </h3>
+
               <div className="overflow-x-auto mb-4">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">Date</th>
-                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">Company</th>
-                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">Party</th>
-                      <th className="text-right py-2 text-xs uppercase text-muted-foreground">Value</th>
+                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">
+                        Date
+                      </th>
+                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">
+                        Company
+                      </th>
+                      <th className="text-left py-2 text-xs uppercase text-muted-foreground">
+                        Party
+                      </th>
+                      <th className="text-right py-2 text-xs uppercase text-muted-foreground">
+                        Value
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -721,7 +791,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                             </Badge>
                           </div>
                         </td>
-                        <td className="py-2 text-right font-mono">{deal.value}</td>
+                        <td className="py-2 text-right font-mono">
+                          {deal.value}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -731,21 +803,29 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
               <div className="p-4 rounded-lg bg-muted/30 border">
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <p className="text-xs text-muted-foreground">Total Bulk Buys</p>
+                    <p className="text-xs text-muted-foreground">
+                      Total Bulk Buys
+                    </p>
                     <p className="font-semibold text-emerald-500">
-                      {activityData.bulkSummary.totalBuys} ({activityData.bulkSummary.totalBuysValue})
+                      {activityData.bulkSummary.totalBuys} (
+                      {activityData.bulkSummary.totalBuysValue})
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground">Total Bulk Sells</p>
+                    <p className="text-xs text-muted-foreground">
+                      Total Bulk Sells
+                    </p>
                     <p className="font-semibold text-red-500">
-                      {activityData.bulkSummary.totalSells} ({activityData.bulkSummary.totalSellsValue})
+                      {activityData.bulkSummary.totalSells} (
+                      {activityData.bulkSummary.totalSellsValue})
                     </p>
                   </div>
                 </div>
                 <div className="mt-3 pt-3 border-t">
                   <p className="text-xs text-muted-foreground">Net</p>
-                  <p className="font-bold text-emerald-500">{activityData.bulkSummary.net}</p>
+                  <p className="font-bold text-emerald-500">
+                    {activityData.bulkSummary.net}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -755,10 +835,13 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           <Card>
             <CardContent className="pt-6">
               <h3 className="font-semibold mb-4">Deal Patterns</h3>
-              
+
               <div className="space-y-3 mb-6">
                 {activityData.dealPatterns.map((pattern, idx) => (
-                  <div key={idx} className="flex items-start gap-2 p-3 rounded-lg bg-muted/30">
+                  <div
+                    key={idx}
+                    className="flex items-start gap-2 p-3 rounded-lg bg-muted/30"
+                  >
                     <ChevronRight className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
                     <p className="text-sm">{pattern}</p>
                   </div>
@@ -771,7 +854,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   <div>
                     <p className="font-semibold text-sm mb-1">AI Insight</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Bulk deal activity shows institutional accumulation. Large funds are building positions across sector leaders, suggesting long-term conviction.
+                      Bulk deal activity shows institutional accumulation. Large
+                      funds are building positions across sector leaders,
+                      suggesting long-term conviction.
                     </p>
                   </div>
                 </div>
@@ -781,7 +866,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 <p className="text-xs font-medium mb-2">Recent Block Deals</p>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Transactions:</span>
+                    <span className="text-muted-foreground">
+                      Total Transactions:
+                    </span>
                     <span className="font-mono font-semibold">4</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -789,8 +876,12 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     <span className="font-mono font-semibold">₹1,250 Cr</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Net Direction:</span>
-                    <Badge className="bg-emerald-500/10 text-emerald-500">Buying</Badge>
+                    <span className="text-muted-foreground">
+                      Net Direction:
+                    </span>
+                    <Badge className="bg-emerald-500/10 text-emerald-500">
+                      Buying
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -819,7 +910,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           <div className="lg:col-span-3">
             <Card>
               <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4">Delivery Percentage Trends</h3>
+                <h3 className="font-semibold mb-4">
+                  Delivery Percentage Trends
+                </h3>
 
                 {/* Chart */}
                 <div className="mb-6">
@@ -837,7 +930,10 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     className="h-48 w-full"
                   >
                     <LineChart data={activityData.deliveryData}>
-                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        className="stroke-muted"
+                      />
                       <XAxis dataKey="month" tick={{ fontSize: 10 }} />
                       <YAxis domain={[50, 70]} tick={{ fontSize: 10 }} />
                       <ChartTooltip content={<ChartTooltipContent />} />
@@ -872,7 +968,11 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     >
                       <span className="text-sm">{company.company}</span>
                       <div className="flex items-center gap-3">
-                        <span className={`font-mono font-bold ${getDeliveryColor(company.delivery)}`}>
+                        <span
+                          className={`font-mono font-bold ${getDeliveryColor(
+                            company.delivery
+                          )}`}
+                        >
                           {company.delivery}%
                         </span>
                         <Badge variant="outline" className="text-xs">
@@ -885,7 +985,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
                 <div className="mt-4 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
                   <p className="text-xs italic leading-relaxed">
-                    High delivery percentage means most trades result in actual share transfer, not intraday speculation. This indicates investors are taking long-term positions.
+                    High delivery percentage means most trades result in actual
+                    share transfer, not intraday speculation. This indicates
+                    investors are taking long-term positions.
                   </p>
                 </div>
               </CardContent>
@@ -900,7 +1002,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
                 <div className="space-y-4">
                   <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
-                    <p className="text-xs uppercase text-muted-foreground mb-2">Trading Volume</p>
+                    <p className="text-xs uppercase text-muted-foreground mb-2">
+                      Trading Volume
+                    </p>
                     <p className="text-xl font-bold font-mono mb-1">
                       {activityData.tradingMetrics.volume.avg}
                     </p>
@@ -916,7 +1020,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   </div>
 
                   <div className="p-3 rounded-lg bg-purple-500/5 border border-purple-500/20">
-                    <p className="text-xs uppercase text-muted-foreground mb-2">Price Volatility</p>
+                    <p className="text-xs uppercase text-muted-foreground mb-2">
+                      Price Volatility
+                    </p>
                     <p className="text-xl font-bold font-mono mb-1">
                       {activityData.tradingMetrics.volatility.avgMove}
                     </p>
@@ -932,12 +1038,15 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   </div>
 
                   <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                    <p className="text-xs uppercase text-muted-foreground mb-2">Market Breadth</p>
+                    <p className="text-xs uppercase text-muted-foreground mb-2">
+                      Market Breadth
+                    </p>
                     <p className="text-sm font-semibold mb-1">
                       Advancing: {activityData.tradingMetrics.breadth.advancing}
                     </p>
                     <p className="text-xs text-muted-foreground mb-2">
-                      New 52-week highs: {activityData.tradingMetrics.breadth.newHighs}
+                      New 52-week highs:{" "}
+                      {activityData.tradingMetrics.breadth.newHighs}
                     </p>
                     <Badge className="bg-emerald-500/10 text-emerald-500 text-xs">
                       {activityData.tradingMetrics.breadth.momentum}
@@ -974,27 +1083,41 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
               {/* Aggregate View */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="p-3 rounded-lg bg-muted/30">
-                  <p className="text-xs text-muted-foreground mb-1">Average Holding</p>
-                  <p className="text-2xl font-bold font-mono">{activityData.promoterData.avgHolding}%</p>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Average Holding
+                  </p>
+                  <p className="text-2xl font-bold font-mono">
+                    {activityData.promoterData.avgHolding}%
+                  </p>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/30">
-                  <p className="text-xs text-muted-foreground mb-1">Change (QoQ)</p>
-                  <p className="text-lg font-semibold text-emerald-500">{activityData.promoterData.changeQoQ}</p>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Change (QoQ)
+                  </p>
+                  <p className="text-lg font-semibold text-emerald-500">
+                    {activityData.promoterData.changeQoQ}
+                  </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-2 mb-4">
                 <div className="p-2 rounded bg-emerald-500/5 text-center">
                   <p className="text-xs text-muted-foreground">Increased</p>
-                  <p className="text-lg font-bold text-emerald-500">{activityData.promoterData.increased}</p>
+                  <p className="text-lg font-bold text-emerald-500">
+                    {activityData.promoterData.increased}
+                  </p>
                 </div>
                 <div className="p-2 rounded bg-red-500/5 text-center">
                   <p className="text-xs text-muted-foreground">Decreased</p>
-                  <p className="text-lg font-bold text-red-500">{activityData.promoterData.decreased}</p>
+                  <p className="text-lg font-bold text-red-500">
+                    {activityData.promoterData.decreased}
+                  </p>
                 </div>
                 <div className="p-2 rounded bg-blue-500/5 text-center">
                   <p className="text-xs text-muted-foreground">Stable</p>
-                  <p className="text-lg font-bold text-blue-500">{activityData.promoterData.stable}</p>
+                  <p className="text-lg font-bold text-blue-500">
+                    {activityData.promoterData.stable}
+                  </p>
                 </div>
               </div>
 
@@ -1013,9 +1136,20 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   className="h-32 w-full"
                 >
                   <LineChart data={activityData.promoterTrend}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="quarter" tick={{ fontSize: 10 }} tickLine={false} />
-                    <YAxis domain={[51, 54]} tick={{ fontSize: 10 }} tickLine={false} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      className="stroke-muted"
+                    />
+                    <XAxis
+                      dataKey="quarter"
+                      tick={{ fontSize: 10 }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      domain={[51, 54]}
+                      tick={{ fontSize: 10 }}
+                      tickLine={false}
+                    />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Line
                       type="monotone"
@@ -1030,11 +1164,17 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
               {/* Pledged Shares */}
               <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                <p className="text-xs uppercase text-muted-foreground mb-2">Pledged Shares Analysis</p>
+                <p className="text-xs uppercase text-muted-foreground mb-2">
+                  Pledged Shares Analysis
+                </p>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Sector Avg Pledged:</span>
-                    <span className="font-mono font-bold">{activityData.promoterData.avgPledged}%</span>
+                    <span className="text-muted-foreground">
+                      Sector Avg Pledged:
+                    </span>
+                    <span className="font-mono font-bold">
+                      {activityData.promoterData.avgPledged}%
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Risk Level:</span>
@@ -1043,19 +1183,28 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     </Badge>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Companies &gt;20% pledge:</span>
-                    <span className="font-bold text-amber-500">{activityData.promoterData.highPledge}</span>
+                    <span className="text-muted-foreground">
+                      Companies &gt;20% pledge:
+                    </span>
+                    <span className="font-bold text-amber-500">
+                      {activityData.promoterData.highPledge}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Zero pledge companies:</span>
-                    <span className="font-bold text-emerald-500">{activityData.promoterData.zeroPledge}</span>
+                    <span className="text-muted-foreground">
+                      Zero pledge companies:
+                    </span>
+                    <span className="font-bold text-emerald-500">
+                      {activityData.promoterData.zeroPledge}
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-4 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
                 <p className="text-xs italic leading-relaxed">
-                  Stable to increasing promoter holdings with minimal pledging indicates management confidence and low financial stress.
+                  Stable to increasing promoter holdings with minimal pledging
+                  indicates management confidence and low financial stress.
                 </p>
               </div>
             </CardContent>
@@ -1064,7 +1213,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           {/* RIGHT: Insider Trading */}
           <Card>
             <CardContent className="pt-6">
-              <h3 className="font-semibold mb-4">Insider Trading (Last 90 days)</h3>
+              <h3 className="font-semibold mb-4">
+                Insider Trading (Last 90 days)
+              </h3>
 
               {/* Buy Transactions */}
               <div className="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/20 mb-4">
@@ -1074,20 +1225,32 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Transactions:</span>
-                    <span className="font-mono font-bold text-emerald-500">{activityData.insiderActivity.buys.count}</span>
+                    <span className="text-muted-foreground">
+                      Total Transactions:
+                    </span>
+                    <span className="font-mono font-bold text-emerald-500">
+                      {activityData.insiderActivity.buys.count}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total Value:</span>
-                    <span className="font-mono font-bold text-emerald-500">{activityData.insiderActivity.buys.value}</span>
+                    <span className="font-mono font-bold text-emerald-500">
+                      {activityData.insiderActivity.buys.value}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Avg Transaction:</span>
-                    <span className="font-mono">{activityData.insiderActivity.buys.avg}</span>
+                    <span className="text-muted-foreground">
+                      Avg Transaction:
+                    </span>
+                    <span className="font-mono">
+                      {activityData.insiderActivity.buys.avg}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Companies:</span>
-                    <span className="font-bold">{activityData.insiderActivity.buys.companies}</span>
+                    <span className="font-bold">
+                      {activityData.insiderActivity.buys.companies}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1100,20 +1263,30 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Total Transactions:</span>
-                    <span className="font-mono font-bold text-red-500">{activityData.insiderActivity.sells.count}</span>
+                    <span className="text-muted-foreground">
+                      Total Transactions:
+                    </span>
+                    <span className="font-mono font-bold text-red-500">
+                      {activityData.insiderActivity.sells.count}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total Value:</span>
-                    <span className="font-mono font-bold text-red-500">{activityData.insiderActivity.sells.value}</span>
+                    <span className="font-mono font-bold text-red-500">
+                      {activityData.insiderActivity.sells.value}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Nature:</span>
-                    <span className="text-xs">{activityData.insiderActivity.sells.nature}</span>
+                    <span className="text-xs">
+                      {activityData.insiderActivity.sells.nature}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Reasons:</span>
-                    <span className="text-xs">{activityData.insiderActivity.sells.reasons}</span>
+                    <span className="text-xs">
+                      {activityData.insiderActivity.sells.reasons}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1128,7 +1301,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-sm">Buy-to-Sell Ratio:</span>
-                  <span className="font-mono font-bold text-emerald-500">{activityData.insiderActivity.ratio}</span>
+                  <span className="font-mono font-bold text-emerald-500">
+                    {activityData.insiderActivity.ratio}
+                  </span>
                 </div>
               </div>
 
@@ -1139,7 +1314,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   <div>
                     <p className="font-semibold text-sm mb-1">Key Insight</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Insiders are net buyers with ₹26 Cr net buying. Most sells are pre-planned (ESOP liquidation, tax needs). Fresh buying by promoters in 7 companies signals confidence.
+                      Insiders are net buyers with ₹26 Cr net buying. Most sells
+                      are pre-planned (ESOP liquidation, tax needs). Fresh
+                      buying by promoters in 7 companies signals confidence.
                     </p>
                   </div>
                 </div>
@@ -1176,11 +1353,15 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     <Calendar className="h-5 w-5 text-primary" />
                   </div>
                   <div className="flex-shrink-0 w-20">
-                    <p className="text-xs text-muted-foreground">{event.date}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {event.date}
+                    </p>
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm">{event.event}</p>
-                    <p className="text-xs text-muted-foreground">{event.category}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {event.category}
+                    </p>
                   </div>
                   <Badge className={getImpactBadge(event.impact)}>
                     {event.impact}
@@ -1237,7 +1418,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           {/* LEFT: Pie Chart */}
           <Card>
             <CardContent className="pt-6">
-              <h3 className="font-semibold mb-4">Sector-wide Holding Pattern</h3>
+              <h3 className="font-semibold mb-4">
+                Sector-wide Holding Pattern
+              </h3>
 
               <div className="h-64 flex items-center justify-center">
                 <ChartContainer
@@ -1290,13 +1473,17 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
           <div className="space-y-4">
             <Card>
               <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4">Recent Changes (Last Quarter)</h3>
+                <h3 className="font-semibold mb-4">
+                  Recent Changes (Last Quarter)
+                </h3>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 rounded-lg bg-blue-500/5">
                     <div>
                       <p className="text-sm font-medium">FII Holding</p>
-                      <p className="text-xs text-muted-foreground">{activityData.shareholdingChanges.fii.trend}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {activityData.shareholdingChanges.fii.trend}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-mono font-bold text-emerald-500">
@@ -1309,7 +1496,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-500/5">
                     <div>
                       <p className="text-sm font-medium">DII Holding</p>
-                      <p className="text-xs text-muted-foreground">{activityData.shareholdingChanges.dii.trend}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {activityData.shareholdingChanges.dii.trend}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-mono font-bold text-emerald-500">
@@ -1322,7 +1511,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   <div className="flex items-center justify-between p-3 rounded-lg bg-amber-500/5">
                     <div>
                       <p className="text-sm font-medium">Promoter</p>
-                      <p className="text-xs text-muted-foreground">{activityData.shareholdingChanges.promoter.trend}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {activityData.shareholdingChanges.promoter.trend}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-mono font-bold text-emerald-500">
@@ -1335,7 +1526,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                   <div className="flex items-center justify-between p-3 rounded-lg bg-purple-500/5">
                     <div>
                       <p className="text-sm font-medium">Retail</p>
-                      <p className="text-xs text-muted-foreground">{activityData.shareholdingChanges.retail.trend}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {activityData.shareholdingChanges.retail.trend}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-mono font-bold text-red-500">
@@ -1354,26 +1547,45 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Top 5 investors own:</span>
-                    <span className="font-mono font-bold">{activityData.concentration.top5}</span>
+                    <span className="text-muted-foreground">
+                      Top 5 investors own:
+                    </span>
+                    <span className="font-mono font-bold">
+                      {activityData.concentration.top5}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Largest FII stake:</span>
-                    <span className="font-mono text-xs">{activityData.concentration.largestFII}</span>
+                    <span className="text-muted-foreground">
+                      Largest FII stake:
+                    </span>
+                    <span className="font-mono text-xs">
+                      {activityData.concentration.largestFII}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Most diversified:</span>
-                    <span className="text-xs">{activityData.concentration.mostDiversified}</span>
+                    <span className="text-muted-foreground">
+                      Most diversified:
+                    </span>
+                    <span className="text-xs">
+                      {activityData.concentration.mostDiversified}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Most concentrated:</span>
-                    <span className="text-xs">{activityData.concentration.mostConcentrated}</span>
+                    <span className="text-muted-foreground">
+                      Most concentrated:
+                    </span>
+                    <span className="text-xs">
+                      {activityData.concentration.mostConcentrated}
+                    </span>
                   </div>
                 </div>
 
                 <div className="mt-4 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
                   <p className="text-xs italic leading-relaxed">
-                    Institutional holding of 31.2% (FII+DII) is healthy. Increasing FII stake shows foreign confidence. Retail participation at 11% leaves room for further retail interest.
+                    Institutional holding of 31.2% (FII+DII) is healthy.
+                    Increasing FII stake shows foreign confidence. Retail
+                    participation at 11% leaves room for further retail
+                    interest.
                   </p>
                 </div>
               </CardContent>
@@ -1401,7 +1613,9 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
                     <BarChart3 className="h-5 w-5 text-blue-500" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Compare Individual Companies</h3>
+                    <h3 className="font-semibold">
+                      Compare Individual Companies
+                    </h3>
                     <p className="text-sm text-muted-foreground">
                       See which stocks institutions prefer
                     </p>

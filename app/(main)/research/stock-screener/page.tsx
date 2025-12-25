@@ -1,34 +1,39 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, TrendingUp, TrendingDown, Star } from "lucide-react";
+import { StockAutocomplete } from "@/components/stock-autocomplete";
+import { TrendingUp, TrendingDown, Star } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { indianStocks, Stock } from "@/lib/indian-stocks-data";
+import { useRouter } from "next/navigation";
 
-// Sample recommended stocks
+// Sample recommended stocks (Indian stocks)
 const recommendedStocks = [
-  { ticker: "AAPL", name: "Apple Inc.", trend: "up" },
-  { ticker: "GOOGL", name: "Alphabet Inc.", trend: "up" },
-  { ticker: "MSFT", name: "Microsoft", trend: "up" },
-  { ticker: "TSLA", name: "Tesla Inc.", trend: "down" },
-  { ticker: "NVDA", name: "NVIDIA Corp.", trend: "up" },
-  { ticker: "AMZN", name: "Amazon.com", trend: "up" },
-  { ticker: "META", name: "Meta Platforms", trend: "down" },
-  { ticker: "NFLX", name: "Netflix Inc.", trend: "up" },
+  { ticker: "TCS", name: "Tata Consultancy Services", trend: "up" },
+  { ticker: "INFY", name: "Infosys Ltd", trend: "up" },
+  { ticker: "RELIANCE", name: "Reliance Industries", trend: "up" },
+  { ticker: "HDFCBANK", name: "HDFC Bank", trend: "up" },
+  { ticker: "ICICIBANK", name: "ICICI Bank", trend: "up" },
+  { ticker: "TATAMOTORS", name: "Tata Motors", trend: "down" },
+  { ticker: "BHARTIARTL", name: "Bharti Airtel", trend: "up" },
+  { ticker: "ITC", name: "ITC Ltd", trend: "up" },
 ];
 
 const StockScreenerPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStock, setSelectedStock] = useState("");
+  const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
+  const router = useRouter();
 
   const handleStockClick = (ticker: string) => {
-    setSearchTerm(ticker);
-    setSelectedStock(ticker);
+    router.push(`/research/stock-screener/${ticker}`);
+  };
+
+  const handleStockSelect = (stock: Stock) => {
+    setSelectedStock(stock);
   };
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-6 py-12">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-6 py-12 pt-0">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -60,19 +65,12 @@ const StockScreenerPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="relative w-full max-w-2xl mx-auto"
         >
-          <div className="relative group">
-            <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 w-6 h-6 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
-            <Input
-              type="text"
-              placeholder="Search stocks by ticker or company name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-16 pl-16 pr-6 text-lg rounded-2xl border-2 border-border bg-background/50 backdrop-blur-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground/50 shadow-lg"
-            />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none" />
-          </div>
+          <StockAutocomplete 
+            stocks={indianStocks}
+            onStockSelect={handleStockSelect}
+            placeholder="Search Indian stocks by ticker or company name..."
+          />
         </motion.div>
 
         {/* Recommended Stocks */}
@@ -87,60 +85,44 @@ const StockScreenerPage = () => {
             <span className="text-sm font-medium">Recommended Stocks</span>
           </div>
           
-          <div className="flex flex-wrap items-center justify-center gap-3 max-w-3xl mx-auto">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-8 max-w-3xl mx-auto">
             {recommendedStocks.map((stock, index) => (
               <motion.button
-                key={stock.ticker}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: 0.5 + (index * 0.05),
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20
-                }}
-                onClick={() => handleStockClick(stock.ticker)}
-                className={`
-                  group relative px-4 py-2 rounded-full border transition-all duration-300 hover:scale-105 hover:shadow-lg
-                  ${selectedStock === stock.ticker 
-                    ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20' 
-                    : 'bg-background/60 border-border/50 hover:border-primary/50 hover:bg-background/80'
-                  }
-                `}
+              key={stock.ticker}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.4, 
+                delay: 0.5 + (index * 0.05),
+                type: "spring",
+                stiffness: 300,
+                damping: 20
+              }}
+              onClick={() => handleStockClick(stock.ticker)}
+              className={`
+                group relative px-4 py-2 rounded-full border transition-all duration-300 hover:scale-105 hover:shadow-lg
+                ${selectedStock?.symbol === stock.ticker 
+                ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20' 
+                : 'bg-background/60 border-border/50 hover:border-primary/50 hover:bg-background/80'
+                }
+              `}
               >
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-sm">{stock.ticker}</span>
-                  <div className="flex items-center gap-1">
-                    {stock.trend === "up" ? (
-                      <TrendingUp className="w-3 h-3 text-green-500" />
-                    ) : (
-                      <TrendingDown className="w-3 h-3 text-red-500" />
-                    )}
-                  </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm">{stock.ticker}</span>
+                <div className="flex items-center gap-1">
+                {stock.trend === "up" ? (
+                  <TrendingUp className="w-3 h-3 text-green-500" />
+                ) : (
+                  <TrendingDown className="w-3 h-3 text-red-500" />
+                )}
                 </div>
-                <span className="text-xs opacity-70 hidden group-hover:block absolute -bottom-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-background border border-border rounded px-2 py-1 shadow-lg">
-                  {stock.name}
-                </span>
+              </div>
+              <span className="text-xs opacity-70 hidden group-hover:block absolute -bottom-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-background border border-border rounded px-2 py-1 shadow-lg">
+                {stock.name}
+              </span>
               </motion.button>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Search Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <Button 
-            size="lg"
-            className="px-8 py-6 text-lg rounded-2xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
-            disabled={!searchTerm.trim()}
-          >
-            <Search className="w-5 h-5 mr-2" />
-            Analyze Stock
-          </Button>
+            </div>
         </motion.div>
 
         {/* Subtle background decoration */}
