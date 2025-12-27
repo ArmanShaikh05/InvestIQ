@@ -1,6 +1,7 @@
 "use client";
 
 import Activity from "@/components/stock-detail/activity";
+import CalendarComponent from "@/components/stock-detail/calendar";
 import Fundamentals from "@/components/stock-detail/fundamentals";
 import HealthScore from "@/components/stock-detail/health";
 import News from "@/components/stock-detail/news";
@@ -176,7 +177,7 @@ const StockDetailPage = () => {
 
         {/* TAB NAVIGATION */}
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex border-b">
+          <div className="flex border-b overflow-x-auto">
             {[
               { id: "overview", label: "Overview" },
               { id: "health", label: "Health Score" },
@@ -184,12 +185,13 @@ const StockDetailPage = () => {
               { id: "valuation", label: "Valuation" },
               { id: "technical", label: "Technical" },
               { id: "activity", label: "Activity" },
+              { id: "events", label: "Events" },
               { id: "news", label: "News" },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-sm font-medium transition-colors relative ${
+                className={`px-6 py-3 text-sm font-medium transition-colors relative whitespace-nowrap ${
                   activeTab === tab.id
                     ? "text-primary border-b-2 border-primary"
                     : "text-muted-foreground hover:text-foreground"
@@ -210,15 +212,22 @@ const StockDetailPage = () => {
         {/* TAB 2: HEALTH SCORE */}
         {activeTab === "health" && <HealthScore stock={stock} />}
 
-        {/* TAB 2: FUNDAMENTALS */}
+        {/* TAB 3: FUNDAMENTALS */}
         {activeTab === "fundamentals" && <Fundamentals />}
 
+        {/* TAB 4: VALUATION */}
         {activeTab === "valuation" && <Valuation />}
 
+        {/* TAB 5: TECHNICAL */}
         {activeTab === "technical" && <Technical />}
 
+        {/* TAB 6: ACTIVITY */}
         {activeTab === "activity" && <Activity />}
 
+        {/* TAB 7: EVENTS */}
+        {activeTab === "events" && <CalendarComponent />}
+
+        {/* TAB 8: NEWS */}
         {activeTab === "news" && <News />}
       </div>
     </div>
