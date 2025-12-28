@@ -9,10 +9,12 @@ import {
   Clock,
   Plus,
   Settings,
+  Heart,
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import OverviewTab from "@/components/portfolio/OverviewTab";
 import HoldingsTab from "@/components/portfolio/HoldingsTab";
+import HealthTab from "@/components/portfolio/HealthTab";
 import PerformanceTab from "@/components/portfolio/PerformanceTab";
 import AnalyticsTab from "@/components/portfolio/AnalyticsTab";
 import HistoryTab from "@/components/portfolio/HistoryTab";
@@ -40,6 +42,7 @@ const PortfolioPage = () => {
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: Eye },
+    { id: 'health', label: 'Health', icon: Heart },
     { id: 'holdings', label: 'Holdings', icon: Briefcase },
     { id: 'performance', label: 'Performance', icon: TrendingUp },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
@@ -50,6 +53,8 @@ const PortfolioPage = () => {
     switch (activeTab) {
       case 'overview':
         return <OverviewTab portfolioStats={portfolioStats} topHoldings={topHoldings} />;
+      case 'health':
+        return <HealthTab />;
       case 'holdings':
         return <HoldingsTab />;
       case 'performance':
