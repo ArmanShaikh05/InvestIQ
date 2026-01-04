@@ -52,7 +52,7 @@ const PortfolioPage = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <OverviewTab portfolioStats={portfolioStats} topHoldings={topHoldings} />;
+        return <OverviewTab  />;
       case 'health':
         return <HealthTab />;
       case 'holdings':
@@ -64,7 +64,7 @@ const PortfolioPage = () => {
       case 'history':
         return <HistoryTab />;
       default:
-        return <OverviewTab portfolioStats={portfolioStats} topHoldings={topHoldings} />;
+        return <OverviewTab />;
     }
   };
 
