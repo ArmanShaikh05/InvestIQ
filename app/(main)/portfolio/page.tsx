@@ -1,23 +1,18 @@
 "use client";
 
-import React, { useState } from 'react';
-import {
-  Eye,
-  Briefcase,
-  TrendingUp,
-  BarChart3,
-  Clock,
-  Plus,
-  Settings,
-  Heart,
-} from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import OverviewTab from "@/components/portfolio/OverviewTab";
-import HoldingsTab from "@/components/portfolio/HoldingsTab";
-import HealthTab from "@/components/portfolio/HealthTab";
-import PerformanceTab from "@/components/portfolio/PerformanceTab";
 import AnalyticsTab from "@/components/portfolio/AnalyticsTab";
+import HealthTab from "@/components/portfolio/HealthTab";
 import HistoryTab from "@/components/portfolio/HistoryTab";
+import HoldingsTab from "@/components/portfolio/HoldingsTab";
+import OverviewTab from "@/components/portfolio/OverviewTab";
+import {
+  BarChart3,
+  Briefcase,
+  Clock,
+  Eye,
+  Heart
+} from 'lucide-react';
+import { useState } from 'react';
 
 const PortfolioPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -44,7 +39,6 @@ const PortfolioPage = () => {
     { id: 'overview', label: 'Overview', icon: Eye },
     { id: 'health', label: 'Health', icon: Heart },
     { id: 'holdings', label: 'Holdings', icon: Briefcase },
-    { id: 'performance', label: 'Performance', icon: TrendingUp },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'history', label: 'History', icon: Clock },
   ];
@@ -57,8 +51,6 @@ const PortfolioPage = () => {
         return <HealthTab />;
       case 'holdings':
         return <HoldingsTab />;
-      case 'performance':
-        return <PerformanceTab />;
       case 'analytics':
         return <AnalyticsTab />;
       case 'history':

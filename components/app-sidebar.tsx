@@ -4,13 +4,12 @@ import {
   BarChart3,
   Calendar,
   Home,
-  Inbox,
   LayoutDashboard,
   PanelLeftIcon,
   Search,
   Settings,
   SquareActivity,
-  TrendingUp,
+  TrendingUp
 } from "lucide-react";
 
 import {
@@ -27,10 +26,10 @@ import {
   useSidebar
 } from "@/components/ui/sidebar";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import AnimatedCollapsible from "./sidebar/animated-collapsibe";
 import { ThemeToggle } from "./theme-toggler";
 import { Button } from "./ui/button";
-import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -48,11 +47,6 @@ const items = [
     title: "Portfolio",
     url: "/portfolio",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
   },
   {
     title: "Settings",
