@@ -460,3 +460,383 @@ export const portfolioStocks: StockData[] = [
     sector: "Infrastructure",
   },
 ];
+
+// Watchlist data structure
+export interface WatchlistAlert {
+  type: 'price' | 'health' | 'event';
+  value: number | string;
+  triggered: boolean;
+  triggeredDate?: string;
+}
+
+export interface WatchlistStock {
+  ticker: string;
+  name: string;
+  sector: string;
+  currentPrice: number;
+  dayChange: number;
+  weekChange: number;
+  monthChange: number;
+  healthScore: number;
+  healthTrend: 'up' | 'down' | 'stable';
+  
+  // User tracking data
+  dateAdded: string;
+  userNote: string;
+  targetPrice: number | null;
+  alerts: WatchlistAlert[];
+  lists: string[];
+  
+  // Quick metrics
+  pe: number;
+  roe: number;
+  revenueGrowth: number;
+  debtToEquity: number;
+  marketCap: string;
+  week52High: number;
+  week52Low: number;
+  dividendYield: number;
+  analystRating: string;
+  analystCount: string;
+}
+
+export const watchlistStocks: WatchlistStock[] = [
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: 'up',
+    dateAdded: "2024-10-01",
+    userNote: "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      { type: 'price', value: 1800, triggered: true, triggeredDate: '2024-10-15' },
+      { type: 'health', value: 85, triggered: false }
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15"
+  },
+  {
+    ticker: "TCS",
+    name: "Tata Consultancy Services",
+    sector: "IT Services",
+    currentPrice: 3650,
+    dayChange: -1.2,
+    weekChange: 2.4,
+    monthChange: 8.7,
+    healthScore: 88,
+    healthTrend: 'up',
+    dateAdded: "2024-09-20",
+    userNote: "Solid IT play. Good for long term. Watching for entry below 3,500.",
+    targetPrice: 3500,
+    alerts: [
+      { type: 'health', value: 85, triggered: true, triggeredDate: '2024-10-10' }
+    ],
+    lists: ["IT Services", "High Priority"],
+    pe: 28.3,
+    roe: 42.5,
+    revenueGrowth: 8.5,
+    debtToEquity: 0.05,
+    marketCap: "₹13.2T",
+    week52High: 3850,
+    week52Low: 3200,
+    dividendYield: 2.1,
+    analystRating: "Buy",
+    analystCount: "14/18"
+  },
+  {
+    ticker: "INFY",
+    name: "Infosys",
+    sector: "IT Services",
+    currentPrice: 1580,
+    dayChange: 0.8,
+    weekChange: -1.5,
+    monthChange: 5.2,
+    healthScore: 85,
+    healthTrend: 'stable',
+    dateAdded: "2024-09-15",
+    userNote: "Tracking for IT sector exposure. Compare with TCS before buying.",
+    targetPrice: 1500,
+    alerts: [],
+    lists: ["IT Services"],
+    pe: 26.8,
+    roe: 28.4,
+    revenueGrowth: 7.2,
+    debtToEquity: 0.08,
+    marketCap: "₹6.5T",
+    week52High: 1680,
+    week52Low: 1350,
+    dividendYield: 2.3,
+    analystRating: "Hold",
+    analystCount: "8/15"
+  },
+  {
+    ticker: "ICICIBANK",
+    name: "ICICI Bank",
+    sector: "Banking",
+    currentPrice: 985,
+    dayChange: 2.1,
+    weekChange: 4.3,
+    monthChange: 10.8,
+    healthScore: 80,
+    healthTrend: 'up',
+    dateAdded: "2024-10-05",
+    userNote: "Banking sector diversification. Good risk-reward at current levels.",
+    targetPrice: 950,
+    alerts: [
+      { type: 'price', value: 950, triggered: true, triggeredDate: '2024-10-14' }
+    ],
+    lists: ["Banking", "Buy Zone"],
+    pe: 18.5,
+    roe: 16.8,
+    revenueGrowth: 15.2,
+    debtToEquity: 0.22,
+    marketCap: "₹6.9T",
+    week52High: 1050,
+    week52Low: 850,
+    dividendYield: 1.5,
+    analystRating: "Buy",
+    analystCount: "10/14"
+  },
+  {
+    ticker: "MARUTI",
+    name: "Maruti Suzuki",
+    sector: "Automobile",
+    currentPrice: 10250,
+    dayChange: -0.5,
+    weekChange: 1.2,
+    monthChange: -2.3,
+    healthScore: 75,
+    healthTrend: 'down',
+    dateAdded: "2024-09-28",
+    userNote: "Auto sector recovery play. Wait for festive season sales data.",
+    targetPrice: 9800,
+    alerts: [
+      { type: 'event', value: 'Q2 Results on Oct 28', triggered: false }
+    ],
+    lists: ["Automobile", "Results This Week"],
+    pe: 24.2,
+    roe: 14.5,
+    revenueGrowth: 3.8,
+    debtToEquity: 0.12,
+    marketCap: "₹3.1T",
+    week52High: 11200,
+    week52Low: 8500,
+    dividendYield: 1.2,
+    analystRating: "Hold",
+    analystCount: "6/12"
+  },
+  {
+    ticker: "TATAMOTORS",
+    name: "Tata Motors",
+    sector: "Automobile",
+    currentPrice: 785,
+    dayChange: 1.8,
+    weekChange: -0.5,
+    monthChange: 4.2,
+    healthScore: 72,
+    healthTrend: 'stable',
+    dateAdded: "2024-10-08",
+    userNote: "EV play. High risk but interesting growth potential.",
+    targetPrice: null,
+    alerts: [],
+    lists: ["Automobile"],
+    pe: 15.3,
+    roe: 22.8,
+    revenueGrowth: 18.5,
+    debtToEquity: 0.65,
+    marketCap: "₹2.8T",
+    week52High: 920,
+    week52Low: 650,
+    dividendYield: 0.8,
+    analystRating: "Buy",
+    analystCount: "9/14"
+  },
+  {
+    ticker: "WIPRO",
+    name: "Wipro",
+    sector: "IT Services",
+    currentPrice: 465,
+    dayChange: -0.3,
+    weekChange: 1.1,
+    monthChange: 6.5,
+    healthScore: 78,
+    healthTrend: 'up',
+    dateAdded: "2024-09-25",
+    userNote: "Undervalued IT stock. Turnaround story in progress.",
+    targetPrice: 450,
+    alerts: [
+      { type: 'price', value: 450, triggered: true, triggeredDate: '2024-10-12' }
+    ],
+    lists: ["IT Services", "Buy Zone"],
+    pe: 19.2,
+    roe: 15.8,
+    revenueGrowth: 5.3,
+    debtToEquity: 0.03,
+    marketCap: "₹2.5T",
+    week52High: 520,
+    week52Low: 380,
+    dividendYield: 2.8,
+    analystRating: "Hold",
+    analystCount: "5/13"
+  },
+  {
+    ticker: "KOTAKBANK",
+    name: "Kotak Mahindra Bank",
+    sector: "Banking",
+    currentPrice: 1875,
+    dayChange: 1.5,
+    weekChange: 3.2,
+    monthChange: 7.8,
+    healthScore: 83,
+    healthTrend: 'stable',
+    dateAdded: "2024-10-02",
+    userNote: "Premium private bank. Strong management.",
+    targetPrice: 1850,
+    alerts: [],
+    lists: ["Banking"],
+    pe: 16.8,
+    roe: 12.5,
+    revenueGrowth: 11.2,
+    debtToEquity: 0.18,
+    marketCap: "₹3.7T",
+    week52High: 1950,
+    week52Low: 1650,
+    dividendYield: 0.9,
+    analystRating: "Buy",
+    analystCount: "11/15"
+  },
+  {
+    ticker: "ASIANPAINT",
+    name: "Asian Paints",
+    sector: "Consumer Goods",
+    currentPrice: 2950,
+    dayChange: 0.2,
+    weekChange: -1.8,
+    monthChange: 3.5,
+    healthScore: 81,
+    healthTrend: 'stable',
+    dateAdded: "2024-09-18",
+    userNote: "Quality consumer play. Expensive but worth it for long term.",
+    targetPrice: 2800,
+    alerts: [],
+    lists: ["High Priority"],
+    pe: 52.3,
+    roe: 28.5,
+    revenueGrowth: 6.8,
+    debtToEquity: 0.02,
+    marketCap: "₹2.8T",
+    week52High: 3150,
+    week52Low: 2650,
+    dividendYield: 1.4,
+    analystRating: "Hold",
+    analystCount: "7/14"
+  },
+  {
+    ticker: "SUNPHARMA",
+    name: "Sun Pharmaceutical",
+    sector: "Pharmaceuticals",
+    currentPrice: 1620,
+    dayChange: -1.1,
+    weekChange: 0.8,
+    monthChange: 9.2,
+    healthScore: 79,
+    healthTrend: 'up',
+    dateAdded: "2024-10-10",
+    userNote: "Pharma sector bet. Strong US presence.",
+    targetPrice: 1550,
+    alerts: [
+      { type: 'health', value: 80, triggered: false }
+    ],
+    lists: ["High Priority"],
+    pe: 38.5,
+    roe: 18.2,
+    revenueGrowth: 10.5,
+    debtToEquity: 0.08,
+    marketCap: "₹3.9T",
+    week52High: 1720,
+    week52Low: 1280,
+    dividendYield: 0.6,
+    analystRating: "Buy",
+    analystCount: "10/16"
+  },
+  {
+    ticker: "BHARTIARTL",
+    name: "Bharti Airtel",
+    sector: "Telecom",
+    currentPrice: 1485,
+    dayChange: 2.8,
+    weekChange: 6.5,
+    monthChange: 15.2,
+    healthScore: 76,
+    healthTrend: 'up',
+    dateAdded: "2024-09-22",
+    userNote: "Telecom duopoly play. 5G rollout catalyst.",
+    targetPrice: 1400,
+    alerts: [
+      { type: 'price', value: 1400, triggered: true, triggeredDate: '2024-10-08' }
+    ],
+    lists: ["Buy Zone"],
+    pe: 42.8,
+    roe: 11.5,
+    revenueGrowth: 12.8,
+    debtToEquity: 1.25,
+    marketCap: "₹8.2T",
+    week52High: 1550,
+    week52Low: 950,
+    dividendYield: 0.5,
+    analystRating: "Buy",
+    analystCount: "13/17"
+  },
+  {
+    ticker: "HCLTECH",
+    name: "HCL Technologies",
+    sector: "IT Services",
+    currentPrice: 1580,
+    dayChange: 0.5,
+    weekChange: 2.1,
+    monthChange: 7.3,
+    healthScore: 84,
+    healthTrend: 'stable',
+    dateAdded: "2024-09-30",
+    userNote: "IT services diversification. Good dividend yield.",
+    targetPrice: null,
+    alerts: [],
+    lists: ["IT Services"],
+    pe: 25.2,
+    roe: 19.8,
+    revenueGrowth: 6.5,
+    debtToEquity: 0.04,
+    marketCap: "₹4.3T",
+    week52High: 1680,
+    week52Low: 1280,
+    dividendYield: 3.2,
+    analystRating: "Buy",
+    analystCount: "11/15"
+  }
+];
+
+// Available custom lists
+export const watchlistCategories = [
+  { id: 'all', name: 'All Stocks', count: 12 },
+  { id: 'banking', name: 'Banking', count: 4 },
+  { id: 'it-services', name: 'IT Services', count: 4 },
+  { id: 'automobile', name: 'Automobile', count: 2 },
+  { id: 'high-priority', name: 'High Priority', count: 3 },
+  { id: 'buy-zone', name: 'Buy Zone', count: 4 },
+  { id: 'results-week', name: 'Results This Week', count: 1 }
+];

@@ -2,6 +2,7 @@
 
 import {
   BarChart3,
+  Bookmark,
   Calendar,
   Home,
   LayoutDashboard,
@@ -47,6 +48,11 @@ const items = [
     title: "Portfolio",
     url: "/portfolio",
     icon: Calendar,
+  },
+  {
+    title: "Watchlist",
+    url: "/watchlist",
+    icon: Bookmark,
   },
   {
     title: "Settings",
