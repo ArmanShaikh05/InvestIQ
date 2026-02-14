@@ -352,6 +352,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
     <div className="space-y-12">
       {/* SECTION 1: ACTIVITY SNAPSHOT */}
       <motion.div
+        id="activity-snapshot"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -479,6 +480,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 2: ACTIVITY STORY */}
       <motion.div
+        id="activity-story"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -549,6 +551,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 3: FII/DII FLOW TRENDS */}
       <motion.div
+        id="fund-flows"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -733,6 +736,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 4: BULK & BLOCK DEALS */}
       <motion.div
+        id="significant-deals"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -892,6 +896,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 5: DELIVERY & TRADING METRICS */}
       <motion.div
+        id="trading-quality"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -1061,6 +1066,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 6: PROMOTER & INSIDER ACTIVITY */}
       <motion.div
+        id="promoter-trends"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
@@ -1328,6 +1334,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 7: CORPORATE ACTIONS & EVENTS */}
       <motion.div
+        id="ownership-changes"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
@@ -1401,6 +1408,7 @@ export function ActivityTab({ sectorData, getChangeColor }: ActivityTabProps) {
 
       {/* SECTION 8: SHAREHOLDING PATTERN */}
       <motion.div
+        id="money-flow-summary"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.7 }}

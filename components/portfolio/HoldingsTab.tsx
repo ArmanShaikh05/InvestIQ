@@ -617,7 +617,7 @@ const HoldingsPage = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 1: HOLDINGS COMMAND CENTER (Control Panel)
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="holdings-command-center" className="space-y-4">
         {/* Quick Stats Bar */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
@@ -699,7 +699,7 @@ const HoldingsPage = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 2: FILTERS & ACTIONS TOOLBAR
       ═══════════════════════════════════════════════════════════════ */}
-      <Card>
+      <Card id="filters-actions-toolbar">
         <CardContent className="pt-6">
           <div className="space-y-4">
             {/* Search and Primary Actions */}
@@ -860,7 +860,7 @@ const HoldingsPage = () => {
       ═══════════════════════════════════════════════════════════════ */}
 
       {viewMode === "table" && (
-        <Card>
+        <Card id="main-holdings-display">
           <CardContent className="pt-6">
             <div className="overflow-x-auto">
               <Table>
@@ -1703,7 +1703,7 @@ const HoldingsPage = () => {
           SECTION 5: BULK ACTIONS BAR (when stocks selected)
       ═══════════════════════════════════════════════════════════════ */}
       {selectedHoldings.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4">
+        <div id="bulk-actions-bar" className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4">
           <Card className="shadow-2xl border-2">
             <CardContent className="p-4">
               <div className="flex items-center gap-4">

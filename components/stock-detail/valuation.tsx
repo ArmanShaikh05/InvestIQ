@@ -279,7 +279,7 @@ const Valuation = () => {
   return (
     <div className="space-y-6">
       {/* Storytelling Introduction */}
-      <div className="text-sm text-muted-foreground italic">
+      <div id="valuation-snapshot" className="text-sm text-muted-foreground italic">
         "Let's start with what you're paying for this stock today"
       </div>
 
@@ -552,7 +552,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 2: VALUATION STORY */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="valuation-story" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Here's what these valuations tell us about market expectations:"
@@ -709,7 +709,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 3: HISTORICAL VALUATION CONTEXT */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="historical-context" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Let's see how current valuation compares to its own history"
@@ -962,7 +962,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 4: PEER VALUATION COMPARISON */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="peer-valuation" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Let's see how this stock is valued relative to competitors"
@@ -1229,7 +1229,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 5: GROWTH-ADJUSTED VALUATION (PEG Analysis) */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="peg-analysis" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Is the price justified by growth? Let's check"
@@ -1453,7 +1453,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 6: INTRINSIC VALUE ESTIMATES */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="intrinsic-value" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Let's estimate what the business might be fundamentally worth"
@@ -1733,7 +1733,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 7: VALUATION RISKS & CONSIDERATIONS */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="valuation-risks" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "What risks come with buying at current valuation?"
@@ -1963,7 +1963,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 8: INVESTMENT DECISION FRAMEWORK */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="investment-framework" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Let's tie it all together - what does this valuation mean for YOU?"
@@ -2173,7 +2173,7 @@ const Valuation = () => {
       </div>
 
       {/* SECTION 9: WHAT'S NEXT (Navigation) */}
-      <div className="space-y-4 pt-8 border-t">
+      <div id="whats-next" className="space-y-4 pt-8 border-t">
         {/* Storytelling Introduction */}
         <div className="text-sm text-muted-foreground italic">
           "Made up your mind about valuation? Here's what to check next:"

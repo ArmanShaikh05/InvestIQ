@@ -63,7 +63,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
   return (
     <div className="mt-8 space-y-12">
       {/* SECTION 1: HEALTH SCORE DEEP-DIVE */}
-      <section>
+      <section id="health-deep-dive">
         <p className="text-muted-foreground mb-6 text-lg">
           Let's break down what makes this company fundamentally strong (or
           weak)
@@ -184,7 +184,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
         </Card>
 
         {/* CATEGORY 1: PROFITABILITY */}
-        <Card className="mb-6 border-l-4 border-l-green-500">
+        <Card id="profitability" className="mb-6 border-l-4 border-l-green-500">
           <CardHeader className="bg-green-500/5">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <CardTitle className="text-xl flex items-center gap-2">
@@ -389,7 +389,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
         </Card>
 
         {/* CATEGORY 2: GROWTH */}
-        <Card className="mb-6 border-l-4 border-l-blue-500">
+        <Card id="growth-momentum" className="mb-6 border-l-4 border-l-blue-500">
           <CardHeader className="bg-blue-500/5">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <CardTitle className="text-xl flex items-center gap-2">
@@ -608,7 +608,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
         </Card>
 
         {/* CATEGORY 3: STABILITY */}
-        <Card className="mb-6 border-l-4 border-l-purple-500">
+        <Card id="financial-stability" className="mb-6 border-l-4 border-l-purple-500">
           <CardHeader className="bg-purple-500/5">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <CardTitle className="text-xl flex items-center gap-2">
@@ -841,7 +841,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
         </Card>
 
         {/* CATEGORY 4: EFFICIENCY */}
-        <Card className="mb-6 border-l-4 border-l-cyan-500">
+        <Card id="efficiency" className="mb-6 border-l-4 border-l-cyan-500">
           <CardHeader className="bg-cyan-500/5">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <CardTitle className="text-xl flex items-center gap-2">
@@ -1090,7 +1090,7 @@ const HealthScore = ({ stock }: HealthScoreProps) => {
         </Card>
 
         {/* CATEGORY 5: VALUATION */}
-        <Card className="mb-6 border-l-4 border-l-amber-500">
+        <Card id="valuation-health" className="mb-6 border-l-4 border-l-amber-500">
           <CardHeader className="bg-amber-500/5">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <CardTitle className="text-xl flex items-center gap-2">

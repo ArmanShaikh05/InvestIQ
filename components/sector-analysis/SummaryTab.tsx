@@ -84,6 +84,7 @@ export function SummaryTab({
     <div className="space-y-8">
       {/* Key Financial Metrics */}
       <motion.section
+        id="key-metrics"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -136,6 +137,7 @@ export function SummaryTab({
 
       {/* Sector Overview Card */}
       <motion.section
+        id="sector-overview"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -205,6 +207,7 @@ export function SummaryTab({
 
       {/* SMART HIGHLIGHTS */}
       <motion.section
+        id="smart-highlights"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -268,6 +271,7 @@ export function SummaryTab({
 
       {/* Sector Performance Chart */}
       <motion.section
+        id="performance-chart"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -452,6 +456,7 @@ export function SummaryTab({
 
       {/* Health Pillars */}
       <motion.section
+        id="health-pillars"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -495,6 +500,7 @@ export function SummaryTab({
 
       {/* Market Concentration & Risk Analysis */}
       <motion.div
+        id="market-concentration"
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -634,6 +640,7 @@ export function SummaryTab({
 
       {/* Top Performers */}
       <motion.section
+        id="top-performers"
         className="mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

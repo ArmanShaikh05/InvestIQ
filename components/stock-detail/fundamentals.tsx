@@ -64,7 +64,7 @@ const Fundamentals = () => {
     <div className="mt-8 space-y-12">
       
       {/* SECTION 1: FINANCIAL PERFORMANCE OVERVIEW */}
-      <section>
+      <section id="financial-performance">
         <p className="text-muted-foreground mb-6 text-lg">
           Now let's look at the actual financial performance over time
         </p>
@@ -313,7 +313,7 @@ const Fundamentals = () => {
       </section>
 
       {/* SECTION 2: BALANCE SHEET SNAPSHOT */}
-      <section>
+      <section id="balance-sheet">
         <p className="text-muted-foreground mb-6 text-lg">
           Let's check the balance sheet - the financial foundation
         </p>
@@ -523,7 +523,7 @@ const Fundamentals = () => {
       </section>
 
       {/* SECTION 3: CASH FLOW QUALITY */}
-      <section>
+      <section id="cash-flow">
         <p className="text-muted-foreground mb-6 text-lg">
           Profit is opinion, cash is fact. Let's trace the cash movements
         </p>
@@ -717,7 +717,7 @@ const Fundamentals = () => {
       </section>
 
       {/* SECTION 4: RETURN METRICS DEEP-DIVE */}
-      <section>
+      <section id="profitability-metrics">
         <p className="text-muted-foreground mb-6 text-lg">
           How efficiently does the company use capital?
         </p>
@@ -941,7 +941,7 @@ const Fundamentals = () => {
       </section>
 
       {/* SECTION 5: WHAT'S NEXT (Navigation) */}
-      <section>
+      <section id="whats-next">
         <p className="text-muted-foreground mb-6 text-lg">
           Got the fundamentals? Here's what to explore next:
         </p>

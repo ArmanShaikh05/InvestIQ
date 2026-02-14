@@ -1061,7 +1061,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 1: JOURNEY HERO
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="journey-hero" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Your investing journey started 22 months ago. Here's how far you've
@@ -1243,7 +1243,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 2: TRANSACTION TIMELINE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="transaction-timeline" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's walk through every investment decision you made
@@ -1987,7 +1987,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 3: PORTFOLIO EVOLUTION
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-evolution" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Watch how your portfolio transformed over time
@@ -2210,7 +2210,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 4: INVESTMENT PATTERNS
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="investment-patterns" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's understand your investing patterns and habits
@@ -2668,7 +2668,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 5: STOCK JOURNEY CHRONICLES
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="stock-journey-chronicles" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see the journey of each stock in your portfolio
@@ -3029,7 +3029,7 @@ const HistoryTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 6: PORTFOLIO MILESTONES
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-milestones" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here are the defining moments of your investing journey

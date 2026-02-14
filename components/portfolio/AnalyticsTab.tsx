@@ -1152,7 +1152,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 1: PERFORMANCE HERO
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="performance-hero" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's how your investments have performed
@@ -1455,7 +1455,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 2: PERFORMANCE CHART
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="performance-chart" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see your investment journey visually
@@ -1636,7 +1636,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 3: RETURNS ANALYSIS
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="returns-analysis" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             How have you performed across different time periods?
@@ -1874,7 +1874,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 4: STOCK-WISE PERFORMANCE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="stock-wise-performance" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Which stocks contributed most to your returns?
@@ -1996,7 +1996,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 5: SECTOR PERFORMANCE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="sector-performance" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see how different sectors in your portfolio performed
@@ -2341,7 +2341,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 6: RISK-ADJUSTED RETURNS
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="risk-adjusted-returns" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Returns are great, but let's understand the risk you took to achieve
@@ -2482,7 +2482,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 8: BENCHMARKING
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="benchmarking" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see how you stack up against different benchmarks
@@ -2733,7 +2733,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 9: DIVIDEND PERFORMANCE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="dividend-performance" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             How much passive income did your investments generate?
@@ -2970,7 +2970,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 10: PERFORMANCE & HEALTH CORRELATION
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="performance-health-correlation" className="space-y-4">
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">
             Does fundamental health predict performance? Let&apos;s find out:
@@ -3213,7 +3213,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 11: TRANSACTION PERFORMANCE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="transaction-performance" className="space-y-4">
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">
             Let&apos;s evaluate your investment timing decisions
@@ -3456,7 +3456,7 @@ const AnalyticsTab: React.FC = () => {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 12: FORWARD-LOOKING PERFORMANCE
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="forward-looking-performance" className="space-y-4">
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">
             Based on your current holdings, here&apos;s the outlook:

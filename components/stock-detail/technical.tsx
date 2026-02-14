@@ -74,7 +74,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 1: TECHNICAL HEALTH SNAPSHOT */}
-      <div>
+      <div id="technical-snapshot">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <TrendingUp className="h-5 w-5" />
           Technical Overview
@@ -239,7 +239,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 2: INTERACTIVE PRICE CHART */}
-      <div>
+      <div id="price-chart">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Let&apos;s look at the price action itself
@@ -483,7 +483,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 3: TREND ANALYSIS */}
-      <div>
+      <div id="trend-analysis">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Let&apos;s understand the trend - which direction is price moving?
@@ -691,7 +691,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 4: MOMENTUM INDICATORS */}
-      <div>
+      <div id="momentum-indicators">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Beyond just price, let&apos;s check momentum indicators
@@ -933,7 +933,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 5: SUPPORT & RESISTANCE LEVELS */}
-      <div>
+      <div id="support-resistance">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Where are the critical price levels that could act as floors or ceilings?
@@ -1320,7 +1320,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 6: VOLUME ANALYSIS */}
-      <div>
+      <div id="volume-analysis">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Volume confirms price moves. Let&apos;s see what the volume is telling us
@@ -1606,7 +1606,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 7: CHART PATTERNS & SIGNALS */}
-      <div>
+      <div id="chart-patterns">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Let&apos;s identify any meaningful chart patterns or setups
@@ -1855,7 +1855,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 8: TECHNICAL VERDICT */}
-      <div>
+      <div id="technical-verdict">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Putting it all together - what&apos;s the technical picture telling us?
@@ -2209,7 +2209,7 @@ const Technical = () => {
       </div>
 
       {/* SECTION 9: WHAT'S NEXT */}
-      <div>
+      <div id="whats-next">
         <div className="mb-3">
           <p className="text-muted-foreground text-sm mb-4">
             Checked the charts? Here&apos;s what to explore next:

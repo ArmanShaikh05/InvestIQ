@@ -426,7 +426,7 @@ export function FinancialTab() {
   return (
     <div className="container mx-auto p-6 space-y-12">
       {/* Key Sector Metrics Grid */}
-      <section className="mb-12">
+      <section id="sector-metrics" className="mb-12">
         <div className="mb-3">
           <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
             <Target className="w-5 h-5 text-amber-500" />
@@ -525,6 +525,7 @@ export function FinancialTab() {
 
       {/* SECTION 2: FINANCIAL STORY */}
       <motion.div
+        id="financial-story"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -600,6 +601,7 @@ export function FinancialTab() {
 
       {/* SECTION 3: REVENUE & PROFIT TRENDS */}
       <motion.div
+        id="growth-trajectory"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -723,6 +725,7 @@ export function FinancialTab() {
 
       {/* SECTION 4: PROFITABILITY ANALYSIS */}
       <motion.div
+        id="margin-deep-dive"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -917,6 +920,7 @@ export function FinancialTab() {
 
       {/* SECTION 5: RETURN METRICS & EFFICIENCY */}
       <motion.div
+        id="capital-efficiency"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -975,6 +979,7 @@ export function FinancialTab() {
 
       {/* SECTION 6: LEVERAGE & BALANCE SHEET */}
       <motion.div
+        id="balance-sheet"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
@@ -1172,6 +1177,7 @@ export function FinancialTab() {
 
       {/* SECTION 7: PEER COMPARISON TABLE */}
       <motion.div
+        id="company-comparison"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}

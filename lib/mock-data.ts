@@ -12,6 +12,9 @@ export interface StockData {
   activity: number;
   sentiment: number;
   sector: string;
+  price?: number;
+  dayChange?: string;
+  marketCap?: string;
 }
 
 export const stocksData: StockData[] = [
@@ -29,6 +32,27 @@ export const stocksData: StockData[] = [
     activity: 85,
     sentiment: 78,
     sector: "Banking",
+    price: 1820,
+    dayChange: "3.2",
+    marketCap: "12.5T",
+  },
+  {
+    ticker: "ICICI",
+    name: "ICICI Bank",
+    score: 82,
+    profitability: 85,
+    growth: 78,
+    stability: 87,
+    efficiency: 83,
+    valuation: 75,
+    momentum: 73,
+    trend: 78,
+    activity: 82,
+    sentiment: 76,
+    sector: "Banking",
+    price: 1045,
+    dayChange: "2.1",
+    marketCap: "8.2T",
   },
   {
     ticker: "RELIANCE",
@@ -44,6 +68,9 @@ export const stocksData: StockData[] = [
     activity: 80,
     sentiment: 75,
     sector: "Energy",
+    price: 2850,
+    dayChange: "1.8",
+    marketCap: "19.2T",
   },
   {
     ticker: "TCS",
@@ -59,6 +86,9 @@ export const stocksData: StockData[] = [
     activity: 88,
     sentiment: 82,
     sector: "IT",
+    price: 3620,
+    dayChange: "2.5",
+    marketCap: "13.2T",
   },
   {
     ticker: "INFY",
@@ -74,6 +104,9 @@ export const stocksData: StockData[] = [
     activity: 86,
     sentiment: 80,
     sector: "IT",
+    price: 1450,
+    dayChange: "1.9",
+    marketCap: "6.1T",
   },
   {
     ticker: "ITC",
@@ -89,6 +122,9 @@ export const stocksData: StockData[] = [
     activity: 80,
     sentiment: 76,
     sector: "FMCG",
+    price: 465,
+    dayChange: "0.8",
+    marketCap: "5.8T",
   },
   {
     ticker: "WIPRO",
@@ -98,12 +134,15 @@ export const stocksData: StockData[] = [
     growth: 75,
     stability: 85,
     efficiency: 80,
-    valuation: 77,
-    momentum: 74,
-    trend: 76,
+    valuation: 70,
+    momentum: 68,
+    trend: 72,
     activity: 78,
-    sentiment: 72,
+    sentiment: 73,
     sector: "IT",
+    price: 420,
+    dayChange: "1.2",
+    marketCap: "2.3T",
   },
   {
     ticker: "SBIN",
@@ -180,7 +219,7 @@ export const stocksData: StockData[] = [
     sentiment: 78,
     sector: "IT",
   },
-  
+
   {
     ticker: "BAJFINANCE",
     name: "Bajaj Finance",
@@ -463,7 +502,7 @@ export const portfolioStocks: StockData[] = [
 
 // Watchlist data structure
 export interface WatchlistAlert {
-  type: 'price' | 'health' | 'event';
+  type: "price" | "health" | "event";
   value: number | string;
   triggered: boolean;
   triggeredDate?: string;
@@ -478,15 +517,15 @@ export interface WatchlistStock {
   weekChange: number;
   monthChange: number;
   healthScore: number;
-  healthTrend: 'up' | 'down' | 'stable';
-  
+  healthTrend: "up" | "down" | "stable";
+
   // User tracking data
   dateAdded: string;
   userNote: string;
   targetPrice: number | null;
   alerts: WatchlistAlert[];
   lists: string[];
-  
+
   // Quick metrics
   pe: number;
   roe: number;
@@ -510,13 +549,19 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 5.8,
     monthChange: 12.3,
     healthScore: 82,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-10-01",
-    userNote: "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
     targetPrice: 1750,
     alerts: [
-      { type: 'price', value: 1800, triggered: true, triggeredDate: '2024-10-15' },
-      { type: 'health', value: 85, triggered: false }
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
     ],
     lists: ["Banking", "High Priority", "Buy Zone"],
     pe: 22.5,
@@ -528,7 +573,252 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 1450,
     dividendYield: 1.8,
     analystRating: "Buy",
-    analystCount: "12/15"
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
+  },
+  {
+    ticker: "HDFC",
+    name: "HDFC Bank",
+    sector: "Banking",
+    currentPrice: 1820,
+    dayChange: 3.29,
+    weekChange: 5.8,
+    monthChange: 12.3,
+    healthScore: 82,
+    healthTrend: "up",
+    dateAdded: "2024-10-01",
+    userNote:
+      "Strong fundamentals. Wait for pullback to ₹1,700 before buying. Q2 results on Oct 25.",
+    targetPrice: 1750,
+    alerts: [
+      {
+        type: "price",
+        value: 1800,
+        triggered: true,
+        triggeredDate: "2024-10-15",
+      },
+      { type: "health", value: 85, triggered: false },
+    ],
+    lists: ["Banking", "High Priority", "Buy Zone"],
+    pe: 22.5,
+    roe: 18.2,
+    revenueGrowth: 12,
+    debtToEquity: 0.15,
+    marketCap: "₹12.5T",
+    week52High: 1950,
+    week52Low: 1450,
+    dividendYield: 1.8,
+    analystRating: "Buy",
+    analystCount: "12/15",
   },
   {
     ticker: "TCS",
@@ -539,12 +829,18 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 2.4,
     monthChange: 8.7,
     healthScore: 88,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-09-20",
-    userNote: "Solid IT play. Good for long term. Watching for entry below 3,500.",
+    userNote:
+      "Solid IT play. Good for long term. Watching for entry below 3,500.",
     targetPrice: 3500,
     alerts: [
-      { type: 'health', value: 85, triggered: true, triggeredDate: '2024-10-10' }
+      {
+        type: "health",
+        value: 85,
+        triggered: true,
+        triggeredDate: "2024-10-10",
+      },
     ],
     lists: ["IT Services", "High Priority"],
     pe: 28.3,
@@ -556,7 +852,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 3200,
     dividendYield: 2.1,
     analystRating: "Buy",
-    analystCount: "14/18"
+    analystCount: "14/18",
   },
   {
     ticker: "INFY",
@@ -567,9 +863,10 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: -1.5,
     monthChange: 5.2,
     healthScore: 85,
-    healthTrend: 'stable',
+    healthTrend: "stable",
     dateAdded: "2024-09-15",
-    userNote: "Tracking for IT sector exposure. Compare with TCS before buying.",
+    userNote:
+      "Tracking for IT sector exposure. Compare with TCS before buying.",
     targetPrice: 1500,
     alerts: [],
     lists: ["IT Services"],
@@ -582,7 +879,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 1350,
     dividendYield: 2.3,
     analystRating: "Hold",
-    analystCount: "8/15"
+    analystCount: "8/15",
   },
   {
     ticker: "ICICIBANK",
@@ -593,12 +890,18 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 4.3,
     monthChange: 10.8,
     healthScore: 80,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-10-05",
-    userNote: "Banking sector diversification. Good risk-reward at current levels.",
+    userNote:
+      "Banking sector diversification. Good risk-reward at current levels.",
     targetPrice: 950,
     alerts: [
-      { type: 'price', value: 950, triggered: true, triggeredDate: '2024-10-14' }
+      {
+        type: "price",
+        value: 950,
+        triggered: true,
+        triggeredDate: "2024-10-14",
+      },
     ],
     lists: ["Banking", "Buy Zone"],
     pe: 18.5,
@@ -610,7 +913,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 850,
     dividendYield: 1.5,
     analystRating: "Buy",
-    analystCount: "10/14"
+    analystCount: "10/14",
   },
   {
     ticker: "MARUTI",
@@ -621,12 +924,12 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 1.2,
     monthChange: -2.3,
     healthScore: 75,
-    healthTrend: 'down',
+    healthTrend: "down",
     dateAdded: "2024-09-28",
     userNote: "Auto sector recovery play. Wait for festive season sales data.",
     targetPrice: 9800,
     alerts: [
-      { type: 'event', value: 'Q2 Results on Oct 28', triggered: false }
+      { type: "event", value: "Q2 Results on Oct 28", triggered: false },
     ],
     lists: ["Automobile", "Results This Week"],
     pe: 24.2,
@@ -638,7 +941,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 8500,
     dividendYield: 1.2,
     analystRating: "Hold",
-    analystCount: "6/12"
+    analystCount: "6/12",
   },
   {
     ticker: "TATAMOTORS",
@@ -649,7 +952,7 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: -0.5,
     monthChange: 4.2,
     healthScore: 72,
-    healthTrend: 'stable',
+    healthTrend: "stable",
     dateAdded: "2024-10-08",
     userNote: "EV play. High risk but interesting growth potential.",
     targetPrice: null,
@@ -664,7 +967,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 650,
     dividendYield: 0.8,
     analystRating: "Buy",
-    analystCount: "9/14"
+    analystCount: "9/14",
   },
   {
     ticker: "WIPRO",
@@ -675,12 +978,17 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 1.1,
     monthChange: 6.5,
     healthScore: 78,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-09-25",
     userNote: "Undervalued IT stock. Turnaround story in progress.",
     targetPrice: 450,
     alerts: [
-      { type: 'price', value: 450, triggered: true, triggeredDate: '2024-10-12' }
+      {
+        type: "price",
+        value: 450,
+        triggered: true,
+        triggeredDate: "2024-10-12",
+      },
     ],
     lists: ["IT Services", "Buy Zone"],
     pe: 19.2,
@@ -692,7 +1000,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 380,
     dividendYield: 2.8,
     analystRating: "Hold",
-    analystCount: "5/13"
+    analystCount: "5/13",
   },
   {
     ticker: "KOTAKBANK",
@@ -703,7 +1011,7 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 3.2,
     monthChange: 7.8,
     healthScore: 83,
-    healthTrend: 'stable',
+    healthTrend: "stable",
     dateAdded: "2024-10-02",
     userNote: "Premium private bank. Strong management.",
     targetPrice: 1850,
@@ -718,7 +1026,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 1650,
     dividendYield: 0.9,
     analystRating: "Buy",
-    analystCount: "11/15"
+    analystCount: "11/15",
   },
   {
     ticker: "ASIANPAINT",
@@ -729,7 +1037,7 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: -1.8,
     monthChange: 3.5,
     healthScore: 81,
-    healthTrend: 'stable',
+    healthTrend: "stable",
     dateAdded: "2024-09-18",
     userNote: "Quality consumer play. Expensive but worth it for long term.",
     targetPrice: 2800,
@@ -744,7 +1052,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 2650,
     dividendYield: 1.4,
     analystRating: "Hold",
-    analystCount: "7/14"
+    analystCount: "7/14",
   },
   {
     ticker: "SUNPHARMA",
@@ -755,13 +1063,11 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 0.8,
     monthChange: 9.2,
     healthScore: 79,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-10-10",
     userNote: "Pharma sector bet. Strong US presence.",
     targetPrice: 1550,
-    alerts: [
-      { type: 'health', value: 80, triggered: false }
-    ],
+    alerts: [{ type: "health", value: 80, triggered: false }],
     lists: ["High Priority"],
     pe: 38.5,
     roe: 18.2,
@@ -772,7 +1078,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 1280,
     dividendYield: 0.6,
     analystRating: "Buy",
-    analystCount: "10/16"
+    analystCount: "10/16",
   },
   {
     ticker: "BHARTIARTL",
@@ -783,12 +1089,17 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 6.5,
     monthChange: 15.2,
     healthScore: 76,
-    healthTrend: 'up',
+    healthTrend: "up",
     dateAdded: "2024-09-22",
     userNote: "Telecom duopoly play. 5G rollout catalyst.",
     targetPrice: 1400,
     alerts: [
-      { type: 'price', value: 1400, triggered: true, triggeredDate: '2024-10-08' }
+      {
+        type: "price",
+        value: 1400,
+        triggered: true,
+        triggeredDate: "2024-10-08",
+      },
     ],
     lists: ["Buy Zone"],
     pe: 42.8,
@@ -800,7 +1111,7 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 950,
     dividendYield: 0.5,
     analystRating: "Buy",
-    analystCount: "13/17"
+    analystCount: "13/17",
   },
   {
     ticker: "HCLTECH",
@@ -811,7 +1122,7 @@ export const watchlistStocks: WatchlistStock[] = [
     weekChange: 2.1,
     monthChange: 7.3,
     healthScore: 84,
-    healthTrend: 'stable',
+    healthTrend: "stable",
     dateAdded: "2024-09-30",
     userNote: "IT services diversification. Good dividend yield.",
     targetPrice: null,
@@ -826,17 +1137,741 @@ export const watchlistStocks: WatchlistStock[] = [
     week52Low: 1280,
     dividendYield: 3.2,
     analystRating: "Buy",
-    analystCount: "11/15"
-  }
+    analystCount: "11/15",
+  },
 ];
 
 // Available custom lists
 export const watchlistCategories = [
-  { id: 'all', name: 'All Stocks', count: 12 },
-  { id: 'banking', name: 'Banking', count: 4 },
-  { id: 'it-services', name: 'IT Services', count: 4 },
-  { id: 'automobile', name: 'Automobile', count: 2 },
-  { id: 'high-priority', name: 'High Priority', count: 3 },
-  { id: 'buy-zone', name: 'Buy Zone', count: 4 },
-  { id: 'results-week', name: 'Results This Week', count: 1 }
+  { id: "all", name: "All Stocks", count: 12 },
+  { id: "banking", name: "Banking", count: 4 },
+  { id: "it-services", name: "IT Services", count: 4 },
+  { id: "automobile", name: "Automobile", count: 2 },
+  { id: "high-priority", name: "High Priority", count: 3 },
+  { id: "buy-zone", name: "Buy Zone", count: 4 },
+  { id: "results-week", name: "Results This Week", count: 1 },
 ];
+
+// Sectors Data for Comparison
+export interface SectorData {
+  name: string;
+  category: string;
+  avgScore: number;
+  score: number;
+  totalMarketCap: string;
+  companiesCount: number;
+}
+
+export const sectorsData: SectorData[] = [
+  {
+    name: "Banking",
+    category: "Financial Services",
+    avgScore: 83,
+    score: 83,
+    totalMarketCap: "45.2T",
+    companiesCount: 28,
+  },
+  {
+    name: "IT Services",
+    category: "Technology",
+    avgScore: 85,
+    score: 85,
+    totalMarketCap: "32.8T",
+    companiesCount: 15,
+  },
+  {
+    name: "Pharmaceuticals",
+    category: "Healthcare",
+    avgScore: 81,
+    score: 81,
+    totalMarketCap: "18.5T",
+    companiesCount: 22,
+  },
+  {
+    name: "Automobile",
+    category: "Manufacturing",
+    avgScore: 79,
+    score: 79,
+    totalMarketCap: "12.3T",
+    companiesCount: 18,
+  },
+  {
+    name: "Energy",
+    category: "Energy & Utilities",
+    avgScore: 80,
+    score: 80,
+    totalMarketCap: "25.6T",
+    companiesCount: 12,
+  },
+  {
+    name: "FMCG",
+    category: "Consumer Goods",
+    avgScore: 82,
+    score: 82,
+    totalMarketCap: "22.4T",
+    companiesCount: 20,
+  },
+];
+
+// Comparison Data Generator
+export function getComparisonData(
+  item1: any,
+  item2: any,
+  isStockComparison: boolean,
+) {
+  // For stocks - HDFC vs ICICI example
+  if (isStockComparison && item1.ticker === "HDFC") {
+    return {
+      valuationSummary: {
+        winner: item2.name,
+        detail: "P/E: 18 vs 22",
+      },
+      growthSummary: {
+        winner: item1.name,
+        detail: "14.8% vs 12.2% profit growth",
+      },
+      returnsSummary: {
+        winner: item1.name,
+        detail: "+35% vs +28% in 1Y",
+      },
+      overview: {
+        health: [
+          {
+            name: "Overall Health Score",
+            value1: item1.score,
+            value2: item2.score,
+            format: "score",
+            higherIsBetter: true,
+          },
+          {
+            name: "ROE (Return on Equity)",
+            value1: 18.2,
+            value2: 16.8,
+            format: "percentage",
+            higherIsBetter: true,
+          },
+          {
+            name: "ROCE",
+            value1: 19.5,
+            value2: 17.2,
+            format: "percentage",
+            higherIsBetter: true,
+          },
+          {
+            name: "Net Margin",
+            value1: 16.4,
+            value2: 15.1,
+            format: "percentage",
+            higherIsBetter: true,
+          },
+        ],
+        growth: [
+          {
+            name: "Revenue Growth (3Y)",
+            value1: 13.2,
+            value2: 11.4,
+            format: "percentage",
+          },
+          {
+            name: "Profit Growth (3Y)",
+            value1: 14.8,
+            value2: 12.2,
+            format: "percentage",
+          },
+        ],
+        valuation: [
+          {
+            name: "P/E Ratio",
+            value1: 22.5,
+            value2: 18.2,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "P/B Ratio",
+            value1: 2.8,
+            value2: 2.2,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "Dividend Yield",
+            value1: 1.8,
+            value2: 2.2,
+            format: "percentage",
+            higherIsBetter: true,
+          },
+        ],
+        performance: [
+          {
+            name: "1 Year Return",
+            value1: 35.2,
+            value2: 28.4,
+            format: "percentage",
+          },
+          {
+            name: "YTD Return",
+            value1: 24.5,
+            value2: 21.8,
+            format: "percentage",
+          },
+        ],
+        stability: [
+          {
+            name: "Debt/Equity",
+            value1: 0.15,
+            value2: 0.22,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "Current Ratio",
+            value1: 1.8,
+            value2: 1.6,
+            format: "ratio",
+            higherIsBetter: true,
+          },
+        ],
+      },
+      fundamentals: {
+        profitability: [
+          { name: "ROE", value1: 18.2, value2: 16.8, format: "percentage" },
+          { name: "ROCE", value1: 19.5, value2: 17.2, format: "percentage" },
+          { name: "ROA", value1: 1.8, value2: 1.6, format: "percentage" },
+          {
+            name: "Net Margin",
+            value1: 16.4,
+            value2: 15.1,
+            format: "percentage",
+          },
+          {
+            name: "Operating Margin",
+            value1: 22.8,
+            value2: 21.2,
+            format: "percentage",
+          },
+        ],
+        efficiency: [
+          {
+            name: "Asset Turnover",
+            value1: 0.12,
+            value2: 0.11,
+            format: "ratio",
+          },
+          {
+            name: "Cash Conversion Rate",
+            value1: 92,
+            value2: 88,
+            format: "percentage",
+          },
+        ],
+        quality: [
+          { name: "Earnings Quality", value1: 88, value2: 85, format: "score" },
+          {
+            name: "Cash Flow Quality",
+            value1: 90,
+            value2: 87,
+            format: "score",
+          },
+        ],
+      },
+      performance: {
+        returns: [
+          {
+            name: "1 Day",
+            value1: 3.2,
+            value2: 2.1,
+            format: "percentage",
+            benchmark: 0.8,
+          },
+          {
+            name: "1 Week",
+            value1: 5.8,
+            value2: 4.2,
+            format: "percentage",
+            benchmark: 2.1,
+          },
+          {
+            name: "1 Month",
+            value1: 12.3,
+            value2: 9.8,
+            format: "percentage",
+            benchmark: 4.2,
+          },
+          {
+            name: "3 Months",
+            value1: 18.4,
+            value2: 15.2,
+            format: "percentage",
+            benchmark: 8.5,
+          },
+          {
+            name: "YTD",
+            value1: 24.5,
+            value2: 21.8,
+            format: "percentage",
+            benchmark: 12.8,
+          },
+          {
+            name: "1 Year",
+            value1: 35.2,
+            value2: 28.4,
+            format: "percentage",
+            benchmark: 18.5,
+          },
+          {
+            name: "3 Years (CAGR)",
+            value1: 22.8,
+            value2: 19.2,
+            format: "percentage",
+            benchmark: 14.2,
+          },
+        ],
+        risk: [
+          {
+            name: "Volatility (Std Dev)",
+            value1: 18.5,
+            value2: 22.3,
+            format: "percentage",
+            higherIsBetter: false,
+          },
+          {
+            name: "Beta",
+            value1: 0.95,
+            value2: 1.12,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          { name: "Sharpe Ratio", value1: 1.45, value2: 1.28, format: "ratio" },
+          {
+            name: "Maximum Drawdown",
+            value1: -15.2,
+            value2: -18.8,
+            format: "percentage",
+            higherIsBetter: false,
+          },
+        ],
+      },
+      valuation: {
+        current: [
+          {
+            name: "P/E Ratio",
+            value1: 22.5,
+            value2: 18.2,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "P/B Ratio",
+            value1: 2.8,
+            value2: 2.2,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "Price/Sales",
+            value1: 4.2,
+            value2: 3.5,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "EV/EBITDA",
+            value1: 15.8,
+            value2: 12.4,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "Dividend Yield",
+            value1: 1.8,
+            value2: 2.2,
+            format: "percentage",
+          },
+        ],
+        historical: [
+          {
+            name: "5Y Average P/E",
+            value1: 20.5,
+            value2: 17.8,
+            format: "ratio",
+          },
+          {
+            name: "Current vs Avg P/E",
+            value1: 9.8,
+            value2: 2.2,
+            format: "percentage",
+          },
+        ],
+        peer: [
+          {
+            name: "P/E vs Sector Avg",
+            value1: 5.2,
+            value2: -8.5,
+            format: "percentage",
+          },
+          {
+            name: "Relative Valuation",
+            value1: "Premium",
+            value2: "Discount",
+            format: "text",
+          },
+        ],
+      },
+      growth: {
+        historical: [
+          {
+            name: "Revenue Growth (3Y CAGR)",
+            value1: 13.2,
+            value2: 11.4,
+            format: "percentage",
+          },
+          {
+            name: "Profit Growth (3Y CAGR)",
+            value1: 14.8,
+            value2: 12.2,
+            format: "percentage",
+          },
+          {
+            name: "EPS Growth (3Y CAGR)",
+            value1: 15.2,
+            value2: 12.8,
+            format: "percentage",
+          },
+          {
+            name: "Book Value Growth",
+            value1: 12.5,
+            value2: 10.8,
+            format: "percentage",
+          },
+        ],
+        quarterly: [
+          {
+            name: "Q1 Revenue Growth",
+            value1: 14.5,
+            value2: 12.1,
+            format: "percentage",
+          },
+          {
+            name: "Q2 Revenue Growth",
+            value1: 13.8,
+            value2: 11.8,
+            format: "percentage",
+          },
+          {
+            name: "Q3 Revenue Growth",
+            value1: 12.5,
+            value2: 10.5,
+            format: "percentage",
+          },
+          {
+            name: "Q4 Revenue Growth",
+            value1: 13.2,
+            value2: 11.2,
+            format: "percentage",
+          },
+        ],
+        future: [
+          {
+            name: "Expected Growth (FY25)",
+            value1: 14.5,
+            value2: 12.2,
+            format: "percentage",
+          },
+          {
+            name: "Expected Growth (FY26)",
+            value1: 13.8,
+            value2: 11.8,
+            format: "percentage",
+          },
+        ],
+      },
+      stability: {
+        leverage: [
+          {
+            name: "Debt/Equity",
+            value1: 0.15,
+            value2: 0.22,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+          {
+            name: "Interest Coverage",
+            value1: 28.5,
+            value2: 22.3,
+            format: "ratio",
+          },
+          {
+            name: "Debt/EBITDA",
+            value1: 1.2,
+            value2: 1.8,
+            format: "ratio",
+            higherIsBetter: false,
+          },
+        ],
+        liquidity: [
+          { name: "Current Ratio", value1: 1.8, value2: 1.6, format: "ratio" },
+          { name: "Quick Ratio", value1: 1.5, value2: 1.3, format: "ratio" },
+          {
+            name: "Cash & Equivalents",
+            value1: 25000,
+            value2: 18000,
+            format: "currency",
+          },
+        ],
+        consistency: [
+          {
+            name: "Earnings Volatility",
+            value1: 8.5,
+            value2: 12.3,
+            format: "percentage",
+            higherIsBetter: false,
+          },
+          {
+            name: "Quarters Profitable (Last 20)",
+            value1: 20,
+            value2: 19,
+            format: "ratio",
+          },
+          {
+            name: "Dividend Consistency",
+            value1: 95,
+            value2: 92,
+            format: "percentage",
+          },
+        ],
+      },
+      technical: {
+        priceLevels: [
+          {
+            name: "52-Week High",
+            value1: 1950,
+            value2: 1180,
+            format: "currency",
+          },
+          {
+            name: "52-Week Low",
+            value1: 1520,
+            value2: 890,
+            format: "currency",
+          },
+          {
+            name: "% from High",
+            value1: -6.7,
+            value2: -11.4,
+            format: "percentage",
+            higherIsBetter: false,
+          },
+          {
+            name: "% from Low",
+            value1: 19.7,
+            value2: 17.4,
+            format: "percentage",
+          },
+        ],
+        momentum: [
+          { name: "RSI", value1: 58, value2: 52, format: "ratio" },
+          {
+            name: "MACD",
+            value1: "Bullish",
+            value2: "Neutral",
+            format: "text",
+          },
+          { name: "50-Day MA", value1: 1780, value2: 1020, format: "currency" },
+          { name: "200-Day MA", value1: 1720, value2: 980, format: "currency" },
+        ],
+        volume: [
+          {
+            name: "Avg Volume (30D)",
+            value1: 8500000,
+            value2: 12000000,
+            format: "ratio",
+          },
+          {
+            name: "Volume Trend",
+            value1: "Increasing",
+            value2: "Stable",
+            format: "text",
+          },
+        ],
+      },
+      summary: {
+        overallWinner: item1.name,
+        strengths: [
+          "Better profitability (ROE 18.2% vs 16.8%)",
+          "Faster growth (14.8% vs 12.2% profit growth)",
+          "Stronger fundamentals (health 85 vs 82)",
+          "Superior returns (35% vs 28% in 1Y)",
+        ],
+        alternativeName: item2.name,
+        alternativeAdvantages: [
+          "Better valuation (P/E 18 vs 22)",
+          "Higher dividend yield (2.2% vs 1.8%)",
+          "More attractive entry price",
+        ],
+        bottomLine: `${item1.name} for quality and growth, ${item2.name} for value and income`,
+        contextualAdvice:
+          "Both are fundamentally strong banking stocks. Choice depends on your investment goal.",
+        item1Wins: 12,
+        item2Wins: 6,
+        totalCategories: 18,
+      },
+    };
+  }
+
+  // Default comparison data
+  return {
+    valuationSummary: {
+      winner: item2.name,
+      detail: "Better value metrics",
+    },
+    growthSummary: {
+      winner: item1.name,
+      detail: "Higher growth rate",
+    },
+    returnsSummary: {
+      winner: item1.name,
+      detail: "Better returns",
+    },
+    overview: {
+      health: [
+        {
+          name: "Overall Health Score",
+          value1: item1.score,
+          value2: item2.score,
+          format: "score",
+          higherIsBetter: true,
+        },
+      ],
+      growth: [
+        {
+          name: "Growth Rate",
+          value1: item1.growth || 12,
+          value2: item2.growth || 10,
+          format: "percentage",
+        },
+      ],
+      valuation: [
+        {
+          name: "Valuation Score",
+          value1: item1.valuation || 70,
+          value2: item2.valuation || 75,
+          format: "score",
+        },
+      ],
+      performance: [
+        {
+          name: "Performance Score",
+          value1: item1.momentum || 75,
+          value2: item2.momentum || 72,
+          format: "score",
+        },
+      ],
+      stability: [
+        {
+          name: "Stability Score",
+          value1: item1.stability || 85,
+          value2: item2.stability || 82,
+          format: "score",
+        },
+      ],
+    },
+    fundamentals: {
+      profitability: [
+        {
+          name: "Profitability Score",
+          value1: item1.profitability || 85,
+          value2: item2.profitability || 82,
+          format: "score",
+        },
+      ],
+      efficiency: [
+        {
+          name: "Efficiency Score",
+          value1: item1.efficiency || 80,
+          value2: item2.efficiency || 78,
+          format: "score",
+        },
+      ],
+      quality: [
+        { name: "Quality Score", value1: 85, value2: 82, format: "score" },
+      ],
+    },
+    performance: {
+      returns: [
+        {
+          name: "1 Year Return",
+          value1: 25,
+          value2: 22,
+          format: "percentage",
+          benchmark: 18,
+        },
+      ],
+      risk: [
+        {
+          name: "Volatility",
+          value1: 18,
+          value2: 22,
+          format: "percentage",
+          higherIsBetter: false,
+        },
+      ],
+    },
+    valuation: {
+      current: [
+        {
+          name: "Valuation Score",
+          value1: item1.valuation || 70,
+          value2: item2.valuation || 75,
+          format: "score",
+        },
+      ],
+      historical: [],
+      peer: [],
+    },
+    growth: {
+      historical: [
+        {
+          name: "Growth Rate",
+          value1: item1.growth || 12,
+          value2: item2.growth || 10,
+          format: "percentage",
+        },
+      ],
+      quarterly: [],
+      future: [],
+    },
+    stability: {
+      leverage: [
+        {
+          name: "Stability Score",
+          value1: item1.stability || 85,
+          value2: item2.stability || 82,
+          format: "score",
+        },
+      ],
+      liquidity: [],
+      consistency: [],
+    },
+    technical: {
+      priceLevels: [],
+      momentum: [],
+      volume: [],
+    },
+    summary: {
+      overallWinner: item1.name,
+      strengths: ["Higher overall score", "Better fundamental metrics"],
+      alternativeName: item2.name,
+      alternativeAdvantages: [
+        "Competitive valuation",
+        "Good alternative option",
+      ],
+      bottomLine: `${item1.name} shows slightly better metrics overall`,
+      contextualAdvice:
+        "Both are solid choices. Consider your risk tolerance and investment goals.",
+      item1Wins: 10,
+      item2Wins: 8,
+      totalCategories: 18,
+    },
+  };
+}

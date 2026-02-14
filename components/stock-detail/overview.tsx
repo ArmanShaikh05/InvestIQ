@@ -368,7 +368,7 @@ const Overview = ({ stock }: OverviewProps) => {
   return (
     <div className="mt-8 space-y-12">
       {/* SECTION 1: COMPANY IDENTITY */}
-      <section>
+      <section id="company-identity">
         <p className="text-muted-foreground mb-6 text-lg">
           Let me introduce you to this company
         </p>
@@ -484,7 +484,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 2: HEALTH SCORE AT A GLANCE */}
-      <section>
+      <section id="health-score">
         <p className="text-muted-foreground mb-6 text-lg">
           Here's our assessment of this company's overall health
         </p>
@@ -585,7 +585,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 3: PRICE PERFORMANCE */}
-      <section>
+      <section id="price-performance">
         <p className="text-muted-foreground mb-6 text-lg">
           Let's see how the stock has been performing
         </p>
@@ -763,7 +763,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 4: KEY METRICS SNAPSHOT */}
-      <section>
+      <section id="key-metrics">
         <p className="text-muted-foreground mb-6 text-lg">
           Here are the numbers that matter most
         </p>
@@ -807,7 +807,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 5: PEER COMPARISON */}
-      <section>
+      <section id="peer-comparison">
         <p className="text-muted-foreground mb-6 text-lg">
           Let's see how it compares to competitors
         </p>
@@ -924,7 +924,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 6: STRENGTHS & CONCERNS */}
-      <section>
+      <section id="strengths-concerns">
         <p className="text-muted-foreground mb-6 text-lg">
           Every stock has strengths and areas to watch. Here's what we see:
         </p>
@@ -973,7 +973,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 7: AI SUMMARY */}
-      <section>
+      <section id="ai-summary">
         <p className="text-muted-foreground mb-6 text-lg">
           Putting it all together, here's what you should know:
         </p>
@@ -1095,7 +1095,7 @@ const Overview = ({ stock }: OverviewProps) => {
       </section>
 
       {/* SECTION 8: WHAT'S NEXT */}
-      <section>
+      <section id="whats-next">
         <p className="text-muted-foreground mb-6 text-lg">
           Want to dig deeper? Here's where to go:
         </p>

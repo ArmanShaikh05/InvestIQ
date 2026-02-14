@@ -411,6 +411,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
     <div className="space-y-10">
       {/* SECTION 1: HEALTH OVERVIEW DASHBOARD */}
       <motion.div
+        id="health-overview"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -508,6 +509,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 2: SMART HEALTH INSIGHTS */}
       <motion.div
+        id="health-story"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -550,6 +552,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 3: DETAILED HEALTH BREAKDOWN */}
       <motion.div
+        id="category-breakdown"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -778,6 +781,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 4: COMPARATIVE ANALYSIS */}
       <motion.div
+        id="sector-comparison"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -852,6 +856,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 5: COMPANY-LEVEL HEALTH DISTRIBUTION */}
       <motion.div
+        id="score-distribution"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
@@ -972,6 +977,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 6: HEALTH TRENDS OVER TIME */}
       <motion.div
+        id="health-journey"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
@@ -1094,6 +1100,7 @@ export function HealthTab({ sectorData, getHealthColor }: HealthTabProps) {
 
       {/* SECTION 7: WHAT'S NEXT */}
       <motion.div
+        id="key-takeaways"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.7 }}

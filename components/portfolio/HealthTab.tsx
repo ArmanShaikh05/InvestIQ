@@ -783,7 +783,7 @@ const HealthTab = () => {
           SECTION 1: AGGREGATE HEALTH DNA
           "Let's look at the DNA of your combined holdings."
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-3">
+      <div id="aggregate-health-dna" className="space-y-3">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's look at the DNA of your combined holdings.
@@ -930,7 +930,7 @@ const HealthTab = () => {
           SECTION 2: HEALTH TRENDS
           "Let's see how your portfolio health has evolved over time"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-3">
+      <div id="health-trends" className="space-y-3">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see how your portfolio health has evolved over time
@@ -1239,7 +1239,7 @@ const HealthTab = () => {
           SECTION 3: THE QUALITY SPECTRUM
           "Let's see where your stocks sit on the Quality vs. Risk scale."
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-3">
+      <div id="quality-spectrum" className="space-y-3">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see where your stocks sit on the Quality vs. Risk scale.
@@ -1362,7 +1362,7 @@ const HealthTab = () => {
           SECTION 5: HEALTH DISTRIBUTION
           "Here's how your portfolio is distributed by health quality"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-3">
+      <div id="health-distribution" className="space-y-3">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's how your portfolio is distributed by health quality
@@ -1714,7 +1714,7 @@ const HealthTab = () => {
           SECTION 6: SECTOR HEALTH COMPARISON
           "How does health vary across your sector investments?"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-3">
+      <div id="sector-health-comparison" className="space-y-3">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             How does health vary across your sector investments?
@@ -2425,7 +2425,7 @@ const HealthTab = () => {
           SECTION 7: INTERACTIVE HEALTH DEEP-DIVE
           "Want to understand a specific area in depth? Pick what interests you:"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-6">
+      <div id="health-deep-dive" className="space-y-6">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's break down what makes your portfolio fundamentally strong (or

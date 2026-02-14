@@ -303,7 +303,7 @@ const PortfolioOverviewPage = () => {
           SECTION 1: PORTFOLIO HERO
           "Here's your complete investment picture"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-hero" className="space-y-4">
         <p className="text-sm text-muted-foreground">
           Here's your complete investment picture
         </p>
@@ -459,7 +459,7 @@ const PortfolioOverviewPage = () => {
           SECTION 2: PORTFOLIO AT A GLANCE
           "Here's what's happening in your portfolio right now"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-glance" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's what's happening in your portfolio right now
@@ -736,7 +736,7 @@ const PortfolioOverviewPage = () => {
           SECTION 3: PORTFOLIO VALUE CHART
           "Let's see how your portfolio value has grown"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-value-chart" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Let's see how your portfolio value has grown
@@ -919,7 +919,7 @@ const PortfolioOverviewPage = () => {
           SECTION 4: PORTFOLIO COMPOSITION
           "Here's how your investments are distributed"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-composition" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's how your investments are distributed
@@ -1302,7 +1302,7 @@ const PortfolioOverviewPage = () => {
           SECTION 5: TOP HOLDINGS SNAPSHOT
           "Your largest investments at a glance"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="top-holdings-snapshot" className="space-y-4">
         <div className="flex items-center justify-between w-full">
           <div>
             <p className="text-sm text-muted-foreground mb-2">
@@ -1439,7 +1439,7 @@ const PortfolioOverviewPage = () => {
           SECTION 6: RETURNS BREAKDOWN
           "Here's how your returns break down"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="returns-breakdown" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's how your returns break down
@@ -1693,7 +1693,7 @@ const PortfolioOverviewPage = () => {
           SECTION 7: RECOMMENDATIONS & ALERTS
           "Here's what you should pay attention to"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="recommendations-alerts" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Here's what you should pay attention to
@@ -1795,7 +1795,7 @@ const PortfolioOverviewPage = () => {
           SECTION 8: PORTFOLIO HEALTH SUMMARY
           "How healthy is your portfolio overall?"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
+      <div id="portfolio-health-summary" className="space-y-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             How healthy is your portfolio overall?
@@ -1991,7 +1991,7 @@ const PortfolioOverviewPage = () => {
           SECTION 10: WHAT'S NEXT
           "Want to dig deeper? Here's where to go:"
       ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4 mb-20">
+      <div id="whats-next" className="space-y-4 mb-20">
         <div>
           <p className="text-sm text-muted-foreground mb-2">
             Want to dig deeper? Here's where to go:

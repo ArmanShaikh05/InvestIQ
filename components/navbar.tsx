@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import ToggleToProMode from "./pro-mode-toggle";
-import { LayoutDashboard, Target, MessageCircle, Bell, TrendingUp } from "lucide-react";
+import { LayoutDashboard, Target, MessageCircle, Bell, TrendingUp, Notebook } from "lucide-react";
 import { SidebarTrigger } from "./ui/sidebar";
 import { usePathname } from "next/navigation";
 
@@ -69,6 +69,15 @@ const Navbar = () => {
             { label: 'Alerts', href: '/alerts', isActive: true }
           ]
         };
+      case '/watchlist':
+        return {
+          title: 'Watchlist',
+          icon: Notebook,
+          breadcrumb: [
+            { label: 'Home', href: '/' },
+            { label: 'Watchlist', href: '/watchlist', isActive: true }
+          ]
+        };
       default:
         return {
           title: 'Dashboard',
@@ -95,7 +104,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           {/* Switch to Pro mode */}
-          <ToggleToProMode />
+          {/* <ToggleToProMode /> */}
 
           {/* User avatar */}
           <Avatar>

@@ -218,3 +218,29 @@
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Watchlist Table Styles */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Table container with shadow */
+.watchlist-table-container {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dark .watchlist-table-container {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Better table borders */
+table.watchlist-table {
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+table.watchlist-table tbody tr:last-child {
+  border-bottom: none;
+}

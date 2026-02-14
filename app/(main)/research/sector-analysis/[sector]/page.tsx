@@ -11,6 +11,7 @@ import { SummaryTab } from "@/components/sector-analysis/SummaryTab";
 import { HealthTab } from "@/components/sector-analysis/HealthTab";
 import { ActivityTab } from "@/components/sector-analysis/ActivityTab";
 import { FinancialTab } from "@/components/sector-analysis/FinancialTab";
+import { SectorNavigationCommandPalette } from "@/components/sector-analysis/navigation-command-palette";
 import {
   AlertCircle,
   BarChart,
@@ -21,8 +22,8 @@ import {
   Target,
   TrendingUp,
 } from "lucide-react";
-import { useParams } from "next/navigation";
-import { Activity, useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { Activity, useState, useEffect } from "react";
 import { Cell, Line, LineChart, Pie, PieChart } from "recharts";
 
 // Performance data for different time ranges
@@ -521,12 +522,33 @@ const getChangeColor = (change: string) => {
 
 export default function SectorDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("summary");
   const [performanceTimeRange, setPerformanceTimeRange] = useState<
     "3M" | "6M" | "1Y" | "5Y" | "ALL"
   >("1Y");
   const sectorSlug = params.sector as string;
   const sectorData = getSectorData(sectorSlug);
+
+  // Handle URL query parameters for tab and section navigation
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    const section = searchParams.get("section");
+
+    if (tab) {
+      setActiveTab(tab);
+    }
+
+    if (section) {
+      // Wait for tab content to render before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(section);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -541,52 +563,55 @@ export default function SectorDetailPage() {
 
             {/* Verdict */}
             {/* <p className="text-muted-foreground">{sectorData.verdict}</p> */}
-
-            {/* Snapshot Metrics - Badge Style */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "health"
-                )}`}
-              >
-                Health: {sectorData.snapshot.healthScore}
+            <div className="w-full flex items-center justify-between">
+              {/* Snapshot Metrics - Badge Style */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "health",
+                  )}`}
+                >
+                  Health: {sectorData.snapshot.healthScore}
+                </div>
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "valuation",
+                  )}`}
+                >
+                  P/E: {sectorData.snapshot.avgValuation}
+                </div>
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "return",
+                  )}`}
+                >
+                  1Y: {sectorData.snapshot.yearReturn}
+                </div>
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "cap",
+                  )}`}
+                >
+                  Cap: {sectorData.snapshot.marketCap}
+                </div>
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "volatility",
+                  )}`}
+                >
+                  Vol: {sectorData.snapshot.volatility}
+                </div>
+                <div
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
+                    "updated",
+                  )}`}
+                >
+                  <Clock className="w-3 h-3 inline mr-1" />
+                  {sectorData.snapshot.lastUpdated}
+                </div>
               </div>
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "valuation"
-                )}`}
-              >
-                P/E: {sectorData.snapshot.avgValuation}
-              </div>
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "return"
-                )}`}
-              >
-                1Y: {sectorData.snapshot.yearReturn}
-              </div>
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "cap"
-                )}`}
-              >
-                Cap: {sectorData.snapshot.marketCap}
-              </div>
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "volatility"
-                )}`}
-              >
-                Vol: {sectorData.snapshot.volatility}
-              </div>
-              <div
-                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getSnapshotBadgeColor(
-                  "updated"
-                )}`}
-              >
-                <Clock className="w-3 h-3 inline mr-1" />
-                {sectorData.snapshot.lastUpdated}
-              </div>
+              {/* Navigation Command Palette */}
+              <SectorNavigationCommandPalette currentSector={sectorSlug} />
             </div>
           </div>
         </div>

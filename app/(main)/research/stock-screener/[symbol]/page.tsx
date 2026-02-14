@@ -8,6 +8,7 @@ import News from "@/components/stock-detail/news";
 import Overview from "@/components/stock-detail/overview";
 import Technical from "@/components/stock-detail/technical";
 import Valuation from "@/components/stock-detail/valuation";
+import { NavigationCommandPalette } from "@/components/stock-detail/navigation-command-palette";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,24 +18,32 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { indianStocks } from "@/lib/indian-stocks-data";
 import {
   ArrowLeft,
   Bell,
+  ChevronDown,
   Plus,
   Star,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const StockDetailPage = () => {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const symbol = params.symbol as string;
   const [stock, setStock] = useState(
-    indianStocks.find((s) => s.symbol === symbol)
+    indianStocks.find((s) => s.symbol === symbol),
   );
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -42,6 +51,26 @@ const StockDetailPage = () => {
     const foundStock = indianStocks.find((s) => s.symbol === symbol);
     setStock(foundStock);
   }, [symbol]);
+
+  // Handle URL query parameters for tab and section navigation
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    const section = searchParams.get("section");
+
+    if (tab) {
+      setActiveTab(tab);
+    }
+
+    if (section) {
+      // Wait for tab content to render before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(section);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  }, [searchParams]);
 
   if (!stock) {
     return (
@@ -111,66 +140,75 @@ const StockDetailPage = () => {
       {/* FIXED HEADER */}
       <div className=" bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Left: Company Info */}
-            <div>
-              <div className="flex items-center gap-3 mb-2">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+            {/* Left: Company Info & Price */}
+            <div className="flex flex-col gap-3">
+              {/* Row 1: Ticker and Name */}
+              <div className="flex items-baseline gap-3">
                 <h1 className="text-3xl font-bold">{stock.symbol}</h1>
+                <span className="text-lg text-muted-foreground">{stock.name}</span>
+              </div>
+              
+              {/* Row 2: All badges/pills */}
+              <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="outline">{stock.exchange}</Badge>
                 <Badge
                   className={`${
                     mockData.healthScore >= 80
                       ? "bg-green-500/10 text-green-500 border-green-500/20"
                       : mockData.healthScore >= 60
-                      ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-                      : "bg-red-500/10 text-red-500 border-red-500/20"
+                        ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
+                        : "bg-red-500/10 text-red-500 border-red-500/20"
                   }`}
                 >
-                  {mockData.healthScore}/100 • Strong 🟢
+                  Health: {mockData.healthScore}/100
                 </Badge>
-              </div>
-              <p className="text-muted-foreground">{stock.name}</p>
-            </div>
-
-            {/* Center: Price Info */}
-            <div className="flex items-center gap-6">
-              <div>
-                <div className="text-3xl font-bold font-mono">
+                <Badge variant="secondary" className="font-mono font-semibold">
                   ₹{mockData.currentPrice.toFixed(2)}
-                </div>
-                <div
-                  className={`flex items-center gap-2 text-lg font-semibold ${
-                    isPositive ? "text-green-500" : "text-red-500"
+                </Badge>
+                <Badge
+                  variant="secondary"
+                  className={`${
+                    isPositive ? "bg-green-500/10 text-green-600 border-green-500/20" : "bg-red-500/10 text-red-600 border-red-500/20"
                   }`}
                 >
                   {isPositive ? (
-                    <TrendingUp className="w-5 h-5" />
+                    <TrendingUp className="w-3 h-3 mr-1" />
                   ) : (
-                    <TrendingDown className="w-5 h-5" />
+                    <TrendingDown className="w-3 h-3 mr-1" />
                   )}
-                  <span>
-                    {isPositive ? "+" : ""}₹{mockData.change.toFixed(2)} (
-                    {isPositive ? "+" : ""}
-                    {mockData.changePercent.toFixed(2)}%)
-                  </span>
-                </div>
+                  {isPositive ? "+" : ""}₹{mockData.change.toFixed(2)} ({isPositive ? "+" : ""}{mockData.changePercent.toFixed(2)}%)
+                </Badge>
               </div>
             </div>
 
             {/* Right: Action Buttons */}
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Add to Portfolio
-              </Button>
-              <Button variant="outline" size="sm">
-                <Star className="w-4 h-4 mr-2" />
-                Watchlist
-              </Button>
-              <Button variant="outline" size="sm">
-                <Bell className="w-4 h-4 mr-2" />
-                Set Alert
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    Quick Actions
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add to Portfolio
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Star className="w-4 h-4 mr-2" />
+                    Watchlist
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Bell className="w-4 h-4 mr-2" />
+                    Set Alert
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Navigation Command Palette */}
+              <NavigationCommandPalette currentSymbol={symbol} />
             </div>
           </div>
         </div>

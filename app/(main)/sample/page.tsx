@@ -1,1455 +1,782 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
-  Search,
+  Bell,
   Plus,
   TrendingUp,
   TrendingDown,
-  ArrowUpDown,
-  LayoutGrid,
-  LayoutList,
-  Columns,
-  Download,
-  GitCompare,
-  Eye,
-  Edit,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  CheckSquare,
-  Square,
-  X,
-  StickyNote,
-  Bell,
-  BarChart3,
-  Activity,
-  Heart,
-  DollarSign,
-  Briefcase,
+  Sparkles,
+  ChevronRight,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip as RechartsTooltip,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-interface Holding {
-  id: string;
-  ticker: string;
-  name: string;
-  sector: string;
-  quantity: number;
-  avgCost: number;
-  currentPrice: number;
-  currentValue: number;
-  dayChange: number;
-  totalReturn: number;
-  plAmount: number;
-  healthScore: number;
-  pe: number;
-  roe: number;
-  marketCap: string;
-  weekHigh52: number;
-  weekLow52: number;
-  weight: number;
-}
+export default function StockOverviewPage() {
+  const [activeTab, setActiveTab] = useState("overview");
+  const [chartPeriod, setChartPeriod] = useState("1Y");
 
-interface Transaction {
-  id: string;
-  date: string;
-  type: "buy" | "sell";
-  quantity: number;
-  price: number;
-}
-
-const HoldingsPage = () => {
-  const [viewMode, setViewMode] = useState<"table" | "card" | "compact">("table");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<keyof Holding>("currentValue");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [sectorFilter, setSectorFilter] = useState<string>("all");
-  const [healthFilter, setHealthFilter] = useState<string>("all");
-  const [returnFilter, setReturnFilter] = useState<string>("all");
-  const [selectedHoldings, setSelectedHoldings] = useState<Set<string>>(new Set());
-  const [expandedRow, setExpandedRow] = useState<string | null>(null);
-
-  // Mock holdings data
-  const holdings: Holding[] = [
-    {
-      id: "1",
-      ticker: "HDFC",
-      name: "HDFC Bank",
-      sector: "Banking",
-      quantity: 50,
-      avgCost: 1640,
-      currentPrice: 1820,
-      currentValue: 91000,
-      dayChange: 3.2,
-      totalReturn: 10.98,
-      plAmount: 9000,
-      healthScore: 85,
-      pe: 22.5,
-      roe: 18.2,
-      marketCap: "₹12.5T",
-      weekHigh52: 1950,
-      weekLow52: 1450,
-      weight: 14.6,
-    },
-    {
-      id: "2",
-      ticker: "RELIANCE",
-      name: "Reliance Industries",
-      sector: "Energy",
-      quantity: 35,
-      avgCost: 2380,
-      currentPrice: 2565,
-      currentValue: 89775,
-      dayChange: 2.1,
-      totalReturn: 7.77,
-      plAmount: 6475,
-      healthScore: 83,
-      pe: 25.3,
-      roe: 15.8,
-      marketCap: "₹17.2T",
-      weekHigh52: 2750,
-      weekLow52: 2200,
-      weight: 14.4,
-    },
-    {
-      id: "3",
-      ticker: "TCS",
-      name: "Tata Consultancy Services",
-      sector: "IT",
-      quantity: 22,
-      avgCost: 3200,
-      currentPrice: 3685,
-      currentValue: 81070,
-      dayChange: 1.8,
-      totalReturn: 15.16,
-      plAmount: 10670,
-      healthScore: 88,
-      pe: 28.4,
-      roe: 42.5,
-      marketCap: "₹13.4T",
-      weekHigh52: 3900,
-      weekLow52: 3050,
-      weight: 13.0,
-    },
-    {
-      id: "4",
-      ticker: "INFY",
-      name: "Infosys",
-      sector: "IT",
-      quantity: 45,
-      avgCost: 1520,
-      currentPrice: 1478,
-      currentValue: 66510,
-      dayChange: -0.8,
-      totalReturn: -2.76,
-      plAmount: -1890,
-      healthScore: 86,
-      pe: 24.1,
-      roe: 31.2,
-      marketCap: "₹6.1T",
-      weekHigh52: 1650,
-      weekLow52: 1350,
-      weight: 10.7,
-    },
-    {
-      id: "5",
-      ticker: "ITC",
-      name: "ITC Limited",
-      sector: "FMCG",
-      quantity: 180,
-      avgCost: 315,
-      currentPrice: 358,
-      currentValue: 64440,
-      dayChange: 1.2,
-      totalReturn: 13.65,
-      plAmount: 7740,
-      healthScore: 82,
-      pe: 29.8,
-      roe: 26.5,
-      marketCap: "₹4.5T",
-      weekHigh52: 395,
-      weekLow52: 295,
-      weight: 10.3,
-    },
-    {
-      id: "6",
-      ticker: "HDFCBANK",
-      name: "HDFC Bank Ltd",
-      sector: "Banking",
-      quantity: 40,
-      avgCost: 1450,
-      currentPrice: 1620,
-      currentValue: 64800,
-      dayChange: 2.3,
-      totalReturn: 11.72,
-      plAmount: 6800,
-      healthScore: 87,
-      pe: 20.5,
-      roe: 17.8,
-      marketCap: "₹11.2T",
-      weekHigh52: 1750,
-      weekLow52: 1380,
-      weight: 10.4,
-    },
-    {
-      id: "7",
-      ticker: "ICICIBANK",
-      name: "ICICI Bank",
-      sector: "Banking",
-      quantity: 55,
-      avgCost: 880,
-      currentPrice: 1025,
-      currentValue: 56375,
-      dayChange: 1.9,
-      totalReturn: 16.48,
-      plAmount: 7975,
-      healthScore: 84,
-      pe: 18.7,
-      roe: 16.5,
-      marketCap: "₹7.2T",
-      weekHigh52: 1100,
-      weekLow52: 820,
-      weight: 9.0,
-    },
-    {
-      id: "8",
-      ticker: "BHARTIARTL",
-      name: "Bharti Airtel",
-      sector: "Telecom",
-      quantity: 60,
-      avgCost: 745,
-      currentPrice: 885,
-      currentValue: 53100,
-      dayChange: 0.5,
-      totalReturn: 18.79,
-      plAmount: 8400,
-      healthScore: 78,
-      pe: 35.2,
-      roe: 12.4,
-      marketCap: "₹5.3T",
-      weekHigh52: 950,
-      weekLow52: 680,
-      weight: 8.5,
-    },
-    {
-      id: "9",
-      ticker: "WIPRO",
-      name: "Wipro",
-      sector: "IT",
-      quantity: 85,
-      avgCost: 425,
-      currentPrice: 465,
-      currentValue: 39525,
-      dayChange: -0.3,
-      totalReturn: 9.41,
-      plAmount: 3400,
-      healthScore: 79,
-      pe: 22.8,
-      roe: 18.5,
-      marketCap: "₹2.5T",
-      weekHigh52: 510,
-      weekLow52: 390,
-      weight: 6.3,
-    },
-    {
-      id: "10",
-      ticker: "AXISBANK",
-      name: "Axis Bank",
-      sector: "Banking",
-      quantity: 35,
-      avgCost: 950,
-      currentPrice: 1085,
-      currentValue: 37975,
-      dayChange: 1.4,
-      totalReturn: 14.21,
-      plAmount: 4725,
-      healthScore: 81,
-      pe: 12.5,
-      roe: 14.2,
-      marketCap: "₹3.4T",
-      weekHigh52: 1180,
-      weekLow52: 880,
-      weight: 6.1,
-    },
-    {
-      id: "11",
-      ticker: "MARUTI",
-      name: "Maruti Suzuki",
-      sector: "Automotive",
-      quantity: 3,
-      avgCost: 9850,
-      currentPrice: 11250,
-      currentValue: 33750,
-      dayChange: 2.8,
-      totalReturn: 14.21,
-      plAmount: 4200,
-      healthScore: 75,
-      pe: 27.3,
-      roe: 16.8,
-      marketCap: "₹3.4T",
-      weekHigh52: 12000,
-      weekLow52: 9200,
-      weight: 5.4,
-    },
-    {
-      id: "12",
-      ticker: "ASIANPAINT",
-      name: "Asian Paints",
-      sector: "Consumer",
-      quantity: 10,
-      avgCost: 2950,
-      currentPrice: 3180,
-      currentValue: 31800,
-      dayChange: 0.9,
-      totalReturn: 7.80,
-      plAmount: 2300,
-      healthScore: 80,
-      pe: 55.2,
-      roe: 28.4,
-      marketCap: "₹3.1T",
-      weekHigh52: 3450,
-      weekLow52: 2750,
-      weight: 5.1,
-    },
-    {
-      id: "13",
-      ticker: "SUNPHARMA",
-      name: "Sun Pharmaceutical",
-      sector: "Pharma",
-      quantity: 25,
-      avgCost: 1080,
-      currentPrice: 1245,
-      currentValue: 31125,
-      dayChange: -1.2,
-      totalReturn: 15.28,
-      plAmount: 4125,
-      healthScore: 76,
-      pe: 38.5,
-      roe: 14.2,
-      marketCap: "₹3.0T",
-      weekHigh52: 1350,
-      weekLow52: 1000,
-      weight: 5.0,
-    },
-    {
-      id: "14",
-      ticker: "LT",
-      name: "Larsen & Toubro",
-      sector: "Infrastructure",
-      quantity: 8,
-      avgCost: 2850,
-      currentPrice: 3420,
-      currentValue: 27360,
-      dayChange: 1.6,
-      totalReturn: 20.00,
-      plAmount: 4560,
-      healthScore: 83,
-      pe: 32.4,
-      roe: 15.6,
-      marketCap: "₹4.8T",
-      weekHigh52: 3650,
-      weekLow52: 2650,
-      weight: 4.4,
-    },
-    {
-      id: "15",
-      ticker: "HCLTECH",
-      name: "HCL Technologies",
-      sector: "IT",
-      quantity: 18,
-      avgCost: 1320,
-      currentPrice: 1485,
-      currentValue: 26730,
-      dayChange: 0.7,
-      totalReturn: 12.50,
-      plAmount: 2970,
-      healthScore: 85,
-      pe: 26.8,
-      roe: 22.3,
-      marketCap: "₹4.0T",
-      weekHigh52: 1600,
-      weekLow52: 1220,
-      weight: 4.3,
-    },
+  const tabs = [
+    "Overview",
+    "Fundamentals",
+    "Valuation",
+    "Technical",
+    "Activity",
+    "News",
   ];
-
-  // Mock transactions for expanded view
-  const getRecentTransactions = (ticker: string): Transaction[] => {
-    return [
-      { id: "1", date: "2 days ago", type: "buy", quantity: 10, price: 1800 },
-      { id: "2", date: "1 week ago", type: "buy", quantity: 20, price: 1750 },
-      { id: "3", date: "2 weeks ago", type: "sell", quantity: 5, price: 1820 },
-    ];
-  };
-
-  // Mini chart data for inline expanded view
-  const getMiniChartData = (ticker: string) => {
-    const basePrice = holdings.find((h) => h.ticker === ticker)?.currentPrice || 1000;
-    return Array.from({ length: 30 }, (_, i) => ({
-      day: i + 1,
-      price: basePrice * (0.92 + Math.random() * 0.16),
-    }));
-  };
-
-  // Computed values
-  const totalValue = useMemo(
-    () => holdings.reduce((sum, h) => sum + h.currentValue, 0),
-    [holdings]
-  );
-
-  const totalInvested = useMemo(
-    () => holdings.reduce((sum, h) => sum + h.quantity * h.avgCost, 0),
-    [holdings]
-  );
-
-  const totalGain = useMemo(
-    () => holdings.reduce((sum, h) => sum + h.plAmount, 0),
-    [holdings]
-  );
-
-  const totalGainPercent = useMemo(
-    () => (totalGain / totalInvested) * 100,
-    [totalGain, totalInvested]
-  );
-
-  const todaysChange = useMemo(
-    () => holdings.reduce((sum, h) => sum + (h.currentValue * h.dayChange) / 100, 0),
-    [holdings]
-  );
-
-  const avgHealth = useMemo(
-    () => Math.round(holdings.reduce((sum, h) => sum + h.healthScore, 0) / holdings.length),
-    [holdings]
-  );
-
-  // Filtering and sorting
-  const filteredAndSortedHoldings = useMemo(() => {
-    let filtered = holdings.filter((h) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        h.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        h.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchesSector = sectorFilter === "all" || h.sector === sectorFilter;
-
-      const matchesHealth =
-        healthFilter === "all" ||
-        (healthFilter === "excellent" && h.healthScore >= 85) ||
-        (healthFilter === "good" && h.healthScore >= 70 && h.healthScore < 85) ||
-        (healthFilter === "fair" && h.healthScore >= 50 && h.healthScore < 70) ||
-        (healthFilter === "poor" && h.healthScore < 50);
-
-      const matchesReturn =
-        returnFilter === "all" ||
-        (returnFilter === "high" && h.totalReturn >= 15) ||
-        (returnFilter === "medium" && h.totalReturn >= 5 && h.totalReturn < 15) ||
-        (returnFilter === "low" && h.totalReturn >= 0 && h.totalReturn < 5) ||
-        (returnFilter === "negative" && h.totalReturn < 0);
-
-      return matchesSearch && matchesSector && matchesHealth && matchesReturn;
-    });
-
-    filtered.sort((a, b) => {
-      const aVal = a[sortBy];
-      const bVal = b[sortBy];
-      const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
-      return sortOrder === "asc" ? comparison : -comparison;
-    });
-
-    return filtered;
-  }, [holdings, searchQuery, sectorFilter, healthFilter, returnFilter, sortBy, sortOrder]);
-
-  // Get unique sectors
-  const sectors = useMemo(() => Array.from(new Set(holdings.map((h) => h.sector))), [holdings]);
-
-  // Best and worst performers
-  const bestPerformer = useMemo(
-    () => [...holdings].sort((a, b) => b.totalReturn - a.totalReturn)[0],
-    [holdings]
-  );
-
-  const worstPerformer = useMemo(
-    () => [...holdings].sort((a, b) => a.totalReturn - b.totalReturn)[0],
-    [holdings]
-  );
-
-  // Helper functions
-  const getHealthColor = (score: number) => {
-    if (score >= 85) return "bg-green-100 text-green-700 dark:bg-green-950/30 dark:text-green-400";
-    if (score >= 70) return "bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400";
-    if (score >= 50) return "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-400";
-    return "bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400";
-  };
-
-  const getHealthBadge = (score: number) => {
-    if (score >= 85) return { label: "Excellent", color: "bg-green-500" };
-    if (score >= 70) return { label: "Good", color: "bg-blue-500" };
-    if (score >= 50) return { label: "Fair", color: "bg-yellow-500" };
-    return { label: "Poor", color: "bg-red-500" };
-  };
-
-  const handleSort = (column: keyof Holding) => {
-    if (sortBy === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setSortOrder("desc");
-    }
-  };
-
-  const toggleSelectHolding = (id: string) => {
-    const newSet = new Set(selectedHoldings);
-    if (newSet.has(id)) {
-      newSet.delete(id);
-    } else {
-      newSet.add(id);
-    }
-    setSelectedHoldings(newSet);
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedHoldings.size === filteredAndSortedHoldings.length) {
-      setSelectedHoldings(new Set());
-    } else {
-      setSelectedHoldings(new Set(filteredAndSortedHoldings.map((h) => h.id)));
-    }
-  };
+  const chartPeriods = ["1M", "3M", "6M", "1Y", "3Y", "5Y"];
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-[1600px]">
-      {/* ═══════════════════════════════════════════════════════════════
-          SECTION 1: HOLDINGS COMMAND CENTER (Control Panel)
-      ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
-        {/* Quick Stats Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">
-                    Total Holdings
-                  </p>
-                  <p className="text-2xl font-bold">{holdings.length}</p>
-                </div>
-                <Briefcase className="w-8 h-8 text-muted-foreground opacity-50" />
+    <div className="min-h-screen bg-background">
+      {/* FIXED STOCK HEADER */}
+      <div className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
+        <div className="mx-auto max-w-[1800px] px-6 py-4">
+          <div className="flex items-center justify-between gap-8">
+            {/* LEFT SECTION */}
+            <div className="flex items-center gap-4">
+              <div className="flex size-16 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-lg">
+                H
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">
-                    Total Invested
-                  </p>
-                  <p className="text-2xl font-bold">
-                    ₹{(totalInvested / 1000).toFixed(0)}K
-                  </p>
-                </div>
-                <DollarSign className="w-8 h-8 text-muted-foreground opacity-50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Current Value</p>
-                  <p className="text-2xl font-bold">
-                    ₹{(totalValue / 1000).toFixed(0)}K
-                  </p>
-                </div>
-                <Activity className="w-8 h-8 text-muted-foreground opacity-50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Total P&L</p>
-                  <p
-                    className={`text-2xl font-bold ${
-                      totalGain >= 0 ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {totalGain >= 0 ? "+" : ""}₹
-                    {(totalGain / 1000).toFixed(0)}K
-                  </p>
-                  <p
-                    className={`text-xs ${
-                      totalGain >= 0 ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {totalGain >= 0 ? "+" : ""}
-                    {totalGainPercent.toFixed(2)}%
-                  </p>
-                </div>
-                <TrendingUp
-                  className={`w-8 h-8 ${
-                    totalGain >= 0 ? "text-green-500" : "text-red-500"
-                  } opacity-50`}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Controls Row */}
-        <Card className="border-border/50 bg-background/50 backdrop-blur-sm">
-          <CardContent className="pt-4">
-            <div className="flex flex-col md:flex-row gap-4">
-              {/* Search */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search stocks..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-
-              {/* Filter */}
-              <div className="flex gap-2">
-                <select
-                  value={sectorFilter}
-                  onChange={(e) => setSectorFilter(e.target.value)}
-                  className="px-4 py-2 border border-border rounded-lg bg-background text-sm"
-                >
-                  <option value="all">All Sectors</option>
-                  {sectors.map((sector) => (
-                    <option key={sector} value={sector}>{sector}</option>
-                  ))}
-                </select>
-
-                <select
-                  value={`${sortBy}-${sortOrder}`}
-                  onChange={(e) => {
-                    const [field, order] = e.target.value.split("-");
-                    setSortBy(field as keyof Holding);
-                    setSortOrder(order as "asc" | "desc");
-                  }}
-                  className="px-4 py-2 border border-border rounded-lg bg-background text-sm"
-                >
-                  <option value="currentValue-desc">Value (High to Low)</option>
-                  <option value="currentValue-asc">Value (Low to High)</option>
-                  <option value="plAmount-desc">P&L (High to Low)</option>
-                  <option value="plAmount-asc">P&L (Low to High)</option>
-                  <option value="healthScore-desc">Health (High to Low)</option>
-                  <option value="healthScore-asc">Health (Low to High)</option>
-                  <option value="ticker-asc">Symbol (A-Z)</option>
-                </select>
-
-                {/* View Toggle */}
-                <div className="flex border border-border rounded-lg overflow-hidden">
-                  <Button
-                    variant={viewMode === "table" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => setViewMode("table")}
-                    className="rounded-none"
-                  >
-                    <LayoutList className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "card" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => setViewMode("card")}
-                    className="rounded-none"
-                  >
-                    <LayoutGrid className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                <Button variant="outline" size="sm">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Stock
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          SECTION 2: FILTERS & ACTIONS TOOLBAR
-      ═══════════════════════════════════════════════════════════════ */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="space-y-4">
-            {/* Search and Primary Actions */}
-            <div className="flex flex-col md:flex-row gap-3">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by ticker or name..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-
-              <div className="flex gap-2">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Stock
-                </Button>
-                <Button variant="outline">
-                  <Download className="w-4 h-4 mr-2" />
-                  Export CSV
-                </Button>
-                {selectedHoldings.size > 0 && (
-                  <Button variant="outline">
-                    <GitCompare className="w-4 h-4 mr-2" />
-                    Compare ({selectedHoldings.size})
-                  </Button>
-                )}
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight">HDFC Bank</h1>
+                <p className="font-mono text-[13px] text-muted-foreground">
+                  NSE: HDFCBANK • BSE: 500180
+                </p>
               </div>
             </div>
 
-            {/* Filters Row */}
-            <div className="flex flex-wrap gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {sectorFilter === "all" ? "All Sectors" : sectorFilter}
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setSectorFilter("all")}>All Sectors</DropdownMenuItem>
-                  {sectors.map((sector) => (
-                    <DropdownMenuItem key={sector} onClick={() => setSectorFilter(sector)}>
-                      {sector}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {healthFilter === "all"
-                      ? "All Health Levels"
-                      : healthFilter === "excellent"
-                      ? "Excellent (85+)"
-                      : healthFilter === "good"
-                      ? "Good (70-84)"
-                      : healthFilter === "fair"
-                      ? "Fair (50-69)"
-                      : "Poor (<50)"}
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setHealthFilter("all")}>All Health Levels</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setHealthFilter("excellent")}>Excellent (85+)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setHealthFilter("good")}>Good (70-84)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setHealthFilter("fair")}>Fair (50-69)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setHealthFilter("poor")}>Poor (&lt;50)</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {returnFilter === "all"
-                      ? "All Return Ranges"
-                      : returnFilter === "high"
-                      ? "High (15%+)"
-                      : returnFilter === "medium"
-                      ? "Medium (5-15%)"
-                      : returnFilter === "low"
-                      ? "Low (0-5%)"
-                      : "Negative"}
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setReturnFilter("all")}>All Return Ranges</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setReturnFilter("high")}>High Returns (15%+)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setReturnFilter("medium")}>Medium (5-15%)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setReturnFilter("low")}>Low (0-5%)</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setReturnFilter("negative")}>Negative Returns</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {(searchQuery || sectorFilter !== "all" || healthFilter !== "all" || returnFilter !== "all") && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setSearchQuery("");
-                    setSectorFilter("all");
-                    setHealthFilter("all");
-                    setReturnFilter("all");
-                  }}
-                >
-                  <X className="w-4 h-4 mr-2" />
-                  Clear Filters
-                </Button>
-              )}
-            </div>
-
-            {/* Results Count */}
-            <div className="text-sm text-muted-foreground">
-              Showing {filteredAndSortedHoldings.length} of {holdings.length} holdings
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          SECTION 3: MAIN HOLDINGS DISPLAY - TABLE VIEW
-      ═══════════════════════════════════════════════════════════════ */}
-
-      {viewMode === "table" && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-12">
-                      <button onClick={toggleSelectAll} className="p-0">
-                        {selectedHoldings.size === filteredAndSortedHoldings.length &&
-                        filteredAndSortedHoldings.length > 0 ? (
-                          <CheckSquare className="w-4 h-4" />
-                        ) : (
-                          <Square className="w-4 h-4" />
-                        )}
-                      </button>
-                    </TableHead>
-                    <TableHead>
-                      <button
-                        onClick={() => handleSort("ticker")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground"
-                      >
-                        Stock <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("quantity")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Qty <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("avgCost")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Avg Cost <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("currentPrice")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Current <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("currentValue")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Value <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("dayChange")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Day % <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">
-                      <button
-                        onClick={() => handleSort("totalReturn")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground ml-auto"
-                      >
-                        Total Return <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-center">
-                      <button
-                        onClick={() => handleSort("healthScore")}
-                        className="flex items-center gap-2 font-semibold hover:text-foreground mx-auto"
-                      >
-                        Health <ArrowUpDown className="w-3 h-3" />
-                      </button>
-                    </TableHead>
-                    <TableHead className="text-right">P/E</TableHead>
-                    <TableHead className="text-right">ROE</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredAndSortedHoldings.map((holding) => (
-                    <React.Fragment key={holding.id}>
-                      <TableRow
-                        className="cursor-pointer hover:bg-muted/50 transition-colors"
-                        onClick={() => setExpandedRow(expandedRow === holding.id ? null : holding.id)}
-                      >
-                        <TableCell onClick={(e) => e.stopPropagation()}>
-                          <button onClick={() => toggleSelectHolding(holding.id)} className="p-0">
-                            {selectedHoldings.has(holding.id) ? (
-                              <CheckSquare className="w-4 h-4 text-primary" />
-                            ) : (
-                              <Square className="w-4 h-4" />
-                            )}
-                          </button>
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <div className="font-semibold flex items-center gap-2">
-                              {holding.ticker}
-                              {expandedRow === holding.id ? (
-                                <ChevronUp className="w-3 h-3" />
-                              ) : (
-                                <ChevronDown className="w-3 h-3" />
-                              )}
-                            </div>
-                            <div className="text-xs text-muted-foreground">{holding.name}</div>
-                            <Badge variant="outline" className="text-xs mt-1">
-                              {holding.sector}
-                            </Badge>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right font-medium">{holding.quantity}</TableCell>
-                        <TableCell className="text-right">₹{holding.avgCost.toLocaleString()}</TableCell>
-                        <TableCell className="text-right font-medium">₹{holding.currentPrice.toLocaleString()}</TableCell>
-                        <TableCell className="text-right font-semibold">
-                          ₹{(holding.currentValue / 1000).toFixed(1)}K
-                          <div className="text-xs text-muted-foreground">{holding.weight}%</div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <span className={holding.dayChange >= 0 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                            {holding.dayChange >= 0 ? "+" : ""}
-                            {holding.dayChange.toFixed(2)}%
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className={holding.totalReturn >= 0 ? "text-green-600" : "text-red-600"}>
-                            <div className="font-semibold">
-                              {holding.totalReturn >= 0 ? "+" : ""}
-                              {holding.totalReturn.toFixed(2)}%
-                            </div>
-                            <div className="text-xs">
-                              {holding.plAmount >= 0 ? "+" : ""}₹{(holding.plAmount / 1000).toFixed(1)}K
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <Badge className={getHealthColor(holding.healthScore)}>{holding.healthScore}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right text-sm">{holding.pe}</TableCell>
-                        <TableCell className="text-right text-sm">{holding.roe}%</TableCell>
-                        <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
-                          <div className="flex justify-end gap-1">
-                            <Button variant="ghost" size="sm">
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm">
-                              <Bell className="w-4 h-4" />
-                            </Button>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
-                                  <ChevronDown className="w-4 h-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                  <Edit className="w-4 h-4 mr-2" />
-                                  Edit Position
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <BarChart3 className="w-4 h-4 mr-2" />
-                                  Full Analysis
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">
-                                  <Trash2 className="w-4 h-4 mr-2" />
-                                  Sell
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-
-                      {/* ═══════════════════════════════════════════════════════════════
-                          INLINE EXPANDED VIEW
-                      ═══════════════════════════════════════════════════════════════ */}
-                      {expandedRow === holding.id && (
-                        <TableRow>
-                          <TableCell colSpan={12} className="bg-muted/30 p-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                              {/* Mini Chart */}
-                              <div className="md:col-span-2 space-y-3">
-                                <h4 className="text-sm font-semibold flex items-center gap-2">
-                                  <BarChart3 className="w-4 h-4" />
-                                  1 Month Performance
-                                </h4>
-                                <div className="bg-background rounded-lg border p-4">
-                                  <ResponsiveContainer width="100%" height={180}>
-                                    <LineChart 
-                                      data={getMiniChartData(holding.ticker)}
-                                      margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-                                    >
-                                      <defs>
-                                        <linearGradient id={`colorPrice-${holding.id}`} x1="0" y1="0" x2="0" y2="1">
-                                          <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3}/>
-                                          <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
-                                        </linearGradient>
-                                      </defs>
-                                      <XAxis 
-                                        dataKey="day" 
-                                        stroke="var(--muted-foreground)"
-                                        fontSize={10}
-                                        tickLine={false}
-                                        axisLine={false}
-                                        tickFormatter={(value) => `D${value}`}
-                                      />
-                                      <YAxis 
-                                        stroke="var(--muted-foreground)"
-                                        fontSize={10}
-                                        tickLine={false}
-                                        axisLine={false}
-                                        tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}K`}
-                                        domain={['dataMin - 50', 'dataMax + 50']}
-                                      />
-                                      <RechartsTooltip
-                                        contentStyle={{
-                                          backgroundColor: "var(--popover)",
-                                          border: "1px solid var(--border)",
-                                          borderRadius: "6px",
-                                          fontSize: "12px",
-                                        }}
-                                        labelStyle={{
-                                          color: "var(--foreground)",
-                                          fontWeight: "600",
-                                        }}
-                                        formatter={(value: any) => [`₹${value.toFixed(2)}`, "Price"]}
-                                        labelFormatter={(label) => `Day ${label}`}
-                                      />
-                                      <Line
-                                        type="monotone"
-                                        dataKey="price"
-                                        stroke="var(--primary)"
-                                        strokeWidth={2.5}
-                                        dot={false}
-                                        activeDot={{ r: 4, strokeWidth: 2 }}
-                                        fill={`url(#colorPrice-${holding.id})`}
-                                      />
-                                    </LineChart>
-                                  </ResponsiveContainer>
-                                </div>
-
-                                {/* Recent Activity */}
-                                <div className="mt-4">
-                                  <h4 className="text-sm font-semibold mb-3">Recent Activity</h4>
-                                  <div className="space-y-2">
-                                    {getRecentTransactions(holding.ticker).map((txn) => (
-                                      <div key={txn.id} className="flex items-center justify-between text-sm p-2 bg-background rounded border">
-                                        <div className="flex items-center gap-3">
-                                          <Badge variant={txn.type === "buy" ? "default" : "secondary"}>
-                                            {txn.type.toUpperCase()}
-                                          </Badge>
-                                          <span className="text-muted-foreground">{txn.date}</span>
-                                        </div>
-                                        <div className="text-right">
-                                          <div className="font-medium">
-                                            {txn.quantity} shares @ ₹{txn.price}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Key Metrics */}
-                              <div className="space-y-3">
-                                <h4 className="text-sm font-semibold">Key Metrics</h4>
-                                <div className="grid grid-cols-2 gap-3">
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">P/E Ratio</p>
-                                    <p className="text-lg font-bold">{holding.pe}</p>
-                                  </div>
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">ROE</p>
-                                    <p className="text-lg font-bold">{holding.roe}%</p>
-                                  </div>
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">Market Cap</p>
-                                    <p className="text-sm font-bold">{holding.marketCap}</p>
-                                  </div>
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">52W High</p>
-                                    <p className="text-sm font-bold">₹{holding.weekHigh52}</p>
-                                  </div>
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">52W Low</p>
-                                    <p className="text-sm font-bold">₹{holding.weekLow52}</p>
-                                  </div>
-                                  <div className="p-3 bg-background rounded-lg border">
-                                    <p className="text-xs text-muted-foreground">Current vs Avg</p>
-                                    <p className={`text-sm font-bold ${holding.currentPrice > holding.avgCost ? "text-green-600" : "text-red-600"}`}>
-                                      {((((holding.currentPrice - holding.avgCost) / holding.avgCost) * 100)).toFixed(1)}%
-                                    </p>
-                                  </div>
-                                </div>
-
-                                {/* Quick Notes */}
-                                <div className="mt-4 p-3 bg-background rounded-lg border">
-                                  <div className="flex items-center justify-between mb-2">
-                                    <p className="text-xs font-semibold text-muted-foreground">Quick Notes</p>
-                                    <Button variant="ghost" size="sm">
-                                      <Edit className="w-3 h-3" />
-                                    </Button>
-                                  </div>
-                                  <p className="text-xs text-muted-foreground italic">
-                                    No notes yet. Click to add your thoughts...
-                                  </p>
-                                </div>
-                              </div>
-
-                              {/* Quick Actions */}
-                              <div className="md:col-span-3 flex gap-2 pt-4 border-t">
-                                <Button variant="outline" size="sm">
-                                  <BarChart3 className="w-4 h-4 mr-2" />
-                                  Full Analysis
-                                </Button>
-                                <Button variant="outline" size="sm">
-                                  <Heart className="w-4 h-4 mr-2" />
-                                  Add to Watchlist
-                                </Button>
-                                <Button variant="outline" size="sm">
-                                  <Bell className="w-4 h-4 mr-2" />
-                                  Set Alert
-                                </Button>
-                                <Button variant="outline" size="sm">
-                                  <StickyNote className="w-4 h-4 mr-2" />
-                                  Add Note
-                                </Button>
-                              </div>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════════════
-          CARD VIEW
-      ═══════════════════════════════════════════════════════════════ */}
-      {viewMode === "card" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredAndSortedHoldings.map((holding) => (
-            <Card key={holding.id} className="hover:shadow-lg transition-all cursor-pointer relative group">
-              <div className="absolute top-4 left-4 z-10">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleSelectHolding(holding.id);
-                  }}
-                >
-                  {selectedHoldings.has(holding.id) ? (
-                    <CheckSquare className="w-5 h-5 text-primary" />
-                  ) : (
-                    <Square className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  )}
-                </button>
+            {/* MIDDLE SECTION */}
+            <div className="text-center">
+              <div className="font-mono text-4xl font-bold">₹1,820</div>
+              <div className="mt-1 flex items-center justify-center gap-1 text-lg font-semibold text-green-600">
+                <TrendingUp className="size-5" />
+                +₹58 (+3.29%)
               </div>
-              <CardHeader className="pt-12">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-xl">{holding.ticker}</CardTitle>
-                    <CardDescription className="mt-1">{holding.name}</CardDescription>
-                    <Badge variant="outline" className="mt-2 text-xs">
-                      {holding.sector}
-                    </Badge>
-                  </div>
-                  <Badge className={getHealthColor(holding.healthScore)}>{holding.healthScore}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="flex items-baseline justify-between mb-2">
-                    <span className="text-2xl font-bold">₹{(holding.currentValue / 1000).toFixed(1)}K</span>
-                    <span className="text-sm text-muted-foreground">{holding.weight}% of portfolio</span>
-                  </div>
-                  <Progress value={holding.weight * 2} className="h-2" />
-                </div>
+            </div>
 
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground">Today's Change</p>
-                    <p className={`font-semibold ${holding.dayChange >= 0 ? "text-green-600" : "text-red-600"}`}>
-                      {holding.dayChange >= 0 ? "+" : ""}
-                      {holding.dayChange.toFixed(2)}%
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Total Return</p>
-                    <p className={`font-semibold ${holding.totalReturn >= 0 ? "text-green-600" : "text-red-600"}`}>
-                      {holding.totalReturn >= 0 ? "+" : ""}
-                      {holding.totalReturn.toFixed(2)}%
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">P/E Ratio</p>
-                    <p className="font-semibold">{holding.pe}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">ROE</p>
-                    <p className="font-semibold">{holding.roe}%</p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View
+            {/* RIGHT SECTION */}
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col items-end gap-2">
+                <Badge className="px-5 py-2.5 text-base font-bold" variant="success">
+                  85/100 • STRONG 🟢
+                </Badge>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" className="text-xs">
+                    <Plus className="size-3" />
+                    Portfolio
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Bell className="w-4 h-4 mr-2" />
+                  <Button size="sm" variant="outline" className="text-xs">
+                    <Plus className="size-3" />
+                    Watchlist
+                  </Button>
+                  <Button size="sm" variant="outline" className="text-xs">
+                    <Bell className="size-3" />
                     Alert
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm">
-                        <ChevronDown className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <BarChart3 className="w-4 h-4 mr-2" />
-                        Analyze
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Sell
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════════════
-          COMPACT VIEW
-      ═══════════════════════════════════════════════════════════════ */}
-      {viewMode === "compact" && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-12">
-                      <button onClick={toggleSelectAll} className="p-0">
-                        {selectedHoldings.size === filteredAndSortedHoldings.length &&
-                        filteredAndSortedHoldings.length > 0 ? (
-                          <CheckSquare className="w-4 h-4" />
-                        ) : (
-                          <Square className="w-4 h-4" />
-                        )}
-                      </button>
-                    </TableHead>
-                    <TableHead>Stock</TableHead>
-                    <TableHead className="text-right">Value</TableHead>
-                    <TableHead className="text-right">Return %</TableHead>
-                    <TableHead className="text-center">Health</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredAndSortedHoldings.map((holding) => (
-                    <TableRow key={holding.id} className="hover:bg-muted/50">
-                      <TableCell onClick={(e) => e.stopPropagation()}>
-                        <button onClick={() => toggleSelectHolding(holding.id)}>
-                          {selectedHoldings.has(holding.id) ? (
-                            <CheckSquare className="w-4 h-4 text-primary" />
-                          ) : (
-                            <Square className="w-4 h-4" />
-                          )}
-                        </button>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <div>
-                            <div className="font-semibold">{holding.ticker}</div>
-                            <div className="text-xs text-muted-foreground">{holding.name}</div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right font-semibold">₹{(holding.currentValue / 1000).toFixed(1)}K</TableCell>
-                      <TableCell className="text-right">
-                        <span className={holding.totalReturn >= 0 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                          {holding.totalReturn >= 0 ? "+" : ""}
-                          {holding.totalReturn.toFixed(2)}%
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Badge className={getHealthColor(holding.healthScore)}>{holding.healthScore}</Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════════════
-          SECTION 5: BULK ACTIONS BAR (when stocks selected)
-      ═══════════════════════════════════════════════════════════════ */}
-      {selectedHoldings.size > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4">
-          <Card className="shadow-2xl border-2">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-4">
-                <div className="font-semibold">{selectedHoldings.size} stocks selected</div>
-                <div className="h-6 w-px bg-border" />
-                <div className="flex gap-2">
-                  <Button size="sm" variant="outline">
-                    <GitCompare className="w-4 h-4 mr-2" />
-                    Compare
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <Download className="w-4 h-4 mr-2" />
-                    Export
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <Bell className="w-4 h-4 mr-2" />
-                    Set Alerts
-                  </Button>
-                  <Button size="sm" variant="ghost" onClick={() => setSelectedHoldings(new Set())}>
-                    <X className="w-4 h-4 mr-2" />
-                    Deselect All
-                  </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════════════
-          SECTION 6: SUMMARY FOOTER
-      ═══════════════════════════════════════════════════════════════ */}
-      <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-transparent">
-        <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
-                <Briefcase className="w-4 h-4" />
-                Portfolio Summary
-              </h4>
-              <p className="text-2xl font-bold">{holdings.length} Holdings</p>
-              <p className="text-sm text-muted-foreground">Worth ₹{(totalValue / 100000).toFixed(2)}L</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Performance</h4>
-              <p className="text-sm">
-                Invested: <span className="font-semibold">₹{(totalInvested / 100000).toFixed(2)}L</span>
-              </p>
-              <p className={`text-sm ${totalGain >= 0 ? "text-green-600" : "text-red-600"}`}>
-                Gains:{" "}
-                <span className="font-semibold">
-                  {totalGain >= 0 ? "+" : ""}₹{(totalGain / 100000).toFixed(2)}L ({totalGain >= 0 ? "+" : ""}
-                  {totalGainPercent.toFixed(2)}%)
-                </span>
-              </p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Health</h4>
-              <div className="flex items-center gap-2">
-                <p className="text-2xl font-bold">{avgHealth}/100</p>
-                <Badge className={getHealthColor(avgHealth)}>{getHealthBadge(avgHealth).label}</Badge>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Top & Bottom</h4>
-              <p className="text-sm text-green-600">
-                Best: <span className="font-semibold">{bestPerformer.ticker} (+{bestPerformer.totalReturn.toFixed(1)}%)</span>
-              </p>
-              <p className="text-sm text-red-600">
-                Worst:{" "}
-                <span className="font-semibold">
-                  {worstPerformer.ticker} ({worstPerformer.totalReturn > 0 ? "+" : ""}
-                  {worstPerformer.totalReturn.toFixed(1)}%)
-                </span>
-              </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+
+      {/* TAB NAVIGATION */}
+      <div className="border-b bg-muted/30">
+        <div className="mx-auto max-w-[1800px] px-6">
+          <div className="flex gap-1 py-1.5">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab.toLowerCase())}
+                className={cn(
+                  "rounded-md px-6 py-3.5 text-[13px] font-medium transition-all",
+                  activeTab === tab.toLowerCase()
+                    ? "bg-background font-semibold shadow-sm"
+                    : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
+                )}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* DASHBOARD GRID */}
+      <div className="mx-auto max-w-[1800px] px-6 py-6">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 lg:grid-rows-[auto_auto_auto_auto_auto]">
+          {/* CARD 1: COMPANY IDENTITY (tall left column, row span 2) */}
+          <Card className="row-span-2 flex flex-col p-6 lg:col-span-1">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Understanding the company
+            </p>
+            <div className="border-b pb-5">
+              <h3 className="mb-4 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+                Company Identity
+              </h3>
+
+              {/* Sector Tags */}
+              <div className="mb-5 flex flex-wrap gap-2">
+                <Badge variant="outline" className="text-xs font-semibold">
+                  Banking
+                </Badge>
+                <Badge variant="outline" className="text-xs font-semibold">
+                  Large Cap
+                </Badge>
+              </div>
+
+              {/* Key Stats Grid */}
+              <div className="space-y-0">
+                {[
+                  { label: "Market Cap", value: "₹12.5L Cr" },
+                  { label: "Sector Rank", value: "#3" },
+                  { label: "52W High", value: "₹1,950" },
+                  { label: "52W Low", value: "₹1,420" },
+                  { label: "Avg Volume", value: "25L shares" },
+                  { label: "Listed Since", value: "1995" },
+                  { label: "P/E Ratio", value: "18.5" },
+                  { label: "P/B Ratio", value: "2.3" },
+                ].map((stat, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between border-b py-3 last:border-0"
+                  >
+                    <span className="text-[13px] text-muted-foreground">
+                      {stat.label}
+                    </span>
+                    <span className="font-mono text-sm font-semibold">
+                      {stat.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Company Description */}
+            <div className="mt-5 rounded-lg bg-muted/30 p-4">
+              <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                What they do:
+              </p>
+              <p className="text-[13px] leading-relaxed text-foreground/90">
+                India's largest private sector bank. Provides retail, wholesale,
+                and treasury services. Strong digital presence with market-leading
+                asset quality.
+              </p>
+              <button className="mt-3 flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+                Learn about business model
+                <ChevronRight className="size-3" />
+              </button>
+            </div>
+          </Card>
+
+          {/* CARD 2: HEALTH SCORE HERO */}
+          <Card className="p-6 lg:col-span-1">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Our assessment of this company's fundamental health
+            </p>
+            <h3 className="mb-6 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+              Overall Health Score
+            </h3>
+
+            {/* Overall Score Display */}
+            <div className="mb-6 flex flex-col items-center">
+              <div className="relative mb-4 flex size-32 items-center justify-center">
+                {/* Circular progress */}
+                <svg className="size-full -rotate-90" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    fill="none"
+                    className="text-muted"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeDasharray={`${2 * Math.PI * 40}`}
+                    strokeDashoffset={`${2 * Math.PI * 40 * (1 - 0.85)}`}
+                    className="text-green-500 transition-all duration-1000"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="font-mono text-5xl font-extrabold">85</span>
+                </div>
+              </div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Overall Health
+              </p>
+              <Badge className="px-4 py-1.5 text-[13px] font-bold" variant="success">
+                STRONG 🟢
+              </Badge>
+            </div>
+
+            {/* Category Breakdown */}
+            <div className="mb-4 grid grid-cols-2 gap-3">
+              {[
+                { label: "Profitability", score: 88, status: "strong" },
+                { label: "Growth", score: 82, status: "strong" },
+                { label: "Stability", score: 90, status: "strong" },
+                { label: "Valuation", score: 70, status: "moderate" },
+              ].map((cat, i) => (
+                <div
+                  key={i}
+                  className="group cursor-pointer rounded-lg border bg-card/50 p-4 text-center transition-all hover:scale-105 hover:shadow-md"
+                >
+                  <div className="mb-1 font-mono text-2xl font-bold">
+                    {cat.score}
+                  </div>
+                  <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {cat.label}
+                  </div>
+                  <div className="text-lg">
+                    {cat.status === "strong" ? "🟢" : "🟡"}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Trend Indicator */}
+            <div className="rounded-lg bg-muted/30 p-3 text-center">
+              <p className="text-xs text-muted-foreground">
+                ↗ Improved from 82 last quarter
+              </p>
+              <button className="mt-2 text-xs font-medium text-primary hover:underline">
+                Want detailed breakdown? → Go to Fundamentals Tab
+              </button>
+            </div>
+          </Card>
+
+          {/* CARD 3: VALUATION METRICS */}
+          <Card className="p-6 lg:col-span-1">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Key valuation numbers
+            </p>
+            <h3 className="mb-6 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+              Valuation Metrics
+            </h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  name: "P/E Ratio",
+                  value: "18.5",
+                  context: "Sector: 14.2 (Premium)",
+                  status: "premium",
+                },
+                {
+                  name: "P/B Ratio",
+                  value: "2.3",
+                  context: "Sector: 1.8 (Premium)",
+                  status: "premium",
+                },
+                {
+                  name: "ROE",
+                  value: "17.2%",
+                  context: "Sector: 15.8% (Better)",
+                  status: "better",
+                },
+                {
+                  name: "Net Margin",
+                  value: "24.5%",
+                  context: "Sector: 21.8% (Better)",
+                  status: "better",
+                },
+              ].map((metric, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "group cursor-pointer rounded-lg border-l-4 bg-card/50 p-4 transition-all hover:scale-105 hover:shadow-md",
+                    metric.status === "better" && "border-l-green-500",
+                    metric.status === "premium" && "border-l-yellow-500"
+                  )}
+                >
+                  <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {metric.name}
+                  </div>
+                  <div className="mb-2 font-mono text-2xl font-bold">
+                    {metric.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {metric.context}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* CARD 4: RETURNS SNAPSHOT */}
+          <Card className="p-6 lg:col-span-1">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Performance at a glance
+            </p>
+            <h3 className="mb-6 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+              Returns Snapshot
+            </h3>
+
+            {/* Absolute Returns */}
+            <div className="mb-4 space-y-0">
+              {[
+                { period: "1 Month", return: "+8.5%" },
+                { period: "6 Months", return: "+18.2%" },
+                { period: "1 Year", return: "+24.5%" },
+                { period: "3 Years", return: "+65.8%" },
+              ].map((ret, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between border-b py-3.5 last:border-0"
+                >
+                  <span className="text-[13px] text-muted-foreground">
+                    {ret.period}
+                  </span>
+                  <span className="font-mono text-sm font-semibold text-green-600">
+                    {ret.return}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="my-4 h-px bg-border" />
+
+            {/* Relative Returns */}
+            <div className="mb-4 space-y-0">
+              {[
+                { benchmark: "vs Nifty 50", return: "+12.2%" },
+                { benchmark: "vs Bank Nifty", return: "+8.5%" },
+              ].map((rel, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between border-b py-3.5 last:border-0"
+                >
+                  <span className="text-[13px] text-muted-foreground">
+                    {rel.benchmark}
+                  </span>
+                  <span className="flex items-center gap-1 font-mono text-sm font-semibold text-green-600">
+                    {rel.return} 🟢
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Insight Box */}
+            <div className="rounded-lg bg-muted/30 p-3">
+              <p className="text-xs text-muted-foreground">
+                Consistent outperformer against benchmarks
+              </p>
+            </div>
+          </Card>
+
+          {/* CARD 5: PRICE CHART (spans 2 columns) */}
+          <Card className="p-6 lg:col-span-2">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Price movement over time
+            </p>
+
+            {/* Title bar with controls */}
+            <div className="mb-6 flex items-center justify-between border-b pb-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider">
+                Price Performance
+              </h3>
+              <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
+                {chartPeriods.map((period) => (
+                  <button
+                    key={period}
+                    onClick={() => setChartPeriod(period)}
+                    className={cn(
+                      "rounded px-3 py-1.5 text-[11px] font-medium transition-all",
+                      chartPeriod === period
+                        ? "bg-background font-semibold shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {period}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Chart Area */}
+            <div className="mb-6 flex h-60 items-center justify-center rounded-lg border-2 border-dashed bg-muted/20">
+              <div className="text-center">
+                <div className="mb-2 text-4xl">📈</div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  [Price Chart - {chartPeriod} View]
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Interactive chart placeholder
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Stats Row */}
+            <div className="grid grid-cols-4 gap-4 border-t pt-5">
+              {[
+                { label: "Beta", value: "0.92" },
+                { label: "Avg Daily Move", value: "±1.2%" },
+                { label: "From 52W High", value: "-6.7%", negative: true },
+                { label: "From 52W Low", value: "+28.2%", positive: true },
+              ].map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {stat.label}
+                  </div>
+                  <div
+                    className={cn(
+                      "font-mono text-lg font-bold",
+                      stat.negative && "text-red-600",
+                      stat.positive && "text-green-600"
+                    )}
+                  >
+                    {stat.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* CARD 6: GROWTH METRICS */}
+          <Card className="p-6 lg:col-span-1">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Growth trajectory
+            </p>
+            <h3 className="mb-6 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+              Growth Metrics
+            </h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  name: "Revenue Growth",
+                  value: "14.2%",
+                  context: "YoY • Sector: 14.2%",
+                },
+                {
+                  name: "Profit Growth",
+                  value: "18.5%",
+                  context: "YoY • Sector: 18.5%",
+                },
+                {
+                  name: "Debt/Equity",
+                  value: "0.35",
+                  context: "Sector: 0.42 (Lower)",
+                },
+                {
+                  name: "Interest Coverage",
+                  value: "9.2x",
+                  context: "Safe: >3x 🟢",
+                },
+              ].map((metric, i) => (
+                <div
+                  key={i}
+                  className="group cursor-pointer rounded-lg border-l-4 border-l-green-500 bg-card/50 p-4 transition-all hover:scale-105 hover:shadow-md"
+                >
+                  <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {metric.name}
+                  </div>
+                  <div className="mb-2 font-mono text-2xl font-bold">
+                    {metric.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {metric.context}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* CARD 7: PEER COMPARISON (spans 2 columns) */}
+          <Card className="p-6 lg:col-span-2">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              How it compares to competitors
+            </p>
+            <h3 className="mb-6 flex items-center gap-2 border-b pb-3 text-xs font-bold uppercase tracking-wider">
+              ⚖️ Peer Comparison
+            </h3>
+
+            {/* Data Table */}
+            <div className="mb-4 overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b">
+                    {[
+                      "Company",
+                      "Price",
+                      "Health",
+                      "P/E",
+                      "ROE",
+                      "Growth",
+                      "Market Cap",
+                    ].map((header) => (
+                      <th
+                        key={header}
+                        className="px-3 py-3 text-left text-[11px] font-bold uppercase tracking-wide text-muted-foreground"
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    {
+                      name: "HDFC Bank",
+                      price: "₹1,820",
+                      health: "85 🟢",
+                      pe: "18.5",
+                      roe: "17.2%",
+                      growth: "14.2%",
+                      mcap: "₹12.5L Cr",
+                      current: true,
+                    },
+                    {
+                      name: "ICICI Bank",
+                      price: "₹1,180",
+                      health: "82 🟢",
+                      pe: "16.2",
+                      roe: "16.8%",
+                      growth: "16.5%",
+                      mcap: "₹8.2L Cr",
+                    },
+                    {
+                      name: "Kotak Bank",
+                      price: "₹1,950",
+                      health: "83 🟢",
+                      pe: "20.5",
+                      roe: "16.2%",
+                      growth: "12.8%",
+                      mcap: "₹3.8L Cr",
+                    },
+                    {
+                      name: "Axis Bank",
+                      price: "₹1,120",
+                      health: "78 🟢",
+                      pe: "14.8",
+                      roe: "14.5%",
+                      growth: "15.2%",
+                      mcap: "₹3.4L Cr",
+                    },
+                  ].map((company, i) => (
+                    <tr
+                      key={i}
+                      className={cn(
+                        "border-b transition-colors hover:bg-muted/30",
+                        company.current &&
+                          "border-l-4 border-l-primary bg-primary/5 font-semibold"
+                      )}
+                    >
+                      <td className="px-3 py-4 text-[13px]">{company.name}</td>
+                      <td className="px-3 py-4 font-mono text-[13px]">
+                        {company.price}
+                      </td>
+                      <td className="px-3 py-4 text-[13px]">{company.health}</td>
+                      <td className="px-3 py-4 font-mono text-[13px]">
+                        {company.pe}
+                      </td>
+                      <td className="px-3 py-4 font-mono text-[13px]">
+                        {company.roe}
+                      </td>
+                      <td className="px-3 py-4 font-mono text-[13px]">
+                        {company.growth}
+                      </td>
+                      <td className="px-3 py-4 font-mono text-[13px]">
+                        {company.mcap}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Key Insights Box */}
+            <div className="rounded-lg bg-muted/30 p-4">
+              <h4 className="mb-3 text-[13px] font-bold">Comparative Insights</h4>
+              <ul className="space-y-2 text-xs leading-relaxed text-muted-foreground">
+                <li>
+                  • HDFC has highest health score and ROE in peer group
+                </li>
+                <li>
+                  • Trading at premium valuation (P/E 18.5 vs peer avg 17.1)
+                </li>
+                <li>
+                  • Second largest by market cap, industry leader
+                </li>
+                <li>
+                  • Most consistent growth profile among peers
+                </li>
+              </ul>
+              <Button size="sm" variant="outline" className="mt-4 text-xs">
+                Detailed Peer Comparison
+                <ChevronRight className="size-3" />
+              </Button>
+            </div>
+          </Card>
+
+          {/* CARD 8: AI SUMMARY (PROMINENT, spans 2 columns) */}
+          <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-6 shadow-lg lg:col-span-2">
+            <div className="mb-6 flex items-center gap-3">
+              <Sparkles className="size-5 text-primary" />
+              <h3 className="text-base font-bold">AI Investment Summary</h3>
+            </div>
+
+            <h4 className="mb-4 text-lg font-bold leading-snug">
+              Strong fundamentals with premium valuation — suitable for
+              quality-focused long-term investors
+            </h4>
+
+            <div className="mb-4 space-y-4 text-sm leading-relaxed text-foreground/90">
+              <p>
+                HDFC Bank is a high-quality business with consistent
+                profitability, strong market position, and excellent operational
+                metrics. ROE of 17.2% and net margin of 24.5% place it among the
+                best-run banks in India.
+              </p>
+              <p>
+                The stock trades at a premium (P/E: 18.5 vs sector: 14.2),
+                reflecting its quality and track record. This leaves limited
+                margin of safety—the price already factors in continued
+                excellence.
+              </p>
+              <p>
+                Best suited for investors who prioritize quality and stability
+                over value hunting. Growth is steady rather than explosive. Fits
+                well in long-term portfolios for those comfortable with premium
+                pricing for dependable compounders.
+              </p>
+            </div>
+
+            <div className="my-5 h-px bg-border" />
+
+            {/* Risk-Reward Indicators */}
+            <div className="mb-5 flex flex-wrap gap-8">
+              <div>
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  Risk Level
+                </p>
+                <div className="mb-2 flex gap-1.5">
+                  {[1, 2, 3, 4, 5].map((dot) => (
+                    <div
+                      key={dot}
+                      className={cn(
+                        "h-2 w-6 rounded-full",
+                        dot <= 2 ? "bg-primary" : "bg-muted"
+                      )}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">Moderate (2/5)</p>
+              </div>
+
+              <div>
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  Return Potential
+                </p>
+                <div className="mb-2 flex gap-1.5">
+                  {[1, 2, 3, 4, 5].map((dot) => (
+                    <div
+                      key={dot}
+                      className={cn(
+                        "h-2 w-6 rounded-full",
+                        dot <= 3 ? "bg-primary" : "bg-muted"
+                      )}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">Good (3/5)</p>
+              </div>
+
+              <div>
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  Time Horizon
+                </p>
+                <p className="mb-1 text-base font-bold">3-5+ years</p>
+                <p className="text-xs text-muted-foreground">Long-term hold</p>
+              </div>
+            </div>
+
+            {/* Suitability Tags */}
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className="px-3 py-1.5 text-xs font-semibold">
+                Quality Investor
+              </Badge>
+              <Badge variant="outline" className="px-3 py-1.5 text-xs font-semibold">
+                Long-term Holder
+              </Badge>
+              <Badge variant="outline" className="px-3 py-1.5 text-xs font-semibold">
+                Blue-chip Seeker
+              </Badge>
+            </div>
+          </Card>
+
+          {/* CARD 9: STRENGTHS & CONCERNS (spans 2 columns) */}
+          <Card className="p-6 lg:col-span-2">
+            <p className="mb-5 text-sm italic text-muted-foreground">
+              Every stock has strengths and areas to watch
+            </p>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* LEFT: Key Strengths */}
+              <div>
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-green-600">
+                  ✅ KEY STRENGTHS
+                </h3>
+                <ul className="space-y-0">
+                  {[
+                    "Market leader with 15% market share",
+                    "Consistently high ROE (17%+) for 5 years",
+                    "Strong asset quality (GNPA below 1%)",
+                    "Excellent brand and customer loyalty",
+                    "Digital transformation ahead of peers",
+                  ].map((strength, i) => (
+                    <li
+                      key={i}
+                      className="relative border-b py-3.5 pl-8 text-[13px] leading-relaxed last:border-0"
+                    >
+                      <span className="absolute left-0 top-3 text-lg font-bold text-green-600">
+                        ✓
+                      </span>
+                      {strength}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* RIGHT: Things to Watch */}
+              <div>
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-yellow-600">
+                  ⚠️ THINGS TO WATCH
+                </h3>
+                <ul className="space-y-0">
+                  {[
+                    "Premium valuation (P/E 18.5 vs sector 14.2)",
+                    "Growth slowing slightly (14% vs 16% last year)",
+                    "Increasing competition from fintech players",
+                    "Interest rate sensitivity affects margins",
+                    "Lower dividend yield (1.2%) compared to peers",
+                  ].map((concern, i) => (
+                    <li
+                      key={i}
+                      className="relative border-b py-3.5 pl-8 text-[13px] leading-relaxed last:border-0"
+                    >
+                      <span className="absolute left-0 top-3 text-lg font-bold text-yellow-600">
+                        ⚠
+                      </span>
+                      {concern}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default HoldingsPage;
+}
