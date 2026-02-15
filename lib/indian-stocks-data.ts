@@ -97,3 +97,104 @@ export const indianStocks: Stock[] = [
   { symbol: "ZEEL", name: "Zee Entertainment Enterprises Ltd", sector: "Media", exchange: "NSE" },
   { symbol: "PVRINOX", name: "PVR INOX Ltd", sector: "Entertainment", exchange: "NSE" },
 ];
+
+export interface Sector {
+  id: string;
+  name: string;
+  description: string;
+  stockCount: number;
+}
+
+export const indianSectors: Sector[] = [
+  {
+    id: "technology",
+    name: "Technology",
+    description: "IT Services & Software",
+    stockCount: 5,
+  },
+  {
+    id: "banking",
+    name: "Banking",
+    description: "Banks & Financial Institutions",
+    stockCount: 5,
+  },
+  {
+    id: "financial-services",
+    name: "Financial Services",
+    description: "Insurance & NBFC",
+    stockCount: 3,
+  },
+  {
+    id: "automotive",
+    name: "Automotive",
+    description: "Automobiles & Auto Components",
+    stockCount: 6,
+  },
+  {
+    id: "fmcg",
+    name: "FMCG",
+    description: "Fast Moving Consumer Goods",
+    stockCount: 6,
+  },
+  {
+    id: "energy",
+    name: "Energy",
+    description: "Oil & Natural Gas",
+    stockCount: 4,
+  },
+  {
+    id: "power",
+    name: "Power",
+    description: "Power Generation & Distribution",
+    stockCount: 4,
+  },
+  {
+    id: "pharmaceuticals",
+    name: "Pharmaceuticals",
+    description: "Pharma & Healthcare",
+    stockCount: 6,
+  },
+  {
+    id: "telecom",
+    name: "Telecom",
+    description: "Telecommunications",
+    stockCount: 2,
+  },
+  {
+    id: "metals",
+    name: "Metals",
+    description: "Steel & Metal Products",
+    stockCount: 4,
+  },
+  {
+    id: "cement",
+    name: "Cement",
+    description: "Cement & Building Materials",
+    stockCount: 4,
+  },
+  {
+    id: "construction",
+    name: "Construction",
+    description: "Infrastructure & Construction",
+    stockCount: 1,
+  },
+  {
+    id: "real-estate",
+    name: "Real Estate",
+    description: "Property Development",
+    stockCount: 2,
+  },
+  {
+    id: "consumer-durables",
+    name: "Consumer Durables",
+    description: "Consumer Electronics & Durables",
+    stockCount: 4,
+  },
+  {
+    id: "retail",
+    name: "Retail",
+    description: "Retail & E-commerce",
+    stockCount: 2,
+  },
+];
+

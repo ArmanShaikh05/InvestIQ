@@ -4,6 +4,7 @@ import {
   BarChart3,
   Bookmark,
   Calendar,
+  GitCompare,
   Home,
   LayoutDashboard,
   PanelLeftIcon,
@@ -53,6 +54,11 @@ const items = [
     title: "Watchlist",
     url: "/watchlist",
     icon: Bookmark,
+  },
+  {
+    title: "Comparison",
+    url: "/comparison",
+    icon: GitCompare,
   },
   {
     title: "Settings",
