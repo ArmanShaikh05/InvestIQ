@@ -7,6 +7,7 @@ import { AIOverview } from "@/components/comparison/AIOverview";
 import { QuickStatsCards } from "@/components/comparison/QuickStatsCards";
 import { ComparisonTable } from "@/components/comparison/ComparisonTable";
 import { VisualComparison } from "@/components/comparison/VisualComparison";
+import { PriceComparisonChart } from "@/components/comparison/PriceComparisonChart";
 
 export default function ComparisonResultPage() {
   const params = useParams();
@@ -19,21 +20,21 @@ export default function ComparisonResultPage() {
 
   // Try to find in stocks first (uppercase ticker)
   let leftItem = stocksData.find(
-    (stock) => stock.ticker.toUpperCase() === leftSymbol?.toUpperCase()
+    (stock) => stock.ticker.toUpperCase() === leftSymbol?.toUpperCase(),
   );
   let rightItem = stocksData.find(
-    (stock) => stock.ticker.toUpperCase() === rightSymbol?.toUpperCase()
+    (stock) => stock.ticker.toUpperCase() === rightSymbol?.toUpperCase(),
   );
 
   // If not found in stocks, try sectors (using lowercase sector IDs)
   if (!leftItem) {
     leftItem = sectorComparisonData.find(
-      (sector) => sector.ticker.toLowerCase() === leftSymbol?.toLowerCase()
+      (sector) => sector.ticker.toLowerCase() === leftSymbol?.toLowerCase(),
     );
   }
   if (!rightItem) {
     rightItem = sectorComparisonData.find(
-      (sector) => sector.ticker.toLowerCase() === rightSymbol?.toLowerCase()
+      (sector) => sector.ticker.toLowerCase() === rightSymbol?.toLowerCase(),
     );
   }
 
@@ -50,9 +51,13 @@ export default function ComparisonResultPage() {
           </p>
           <div className="text-sm text-muted-foreground space-y-2 mt-4">
             <p className="font-semibold">Available Stocks:</p>
-            <p className="text-xs">{stocksData.map(s => s.ticker).join(", ")}</p>
+            <p className="text-xs">
+              {stocksData.map((s) => s.ticker).join(", ")}
+            </p>
             <p className="font-semibold mt-3">Available Sectors:</p>
-            <p className="text-xs">{sectorComparisonData.map(s => s.ticker).join(", ")}</p>
+            <p className="text-xs">
+              {sectorComparisonData.map((s) => s.ticker).join(", ")}
+            </p>
           </div>
         </div>
       </div>
@@ -66,12 +71,20 @@ export default function ComparisonResultPage() {
 
       {/* Main Content */}
       <div className="flex-1 px-4 sm:px-6 py-6 space-y-8">
-        {/* AI Overview */}
-        <AIOverview leftStock={leftItem} rightStock={rightItem} />
+        {/* Price Chart and AI Overview Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left: Price Comparison Chart */}
+          <PriceComparisonChart leftStock={leftItem} rightStock={rightItem} />
+
+          {/* Right: AI Overview */}
+          <AIOverview leftStock={leftItem} rightStock={rightItem} />
+        </div>
 
         {/* Quick Stats Cards */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Key Metrics at a Glance</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            Key Metrics at a Glance
+          </h3>
           <QuickStatsCards leftStock={leftItem} rightStock={rightItem} />
         </div>
 

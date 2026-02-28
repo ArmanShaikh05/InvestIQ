@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BarChart3, TrendingUp, Radar, ScatterChart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface VisualComparisonProps {
   leftStock: StockData;
@@ -21,7 +22,10 @@ interface ChartMetric {
 
 type ChartType = "bar" | "radar" | "line" | "scatter";
 
-export function VisualComparison({ leftStock, rightStock }: VisualComparisonProps) {
+export function VisualComparison({
+  leftStock,
+  rightStock,
+}: VisualComparisonProps) {
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([
     "profitability",
     "growth",
@@ -31,20 +35,65 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
   const [chartType, setChartType] = useState<ChartType>("bar");
 
   const availableMetrics: ChartMetric[] = [
-    { id: "profitability", name: "Profitability", leftValue: leftStock.profitability, rightValue: rightStock.profitability },
-    { id: "growth", name: "Growth", leftValue: leftStock.growth, rightValue: rightStock.growth },
-    { id: "stability", name: "Stability", leftValue: leftStock.stability, rightValue: rightStock.stability },
-    { id: "efficiency", name: "Efficiency", leftValue: leftStock.efficiency, rightValue: rightStock.efficiency },
-    { id: "valuation", name: "Valuation", leftValue: leftStock.valuation, rightValue: rightStock.valuation },
-    { id: "momentum", name: "Momentum", leftValue: leftStock.momentum, rightValue: rightStock.momentum },
-    { id: "activity", name: "Activity", leftValue: leftStock.activity, rightValue: rightStock.activity },
-    { id: "sentiment", name: "Sentiment", leftValue: leftStock.sentiment, rightValue: rightStock.sentiment },
-    { id: "score", name: "Health Score", leftValue: leftStock.score, rightValue: rightStock.score },
+    {
+      id: "profitability",
+      name: "Profitability",
+      leftValue: leftStock.profitability,
+      rightValue: rightStock.profitability,
+    },
+    {
+      id: "growth",
+      name: "Growth",
+      leftValue: leftStock.growth,
+      rightValue: rightStock.growth,
+    },
+    {
+      id: "stability",
+      name: "Stability",
+      leftValue: leftStock.stability,
+      rightValue: rightStock.stability,
+    },
+    {
+      id: "efficiency",
+      name: "Efficiency",
+      leftValue: leftStock.efficiency,
+      rightValue: rightStock.efficiency,
+    },
+    {
+      id: "valuation",
+      name: "Valuation",
+      leftValue: leftStock.valuation,
+      rightValue: rightStock.valuation,
+    },
+    {
+      id: "momentum",
+      name: "Momentum",
+      leftValue: leftStock.momentum,
+      rightValue: rightStock.momentum,
+    },
+    {
+      id: "activity",
+      name: "Activity",
+      leftValue: leftStock.activity,
+      rightValue: rightStock.activity,
+    },
+    {
+      id: "sentiment",
+      name: "Sentiment",
+      leftValue: leftStock.sentiment,
+      rightValue: rightStock.sentiment,
+    },
+    {
+      id: "score",
+      name: "Health Score",
+      leftValue: leftStock.score,
+      rightValue: rightStock.score,
+    },
   ];
 
   const toggleMetric = (metricId: string) => {
     if (selectedMetrics.includes(metricId)) {
-      setSelectedMetrics(selectedMetrics.filter(id => id !== metricId));
+      setSelectedMetrics(selectedMetrics.filter((id) => id !== metricId));
     } else {
       if (selectedMetrics.length < 8) {
         setSelectedMetrics([...selectedMetrics, metricId]);
@@ -52,13 +101,27 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
     }
   };
 
-  const selectedMetricsData = availableMetrics.filter(m => selectedMetrics.includes(m.id));
+  const selectedMetricsData = availableMetrics.filter((m) =>
+    selectedMetrics.includes(m.id),
+  );
 
   const presets = [
-    { name: "Profitability Profile", metrics: ["profitability", "efficiency", "valuation", "stability"] },
-    { name: "Growth Profile", metrics: ["growth", "momentum", "activity", "sentiment"] },
-    { name: "Risk-Return", metrics: ["stability", "growth", "profitability", "score"] },
-    { name: "Value Score", metrics: ["valuation", "profitability", "growth", "efficiency"] },
+    {
+      name: "Profitability Profile",
+      metrics: ["profitability", "efficiency", "valuation", "stability"],
+    },
+    {
+      name: "Growth Profile",
+      metrics: ["growth", "momentum", "activity", "sentiment"],
+    },
+    {
+      name: "Risk-Return",
+      metrics: ["stability", "growth", "profitability", "score"],
+    },
+    {
+      name: "Value Score",
+      metrics: ["valuation", "profitability", "growth", "efficiency"],
+    },
   ];
 
   const applyPreset = (metrics: string[]) => {
@@ -87,11 +150,17 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
 
           {/* Metric Checkboxes */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {availableMetrics.map(metric => (
+            {availableMetrics.map((metric) => (
               <Badge
                 key={metric.id}
-                variant={selectedMetrics.includes(metric.id) ? "default" : "outline"}
-                className="cursor-pointer justify-center py-2 hover:bg-primary/10"
+                variant={
+                  selectedMetrics.includes(metric.id) ? "default" : "outline"
+                }
+                className={cn(
+                  "cursor-pointer justify-center py-2 hover:bg-primary/10 w-full",
+                  selectedMetrics.includes(metric.id) &&
+                    "bg-primary/30 border-primary/80 hover:bg-primary/40",
+                )}
                 onClick={() => toggleMetric(metric.id)}
               >
                 {selectedMetrics.includes(metric.id) && "✓ "}
@@ -115,7 +184,7 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
                 variant="ghost"
                 size="sm"
                 onClick={() => applyPreset(preset.metrics)}
-                className="text-xs"
+                className="text-xs hover:bg-primary/10!"
               >
                 {preset.name}
               </Button>
@@ -144,33 +213,25 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
           <Radar className="h-4 w-4" />
           Radar Chart
         </Button>
-        <Button
-          variant={chartType === "line" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setChartType("line")}
-          className="gap-2"
-        >
-          <TrendingUp className="h-4 w-4" />
-          Line Chart
-        </Button>
-        <Button
-          variant={chartType === "scatter" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setChartType("scatter")}
-          className="gap-2"
-        >
-          <ScatterChart className="h-4 w-4" />
-          Scatter Plot
-        </Button>
       </div>
 
       {/* Chart Display */}
       {selectedMetricsData.length > 0 ? (
         <Card className="p-6">
-          {chartType === "bar" && <BarChartView metrics={selectedMetricsData} leftStock={leftStock} rightStock={rightStock} />}
-          {chartType === "radar" && <RadarChartView metrics={selectedMetricsData} leftStock={leftStock} rightStock={rightStock} />}
-          {chartType === "line" && <LineChartView metrics={selectedMetricsData} leftStock={leftStock} rightStock={rightStock} />}
-          {chartType === "scatter" && <ScatterPlotView metrics={selectedMetricsData} leftStock={leftStock} rightStock={rightStock} />}
+          {chartType === "bar" && (
+            <BarChartView
+              metrics={selectedMetricsData}
+              leftStock={leftStock}
+              rightStock={rightStock}
+            />
+          )}
+          {chartType === "radar" && (
+            <RadarChartView
+              metrics={selectedMetricsData}
+              leftStock={leftStock}
+              rightStock={rightStock}
+            />
+          )}
         </Card>
       ) : (
         <Card className="p-12 text-center">
@@ -184,26 +245,38 @@ export function VisualComparison({ leftStock, rightStock }: VisualComparisonProp
 }
 
 // Bar Chart View Component
-function BarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetric[], leftStock: StockData, rightStock: StockData }) {
+function BarChartView({
+  metrics,
+  leftStock,
+  rightStock,
+}: {
+  metrics: ChartMetric[];
+  leftStock: StockData;
+  rightStock: StockData;
+}) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium mb-4">Side-by-Side Comparison</h4>
-      {metrics.map(metric => {
+      {metrics.map((metric) => {
         const maxValue = Math.max(metric.leftValue, metric.rightValue, 100);
         const leftWidth = (metric.leftValue / maxValue) * 100;
         const rightWidth = (metric.rightValue / maxValue) * 100;
-        
+
         return (
           <div key={metric.id} className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium">{metric.name}</span>
-              <span className="text-muted-foreground text-xs">Max: {maxValue}</span>
+              <span className="text-muted-foreground text-xs">
+                Max: {maxValue}
+              </span>
             </div>
-            
+
             {/* Left Stock Bar */}
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-xs w-20 text-muted-foreground">{leftStock.ticker}</span>
+                <span className="text-xs w-20 text-muted-foreground">
+                  {leftStock.ticker}
+                </span>
                 <div className="flex-1 bg-muted rounded-full h-6 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-end pr-2 transition-all duration-500"
@@ -218,7 +291,9 @@ function BarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetric
 
               {/* Right Stock Bar */}
               <div className="flex items-center gap-2">
-                <span className="text-xs w-20 text-muted-foreground">{rightStock.ticker}</span>
+                <span className="text-xs w-20 text-muted-foreground">
+                  {rightStock.ticker}
+                </span>
                 <div className="flex-1 bg-muted rounded-full h-6 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-end pr-2 transition-all duration-500"
@@ -251,27 +326,67 @@ function BarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetric
 }
 
 // Radar Chart View Component (simplified visual representation)
-function RadarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetric[], leftStock: StockData, rightStock: StockData }) {
+function RadarChartView({
+  metrics,
+  leftStock,
+  rightStock,
+}: {
+  metrics: ChartMetric[];
+  leftStock: StockData;
+  rightStock: StockData;
+}) {
   return (
     <div className="space-y-4">
       <h4 className="font-medium mb-4">Overall Profile Comparison</h4>
-      
+
       <div className="relative aspect-square max-w-lg mx-auto">
         <svg viewBox="0 0 400 400" className="w-full h-full">
           {/* Background grid */}
-          <circle cx="200" cy="200" r="150" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.1" />
-          <circle cx="200" cy="200" r="100" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.1" />
-          <circle cx="200" cy="200" r="50" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.1" />
-          
+          <circle
+            cx="200"
+            cy="200"
+            r="150"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            opacity="0.1"
+          />
+          <circle
+            cx="200"
+            cy="200"
+            r="100"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            opacity="0.1"
+          />
+          <circle
+            cx="200"
+            cy="200"
+            r="50"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            opacity="0.1"
+          />
+
           {/* Axis lines and labels */}
           {metrics.map((metric, index) => {
             const angle = (index / metrics.length) * 2 * Math.PI - Math.PI / 2;
             const x = 200 + Math.cos(angle) * 170;
             const y = 200 + Math.sin(angle) * 170;
-            
+
             return (
               <g key={metric.id}>
-                <line x1="200" y1="200" x2={x} y2={y} stroke="currentColor" strokeWidth="1" opacity="0.2" />
+                <line
+                  x1="200"
+                  y1="200"
+                  x2={x}
+                  y2={y}
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  opacity="0.2"
+                />
                 <text
                   x={200 + Math.cos(angle) * 190}
                   y={200 + Math.sin(angle) * 190}
@@ -283,20 +398,33 @@ function RadarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetr
               </g>
             );
           })}
-          
+
           {/* Data polygons */}
           {[
-            { data: metrics.map(m => m.leftValue), color: "rgb(59, 130, 246)", opacity: 0.3, name: leftStock.ticker },
-            { data: metrics.map(m => m.rightValue), color: "rgb(168, 85, 247)", opacity: 0.3, name: rightStock.ticker },
+            {
+              data: metrics.map((m) => m.leftValue),
+              color: "rgb(59, 130, 246)",
+              opacity: 0.3,
+              name: leftStock.ticker,
+            },
+            {
+              data: metrics.map((m) => m.rightValue),
+              color: "rgb(168, 85, 247)",
+              opacity: 0.3,
+              name: rightStock.ticker,
+            },
           ].map((series, seriesIndex) => {
-            const points = series.data.map((value, index) => {
-              const angle = (index / metrics.length) * 2 * Math.PI - Math.PI / 2;
-              const normalizedValue = (value / 100) * 150;
-              const x = 200 + Math.cos(angle) * normalizedValue;
-              const y = 200 + Math.sin(angle) * normalizedValue;
-              return `${x},${y}`;
-            }).join(" ");
-            
+            const points = series.data
+              .map((value, index) => {
+                const angle =
+                  (index / metrics.length) * 2 * Math.PI - Math.PI / 2;
+                const normalizedValue = (value / 100) * 150;
+                const x = 200 + Math.cos(angle) * normalizedValue;
+                const y = 200 + Math.sin(angle) * normalizedValue;
+                return `${x},${y}`;
+              })
+              .join(" ");
+
             return (
               <g key={seriesIndex}>
                 <polygon
@@ -307,7 +435,8 @@ function RadarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetr
                   strokeWidth="2"
                 />
                 {series.data.map((value, index) => {
-                  const angle = (index / metrics.length) * 2 * Math.PI - Math.PI / 2;
+                  const angle =
+                    (index / metrics.length) * 2 * Math.PI - Math.PI / 2;
                   const normalizedValue = (value / 100) * 150;
                   const x = 200 + Math.cos(angle) * normalizedValue;
                   const y = 200 + Math.sin(angle) * normalizedValue;
@@ -336,178 +465,6 @@ function RadarChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetr
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-purple-500" />
           <span className="text-sm">{rightStock.name}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Line Chart View Component
-function LineChartView({ metrics, leftStock, rightStock }: { metrics: ChartMetric[], leftStock: StockData, rightStock: StockData }) {
-  return (
-    <div className="space-y-4">
-      <h4 className="font-medium mb-4">Trend Comparison</h4>
-      
-      <div className="relative aspect-video">
-        <svg viewBox="0 0 600 300" className="w-full h-full">
-          {/* Grid */}
-          {[0, 1, 2, 3, 4].map(i => (
-            <line
-              key={i}
-              x1="50"
-              y1={50 + i * 50}
-              x2="550"
-              y2={50 + i * 50}
-              stroke="currentColor"
-              strokeWidth="1"
-              opacity="0.1"
-            />
-          ))}
-          
-          {/* X-axis labels */}
-          {metrics.map((metric, index) => {
-            const x = 50 + (index / Math.max(metrics.length - 1, 1)) * 500;
-            return (
-              <text
-                key={metric.id}
-                x={x}
-                y="280"
-                textAnchor="middle"
-                className="fill-current text-xs"
-              >
-                {metric.name}
-              </text>
-            );
-          })}
-          
-          {/* Lines */}
-          {[
-            { data: metrics.map(m => m.leftValue), color: "rgb(59, 130, 246)", name: leftStock.ticker },
-            { data: metrics.map(m => m.rightValue), color: "rgb(168, 85, 247)", name: rightStock.ticker },
-          ].map((series, seriesIndex) => {
-            const pathData = series.data.map((value, index) => {
-              const x = 50 + (index / Math.max(metrics.length - 1, 1)) * 500;
-              const y = 250 - (value / 100) * 200;
-              return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
-            }).join(' ');
-            
-            return (
-              <g key={seriesIndex}>
-                <path
-                  d={pathData}
-                  fill="none"
-                  stroke={series.color}
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {series.data.map((value, index) => {
-                  const x = 50 + (index / Math.max(metrics.length - 1, 1)) * 500;
-                  const y = 250 - (value / 100) * 200;
-                  return (
-                    <g key={index}>
-                      <circle cx={x} cy={y} r="5" fill={series.color} />
-                      <text
-                        x={x}
-                        y={y - 10}
-                        textAnchor="middle"
-                        className="fill-current text-xs font-medium"
-                      >
-                        {value}
-                      </text>
-                    </g>
-                  );
-                })}
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Legend */}
-      <div className="flex gap-4 justify-center">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-blue-500" />
-          <span className="text-sm">{leftStock.name}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-purple-500" />
-          <span className="text-sm">{rightStock.name}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Scatter Plot View Component
-function ScatterPlotView({ metrics, leftStock, rightStock }: { metrics: ChartMetric[], leftStock: StockData, rightStock: StockData }) {
-  const xMetric = metrics[0] || { name: "N/A", leftValue: 0, rightValue: 0 };
-  const yMetric = metrics[1] || metrics[0] || { name: "N/A", leftValue: 0, rightValue: 0 };
-  
-  return (
-    <div className="space-y-4">
-      <h4 className="font-medium mb-4">Scatter Plot Analysis</h4>
-      <p className="text-sm text-muted-foreground mb-4">
-        X-axis: {xMetric.name} • Y-axis: {yMetric.name}
-      </p>
-      
-      <div className="relative aspect-square max-w-lg mx-auto">
-        <svg viewBox="0 0 400 400" className="w-full h-full">
-          {/* Grid */}
-          {[0, 1, 2, 3, 4].map(i => (
-            <g key={i}>
-              <line x1={50 + i * 75} y1="50" x2={50 + i * 75} y2="350" stroke="currentColor" strokeWidth="1" opacity="0.1" />
-              <line x1="50" y1={50 + i * 75} x2="350" y2={50 + i * 75} stroke="currentColor" strokeWidth="1" opacity="0.1" />
-            </g>
-          ))}
-          
-          {/* Axes */}
-          <line x1="50" y1="350" x2="350" y2="350" stroke="currentColor" strokeWidth="2" />
-          <line x1="50" y1="50" x2="50" y2="350" stroke="currentColor" strokeWidth="2" />
-          
-          {/* Axis labels */}
-          <text x="200" y="390" textAnchor="middle" className="fill-current text-sm font-medium">
-            {xMetric.name}
-          </text>
-          <text x="10" y="200" textAnchor="middle" transform="rotate(-90 10 200)" className="fill-current text-sm font-medium">
-            {yMetric.name}
-          </text>
-          
-          {/* Data points */}
-          {[
-            { x: xMetric.leftValue, y: yMetric.leftValue, color: "rgb(59, 130, 246)", name: leftStock.ticker },
-            { x: xMetric.rightValue, y: yMetric.rightValue, color: "rgb(168, 85, 247)", name: rightStock.ticker },
-          ].map((point, index) => {
-            const x = 50 + (point.x / 100) * 300;
-            const y = 350 - (point.y / 100) * 300;
-            
-            return (
-              <g key={index}>
-                <circle cx={x} cy={y} r="12" fill={point.color} opacity="0.7" />
-                <text
-                  x={x}
-                  y={y + 30}
-                  textAnchor="middle"
-                  className="fill-current text-xs font-medium"
-                >
-                  {point.name}
-                </text>
-              </g>
-            );
-          })}
-          
-          {/* Quadrant lines */}
-          <line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" strokeWidth="1" strokeDasharray="4" opacity="0.3" />
-          <line x1="50" y1="200" x2="350" y2="200" stroke="currentColor" strokeWidth="1" strokeDasharray="4" opacity="0.3" />
-        </svg>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
-        <div>
-          <span className="font-medium text-blue-600 dark:text-blue-500">{leftStock.ticker}:</span> {xMetric.name} = {xMetric.leftValue}, {yMetric.name} = {yMetric.leftValue}
-        </div>
-        <div>
-          <span className="font-medium text-purple-600 dark:text-purple-500">{rightStock.ticker}:</span> {xMetric.name} = {xMetric.rightValue}, {yMetric.name} = {yMetric.rightValue}
         </div>
       </div>
     </div>

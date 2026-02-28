@@ -72,7 +72,7 @@ export default function ComparisonPage() {
   const canCompare = leftSelection && rightSelection;
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col h-max w-full">
       {/* Header */}
       <div className="text-center py-8 sm:py-12">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-br from-primary to-primary/80 bg-clip-text text-transparent">

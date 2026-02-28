@@ -885,24 +885,9 @@ export function ComparisonTable({
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                setSortOrder(sortOrder === "desc" ? "asc" : "desc")
-              }
-              className="gap-2"
-            >
-              <ArrowUpDown className="h-4 w-4" />
-              <span className="hidden sm:inline">Sort by Diff</span>
-            </Button>
-            <Button variant="outline" size="sm" className="gap-2">
-              <Filter className="h-4 w-4" />
-              <span className="hidden sm:inline">Filter</span>
-            </Button>
             <Button variant="outline" size="sm" className="gap-2">
               <Download className="h-4 w-4" />
-              <span className="hidden sm:inline">CSV</span>
+              <span className="hidden sm:inline">Export CSV</span>
             </Button>
           </div>
         </div>
@@ -960,18 +945,22 @@ export function ComparisonTable({
                           </TableCell>
                           <TableCell className="text-center">
                             {winner === "tie" ? (
-                              <span className="text-muted-foreground text-sm">
+                              <span className="text-muted-foreground text-xs">
                                 —
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                              <Badge
+                                className={cn(
+                                  "inline-flex items-center gap-1 text-xs font-medium",
+                                  winner === "left"
+                                    ? " text-blue-200 bg-blue-600/30 border border-blue-600"
+                                    : "text-purple-200 bg-purple-600/30 border border-purple-600",
+                                )}
+                              >
                                 {winner === "left"
                                   ? leftStock.ticker
                                   : rightStock.ticker}
-                                <span className="text-green-600 dark:text-green-500">
-                                  ✓
-                                </span>
-                              </span>
+                              </Badge>
                             )}
                           </TableCell>
                         </TableRow>
@@ -996,3 +985,5 @@ export function ComparisonTable({
 
 // Add React import at the top
 import React from "react";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";

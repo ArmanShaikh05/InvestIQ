@@ -63,13 +63,13 @@ export function SelectionRectangle({
         className="group cursor-pointer"
         onClick={onSelect}
       >
-        <div className="relative w-full lg:w-80 h-80 rounded-2xl border-2 border-dashed border-border/50 bg-gradient-to-br from-background/40 via-background/60 to-background/40 backdrop-blur-xl overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-xl group-hover:shadow-primary/10">
+        <div className="relative w-full lg:w-80 h-80 rounded-2xl border-2 border-dashed border-primary/50 bg-gradient-to-br from-background/40 via-background/60 to-background/40 backdrop-blur-xl overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-xl group-hover:shadow-primary/10">
           {/* Glassmorphism effect overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-chart-1/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Content */}
-          <div className="relative h-full flex flex-col items-center justify-center gap-4 text-muted-foreground/50 group-hover:text-muted-foreground/80 transition-colors duration-300">
-            <div className="p-6 rounded-full bg-background/50 border border-border/50 group-hover:border-primary/30 transition-colors duration-300">
+          <div className="relative h-full flex flex-col items-center justify-center gap-4 text-muted-foreground/80 group-hover:text-muted-foreground/80 transition-colors duration-300">
+            <div className="p-6 rounded-full bg-background/50 border border-primary/50 group-hover:border-primary/80 transition-colors duration-300">
               <Plus size={48} strokeWidth={1.5} />
             </div>
             <p className="text-lg font-medium">Select Stock/Sector</p>
