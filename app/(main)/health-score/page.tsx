@@ -2,12 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -23,8 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { motion, AnimatePresence } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { AnimatePresence, motion } from "framer-motion";
 
 import {
   assetTypes,
@@ -47,7 +41,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useMemo, useState, useRef, useId, useEffect } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 const getScoreBgColor = (score: number) => {
   if (score >= 80)

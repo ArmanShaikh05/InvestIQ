@@ -7,10 +7,10 @@ import HoldingsTab from "@/components/portfolio/HoldingsTab";
 import OverviewTab from "@/components/portfolio/OverviewTab";
 import { PortfolioNavigationCommandPalette } from "@/components/portfolio/navigation-command-palette";
 import { BarChart3, Briefcase, Clock, Eye, Heart } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-const PortfolioPage = () => {
+const PortfolioContent = () => {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -150,6 +150,14 @@ const PortfolioPage = () => {
       {/* Tab Content */}
       <div className="mt-6">{renderTabContent()}</div>
     </div>
+  );
+};
+
+const PortfolioPage = () => {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <PortfolioContent />
+    </Suspense>
   );
 };
 
